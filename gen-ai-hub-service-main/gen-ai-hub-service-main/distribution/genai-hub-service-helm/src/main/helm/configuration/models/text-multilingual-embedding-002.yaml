@@ -1,0 +1,13 @@
+- name: text-multilingual-embedding-002
+  modelId: text-multilingual-embedding-002
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/text-multilingual-embedding-002"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/text-multilingual-embedding-002"
+  provider: google
+  creator: google
+  targetAPI: "/embeddings"
+  path: "/google/deployments/text-multilingual-embedding-002/embeddings"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: true
+    image-generation: false

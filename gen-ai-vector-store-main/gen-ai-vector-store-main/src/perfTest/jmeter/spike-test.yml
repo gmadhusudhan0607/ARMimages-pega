@@ -1,0 +1,11 @@
+---
+execution:
+  - concurrency: 1
+    hold-for: 10m 30s
+    throughput: 1
+    scenario: jmeter
+
+modules:
+  jmeter:
+    properties:
+      load_profile: const(2000,5m) line(2000,3000,10s) const(3000,10s) line(3000,2000,10s) const(2000,5m)

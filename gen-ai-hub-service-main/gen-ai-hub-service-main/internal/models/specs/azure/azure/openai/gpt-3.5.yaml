@@ -1,0 +1,144 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT-3.5 model family"
+  documentation: "https://platform.openai.com/docs/models/gpt-3-5"
+models:
+  - name: gpt-35-turbo
+    version: "0613"
+    label: "GPT-3.5 Turbo"
+    id: openai.gpt-35-turbo-0613
+    functionalCapabilities: ["chat_completion"]
+    deprecationDate: '2024-09-13'
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling"]
+      inputModalities: ["text"]
+      outputModalities: ["text"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 4096
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: null
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+  - name: gpt-35-turbo
+    version: "0125"
+    label: "GPT-3.5 Turbo"
+    id: openai.gpt-35-turbo-0125
+    functionalCapabilities: ["chat_completion"]
+    deprecationDate: '2025-11-25'
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "jsonMode", "parallelFunctionCalling"]
+      inputModalities: ["text"]
+      outputModalities: ["text"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 16384
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: null
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+  - name: gpt-35-turbo
+    version: "1106"
+    label: "GPT-3.5 Turbo"
+    id: openai.gpt-35-turbo-1106
+    functionalCapabilities: ["chat_completion"]
+    deprecationDate: '2025-11-25'
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "jsonMode"]
+      inputModalities: ["text"]
+      outputModalities: ["text"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 16384
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: "Stop Sequences"
+        description: "Allows to define sequences causing model to terminate generation"
+        type: "array"
+        items:
+          type: "string"
+        default: null
+        required: false

@@ -1,0 +1,41 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "OidcIssuer",
+      "description": "OIDC Issuer URL",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "ModelInferenceRegionOverride",
+      "description": "The specific region to use for Vertex AI inference. If provided, overrides the default region detection.",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "FunctionTimeoutSeconds",
+      "description": "Timeout in seconds for the Cloud Function execution",
+      "defaultValue": "600",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "provider": "gcp",
+    "owner": "Jarvis@pega.com",
+    "service-type": "control-plane",
+    "webexChannel": "CloudK - GenAI Gateway Service Support [webexteams://im?space=f11d3910-467b-11ee-ad05-9d82b1151a68]"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "Owner",
+      "description": "Owner of the deployment (for tagging purpose)",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "AccountID",
+      "description": "GenAI Account for configuring OIDC Provider",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Region",
+      "description": "AWS Region for labelling purpose",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "SaxCell",
+      "description": "SAX Cell to be used for the deployment",
+      "defaultValue": "us",
+      "constraints": {
+        "required": false,
+        "allowedValues": [
+          "us",
+          "eu",
+          "apac"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "provider": "aws",
+    "owner": "Jarvis@pega.com",
+    "service-type": "control-plane",
+    "webexChannel": "CloudK - GenAI Gateway Service Support [webexteams://im?space=f11d3910-467b-11ee-ad05-9d82b1151a68]"
+  }
+}

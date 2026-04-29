@@ -1,0 +1,139 @@
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT Realtime model family for speech and audio"
+  documentation: "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/realtime-audio-webrtc"
+models:
+  - name: gpt-realtime
+    version: "2025-08-28"
+    label: "GPT Realtime"
+    id: openai.gpt-realtime-2025-08-28
+    functionalCapabilities: ["realtime"]
+    endpoints:
+      - path: "/v1/realtime/client_secrets"
+      - path: "/v1/realtime/calls"
+    capabilities:
+      features: ["functionCalling", "toolCalling"]
+      inputModalities: ["text", "audio"]
+      outputModalities: ["text", "audio"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 32000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 0.8
+        maximum: 1.2
+        minimum: 0.6
+        required: false
+  - name: gpt-realtime-mini
+    version: "2025-10-06"
+    label: "GPT Realtime Mini"
+    id: openai.gpt-realtime-mini-2025-10-06
+    functionalCapabilities: ["realtime"]
+    endpoints:
+      - path: "/v1/realtime/client_secrets"
+      - path: "/v1/realtime/calls"
+    capabilities:
+      features: ["functionCalling", "toolCalling"]
+      inputModalities: ["text", "audio"]
+      outputModalities: ["text", "audio"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 0.8
+        maximum: 1.2
+        minimum: 0.6
+        required: false
+  - name: gpt-realtime-mini
+    version: "2025-12-15"
+    label: "GPT Realtime Mini"
+    id: openai.gpt-realtime-mini-2025-12-15
+    functionalCapabilities: ["realtime"]
+    endpoints:
+      - path: "/v1/realtime/client_secrets"
+      - path: "/v1/realtime/calls"
+    capabilities:
+      features: ["functionCalling", "toolCalling"]
+      inputModalities: ["text", "audio"]
+      outputModalities: ["text", "audio"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 0.8
+        maximum: 1.2
+        minimum: 0.6
+        required: false
+  - name: gpt-realtime-1.5
+    version: "2026-02-23"
+    label: "GPT Realtime 1.5"
+    id: openai.gpt-realtime-1.5-2026-02-23
+    functionalCapabilities: ["realtime"]
+    endpoints:
+      - path: "/v1/realtime/client_secrets"
+      - path: "/v1/realtime/calls"
+    capabilities:
+      features: ["functionCalling", "toolCalling"]
+      inputModalities: ["text", "audio"]
+      outputModalities: ["text", "audio"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 32000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 0.8
+        maximum: 1.2
+        minimum: 0.6
+        required: false

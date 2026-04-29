@@ -1,0 +1,62 @@
+.gradle/
+build/
+bin/
+
+.settings/
+.classpath
+.project
+*.iml
+
+# Ignore Golang vendor
+vendor
+
+# Avoid any Intellij files
+.idea/
+out/
+
+# Avoid any Visual Studio Code files
+.vscode/
+.DS_Store
+
+# Python virtual env
+venv/
+
+/service/README.md
+
+# Avoid committing log files into repository
+*.log
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Perf tests
+src/perfTest/required.yml
+src/perfTest/ac-saml-token-fragment.jmx
+src/perfTest/cc-token-fragment.jmx
+
+# Avoid committing log files into repository when terraform runned locally
+*/**/.terraform/**/*
+*/**/terraform.d/**/*
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.tfstate.lock.info
+.terraform.lock.hcl
+
+# local env setup
+.env
+.claude/test.env
+
+# Ingration test files
+test/integration/**/*.test
+src/**/*.test
+src/**/logs/
+
+
+# Local mise config
+.mise.toml
+
+# AI skill artifacts (k8s log collection, test outputs)
+tmp/
+
+# Pact generated contract files (build artifacts)
+internal/embedders/pact/pact/

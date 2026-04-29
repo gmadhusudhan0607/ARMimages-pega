@@ -1,0 +1,131 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Imagen models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/image/overview"
+models:
+  - name: imagen-3.0
+    version: generate-002
+    label: Imagen 3
+    id: google.imagen-3-0-generate-002
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: imagen-3.0
+    version: generate-001
+    label: Imagen 3 (Deprecated)
+    id: google.imagen-3-0-generate-001
+    functionalCapabilities: ["image"]
+    lifecycle:
+      status: Deprecated
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: imagen-3.0-fast
+    version: generate-001
+    label: Imagen 3 Fast
+    id: google.imagen-3-0-fast-generate-001
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

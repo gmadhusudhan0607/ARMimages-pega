@@ -1,0 +1,136 @@
+id: GenAIPrivateModels
+name: GenAI Gateway Private Models Product
+version: @version@
+description: Private Models for integration with GenAI Gateway Service
+
+dependencies:
+  - productId: GenAIGatewayServiceProduct
+    productCatalogName: genai-gateway-service-product
+    version: 1.23+
+    resourceGuid: "!e prompts.GatewayGUID"
+
+mappings:
+  services_version:
+    {{>services_version.yml}}
+
+prompts:
+  - name: ClusterGUID
+    description: The GUID of CloudK cluster in which product will be deployed
+    constraints:
+      allowedPattern: (\w{8}-\w{4}-\w{4}-\w{4}-\w{12})
+      required: true
+    uicontrols:
+      type: text
+
+  - name: GatewayGUID
+    description: The GUID of GenAI Gateway Service Product that will have Private Models enabled
+    regional: true
+    dependsOn: prompts.ClusterGUID
+    constraints:
+      allowedPattern: (\w{8}-\w{4}-\w{4}-\w{4}-\w{12})
+      required: true
+    uicontrols:
+      type: text
+
+  - name: Owner
+    description: Owner of the deployment (for tagging purpose)
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+
+node:
+  path: !e '"/backing-services/${fn.generateGUID()}"'
+  labels:
+    type: GenAI Private Models Product
+    name: 'genai-private-models'
+    clusterguid: !e fn.select("", prompts.ClusterGUID)
+    owner: !e fn.select("", prompts.Owner)
+    accountid: !e cmdbService.cluster(prompts.ClusterGUID).get('AccountID')
+    region: !e cmdbService.cluster(prompts.ClusterGUID).get('Region')
+    provider: !e cmdbService.cluster(prompts.ClusterGUID).labels().get('provider')
+    pega-service-id: PRD-7655
+    pega-service-name: GenAI Infrastructure Private Models Product
+  services:
+    - name: GenAIPrivateModelExternalSecret
+      namespace: default
+      version: @version@
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: GatewayGUID
+          value: !e prompts.GatewayGUID
+
+    - name: GenAIPrivateModelConfig
+      namespace: gpt35turbo
+      version: @version@
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: ModelProvider
+          value: openai
+        - name: Model
+          value: gpt-35-turbo
+        - name: ModelEndpoint
+          value: ""
+        - name: VersionCurrent
+          value: ""
+        - name: VersionNext
+          value: ""
+        - name: VersionDeprecated
+          value: ""
+        - name: APIKey
+          value: ""
+        - name: Active
+          value: "false"
+
+    - name: GenAIPrivateModelConfig
+      namespace: textembeddingada
+      version: @version@
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: ModelProvider
+          value: openai
+        - name: Model
+          value: text-embedding-ada-002
+        - name: ModelEndpoint
+          value: ""
+        - name: VersionCurrent
+          value: ""
+        - name: VersionNext
+          value: ""
+        - name: VersionDeprecated
+          value: ""
+        - name: APIKey
+          value: ""
+        - name: Active
+          value: "false"
+    
+    - name: GenAIPrivateModelConfig
+      namespace: gpt4omini
+      version: @version@
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: ModelProvider
+          value: openai
+        - name: Model
+          value: gpt-4o-mini
+        - name: ModelEndpoint
+          value: ""
+        - name: VersionCurrent
+          value: ""
+        - name: VersionNext
+          value: ""
+        - name: VersionDeprecated
+          value: ""
+        - name: APIKey
+          value: ""
+        - name: Active
+          value: "false"
+
+  tags:
+    - key: Owner
+      value: !e prompts.Owner
+  nodes: []

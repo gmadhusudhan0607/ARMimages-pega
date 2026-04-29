@@ -1,0 +1,12 @@
+{
+  "fast": {
+    "model_id": "gpt-4o-mini",
+    "provider": "openai",
+    "creator": "openai"
+  },
+  "smart": {
+    "model_id": "gpt-4o",
+    "provider": "openai",
+    "creator": "openai"
+  }
+}

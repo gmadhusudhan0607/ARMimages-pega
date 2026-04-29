@@ -1,0 +1,21 @@
+package monitoring
+
+import (
+	"testing"
+
+	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestDecodeToken(t *testing.T) {
+	// This EnvGuid was taken from an environment in GOC Internal
+	envGuid := "41cf4806-41ad-4832-add0-7d776e7235f7"
+	// This token was issued using SAX client for the environment guid above
+	authToken := "eyJraWQiOiJkLVdzSlpHVlV6N24xN0tqMDhYelpWMXd5OF9CZzhCcGNXOGNqczktdFB3IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlJhRmpmQ3JhRDhHaU1od1VwQkZpQXh4OGNLc3diU0lDTHpjd2tsSVhhZUEiLCJpc3MiOiJodHRwczovL3N0Zy1mY3AtdXMtMS5va3RhcHJldmlldy5jb20vb2F1dGgyL2F1c2c1bGRtaTZJcHZkcFhYMWQ2IiwiYXVkIjoiYmFja2luZy1zZXJ2aWNlcyIsImlhdCI6MTcyOTA4NTIxOCwiZXhwIjoxNzI5MDg4ODE4LCJjaWQiOiIwb2FoczQ5cnJtOFF3TGRnNTFkNyIsInNjcCI6WyJwZWdhLmdlbmFpLXZlY3Rvci1zdG9yZTpyZWFkIiwicGVnYS5nZW5haS12ZWN0b3Itc3RvcmU6d3JpdGUiLCJwZWdhLnN0cmVhbS1zZXJ2aWNlOmlzb2xhdGlvbi5yZWFkIiwicGVnYS5zZWFyY2g6ZnVsbCIsInBlZ2Euc3RvcmFnZS1zZXJ2aWNlOmZ1bGwiXSwic3ViIjoiMG9haHM0OXJybThRd0xkZzUxZDciLCJndWlkIjoiNDFjZjQ4MDYtNDFhZC00ODMyLWFkZDAtN2Q3NzZlNzIzNWY3In0.jjBDFI_Dw9LUHUHaGeO3mpHQVuq4RAflj51ILWAsZzqD7q5Sn8N3zDgPa7avTYETq2Cw67CSIPN5cstSTNTwVH63iQrGHpTMsTA32I8ZN0I-M4Wk2boZpAujFV4SxyJ3xJIZ_iJ01w7_mzb271JFZvH-s68zzmWK57eLcxR9Aawnax3Fk7Be2I4rCFzUFljOEH1O2M0fWcK-AR-inMeG7WxHBFC8YJ-kHvsrifgpB_uHOCbfwzrpnhWMxB0aKZmUXo6tpRVrR1SttDJ5n5rgYLhukRcZ3QTJoSotwMXgICABaa9rjhRwi_MEMgBgVQUlVRwqd_jzVrF0hRpaMDuF6g"
+
+	token, err := jwt.ParseString(authToken)
+	assert.Nil(t, err)
+	guid, ok := token.Get("guid")
+	assert.True(t, ok)
+	assert.Equal(t, envGuid, guid)
+}

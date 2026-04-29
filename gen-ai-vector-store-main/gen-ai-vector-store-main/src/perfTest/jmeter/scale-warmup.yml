@@ -1,0 +1,5 @@
+---
+execution:
+  - concurrency: 3
+    iterations: 100
+    scenario: jmeter

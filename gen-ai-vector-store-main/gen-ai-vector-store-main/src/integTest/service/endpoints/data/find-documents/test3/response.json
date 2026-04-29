@@ -1,0 +1,35 @@
+{
+  "documents": [
+    {
+      "chunkStatus": {
+        "COMPLETED": 0,
+        "ERROR": 0,
+        "IN_PROGRESS": 0
+      },
+      "documentAttributes": [
+        {
+          "name": "org",
+          "type": "string",
+          "values": [
+            "tso"
+          ]
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "values": [
+            "v1"
+          ]
+        }
+      ],
+      "documentID": "DOC-1",
+      "ingestionStatus": "IN_PROGRESS",
+      "ingestionTime": "2026-02-20T10:46:11.514429Z",
+      "updateTime": "2026-02-20T10:46:11.531654Z"
+    }
+  ],
+  "pagination": {
+    "itemsTotal": 1,
+    "limit": 500
+  }
+}

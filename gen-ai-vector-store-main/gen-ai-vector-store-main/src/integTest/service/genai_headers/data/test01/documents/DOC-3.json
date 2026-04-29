@@ -1,0 +1,29 @@
+{
+  "id": "DOC-3",
+  "chunks": [
+    {
+      "content": "some text here 1. DOC-3."
+    },
+    {
+      "content": "some text here 2. DOC-3"
+    },
+    {
+      "content": "some text here 3. DOC-3"
+    },
+    {
+      "content": "some text here 4. DOC-3"
+    },
+    {
+      "content": "some text here 5. DOC-3"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "value": [
+        "v1.3"
+      ],
+      "type": "string"
+    }
+  ]
+}

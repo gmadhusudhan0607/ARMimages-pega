@@ -1,0 +1,189 @@
+id: GenAIGatewayServiceProduct
+name: GenAI Gateway Service Product
+version: @version@
+description: Provisions GenAI Gateway Service Product
+
+dependencies:
+  {{>dependencies.yml}}
+
+mappings:
+  services_version:
+    {{>services_version.yml}}
+
+  aws_llm_infra:
+    {{>aws_llm_infra.yml}}
+
+  gcp_region_prefix_map:
+    {{>gcp_region_prefix_map.yml}}
+
+prompts:
+  - name: ClusterGUID
+    regional: true
+    description: The GUID of CloudK cluster in which product will be deployed
+    constraints:
+      allowedPattern: (\w{8}-\w{4}-\w{4}-\w{4}-\w{12})
+      required: true
+    uicontrols:
+      type: text
+
+  - name: Owner
+    description: Owner of the deployment (for tagging purpose)
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+
+  - name: ProvisioningType
+    defaultValue: "Standard"
+    description: Determines how many prompts are shown. Standard option will show fewer prompts compared to Advanced. Default = Standard
+    constraints:
+      description: Allowed values are (Standard or Advanced)
+      allowedValues:
+        - "Standard"
+        - "Advanced"
+    uicontrols:
+      type: text
+
+  - name: PlatformType
+    regional: true
+    description: The kind of platform that will be supported by the GenAI Gateway Service. For AWS it depends on Cluster, and for GCP it should be always infinity.
+    dependsOn: prompts.ClusterGUID, prompts.ProvisioningType
+    defaultValue: !e "(cmdbService.cluster(prompts.ClusterGUID).labels().get('provider') == 'aws') ? cmdbService.cluster(prompts.ClusterGUID).get('ArchitectureType').toLowerCase() : 'infinity'"
+    constraints:
+      allowedValues:
+        - infinity
+        - launchpad
+    uicontrols:
+      visibility: !e (prompts.ProvisioningType == 'Advanced')
+
+  - name: UseSax
+    regional: true
+    description: The need for GenAI Gateway to issue their own SAX tokens. For AWS it depends on Cluster, and for GCP it should be always false.
+    dependsOn: prompts.ClusterGUID, prompts.ProvisioningType
+    defaultValue: !e "(cmdbService.cluster(prompts.ClusterGUID).labels().get('provider') == 'aws' && cmdbService.cluster(prompts.ClusterGUID).get('ArchitectureType') == 'Launchpad') ? 'true' : 'false'"
+    constraints:
+      allowedValues:
+        - 'false'
+        - 'true'
+    uicontrols:
+      visibility: !e (prompts.ProvisioningType == 'Advanced')
+
+  - name: UseGenAIInfra
+    regional: false
+    description: Whether to use GenAI Infra for this product. For AWS it should be always true, for GCP it should be always false.
+    dependsOn: cp.provider
+    defaultValue: !e "(cp.provider == 'aws')"
+    constraints:
+      allowedValues:
+        - 'false'
+        - 'true'
+
+  - name: AWSLLMAccountID
+    regional: true
+    description: AWS LLM Control Plane Account for GenAI Infrastructure. (GCP cluster region may be used to auto fill this value)
+    dependsOn: prompts.ClusterGUID, prompts.ProvisioningType, prompts.UseGenAIInfra, cp.provider
+    defaultValue: !e "(prompts.UseGenAIInfra == 'true') 
+                        ? fn.lookup('aws_llm_infra', cp.getStageName(), 
+                            (cp.provider == 'aws') 
+                              ? cmdbService.cluster(prompts.ClusterGUID).findInput('Region').substring(0, 2) 
+                              : fn.lookup('gcp_region_prefix_map', fn.slice(0, cmdbService.cluster(prompts.ClusterGUID).findInput('Region'), '-')), 
+                            'default', 'account')
+                        : ''"
+    uicontrols:
+      visibility: !e "(prompts.ProvisioningType == 'Advanced' && prompts.UseGenAIInfra == 'true')"
+
+  - name: AWSLLMModelsRegion
+    regional: true
+    description: The region of the AWS LLM Control Plane for GenAI Infrastructure. (GCP cluster region may be used to auto fill this value)
+    dependsOn: prompts.ClusterGUID, prompts.ProvisioningType, prompts.UseGenAIInfra, cp.provider
+    defaultValue: !e "(prompts.UseGenAIInfra == 'true') 
+                        ? fn.lookup('aws_llm_infra', cp.getStageName(), 
+                            (cp.provider == 'aws') 
+                              ? cmdbService.cluster(prompts.ClusterGUID).findInput('Region').substring(0, 2) 
+                              : fn.lookup('gcp_region_prefix_map', fn.slice(0, cmdbService.cluster(prompts.ClusterGUID).findInput('Region'), '-')), 
+                            'default', 'region')
+                        : ''"
+    uicontrols:
+      visibility: !e "(prompts.ProvisioningType == 'Advanced' && prompts.UseGenAIInfra == 'true')"
+
+  - name: SaxCell
+    regional: true
+    description: SaxCell used by the GenAI Infra control plane.
+    dependsOn: prompts.ClusterGUID, prompts.ProvisioningType, prompts.UseGenAIInfra, cp.provider
+    defaultValue: !e "(prompts.UseGenAIInfra == 'true') 
+                        ? (((cp.provider == 'aws') 
+                              ? cmdbService.cluster(prompts.ClusterGUID).findInput('Region').substring(0, 2) 
+                              : fn.lookup('gcp_region_prefix_map', fn.slice(0, cmdbService.cluster(prompts.ClusterGUID).findInput('Region'), '-'))) == 'ap' || 
+                           ((cp.provider == 'aws') 
+                              ? cmdbService.cluster(prompts.ClusterGUID).findInput('Region').substring(0, 2) 
+                              : fn.lookup('gcp_region_prefix_map', fn.slice(0, cmdbService.cluster(prompts.ClusterGUID).findInput('Region'), '-'))) == 'af')
+                          ? 'apac' 
+                          : ((cp.provider == 'aws') 
+                              ? cmdbService.cluster(prompts.ClusterGUID).findInput('Region').substring(0, 2) 
+                              : fn.lookup('gcp_region_prefix_map', fn.slice(0, cmdbService.cluster(prompts.ClusterGUID).findInput('Region'), '-'))) == 'eu'
+                            ? 'eu'
+                            : 'us'
+                        : ''"
+    uicontrols:
+      visibility: !e "(prompts.ProvisioningType == 'Advanced' && prompts.UseGenAIInfra == 'true')"
+
+node:
+  path: !e '"/backing-services/${fn.generateGUID()}"'
+  labels:
+    type: GenAI Gateway Service Product
+    name: 'genai-gateway-service'
+    clusterguid: !e fn.select("", prompts.ClusterGUID)
+    owner: !e fn.select("", prompts.Owner)
+    accountid: !e cmdbService.cluster(prompts.ClusterGUID).get('AccountID')
+    region: !e cmdbService.cluster(prompts.ClusterGUID).get('Region')
+    provider: !e cmdbService.cluster(prompts.ClusterGUID).labels().get('provider')
+    pega-service-id: PRD-7655
+    pega-service-name: GenAI Gateway Service
+  services:
+    - name: GenAIHubService
+      version: @version@
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: PlatformType
+          value: !e prompts.PlatformType
+        - name: UseSax
+          value: !e prompts.UseSax
+        - name: UseGenAIInfra
+          value: !e prompts.UseGenAIInfra
+        - name: UseAutoMapping
+          value: !e prompts.UseGenAIInfra
+        - name: LLMModelsRegion
+          value: !e prompts.AWSLLMModelsRegion
+        - name: LLMAccountID
+          value: !e prompts.AWSLLMAccountID
+        - name: SaxCell
+          value: !e prompts.SaxCell
+
+    - name: ServiceAuthenticationClientService
+      version: @serviceAuthenticationClientServiceVersion@
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: Owner
+          value: !e prompts.Owner
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+        - name: ServiceType
+          value: backing-services
+        - name: AllowedScopes
+          value: 'genai-gateway-service:read genai-gateway-service:write'
+        - name: IsolationID
+          value: ''
+
+    - name: GenAIHubServiceRole
+      version: @version@
+      action: INSTALL_UPGRADE_BACKUP
+      condition: !e prompts.UseSax == "true"
+      parameters:
+        - name: ClusterGUID
+          value: !e prompts.ClusterGUID
+
+  tags:
+    - key: Owner
+      value: !e prompts.Owner
+  nodes: []

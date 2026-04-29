@@ -1,0 +1,19 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+service-base:
+  pegaservices:
+    genai-vector-store:
+      # For a local minikube install we need to turn off ingress since that requires many
+      # AKS (Azure) kubernetes 'kinds' that are not available locally
+      skipIngress: true
+    genai-vector-store-ops:
+      # For a local minikube install we need to turn off ingress since that requires many
+      # AKS (Azure) kubernetes 'kinds' that are not available locally
+      skipIngress: true
+    genai-vector-store-background:
+      # For a local minikube install we need to turn off ingress since that requires many
+      # AKS (Azure) kubernetes 'kinds' that are not available locally
+      skipIngress: true

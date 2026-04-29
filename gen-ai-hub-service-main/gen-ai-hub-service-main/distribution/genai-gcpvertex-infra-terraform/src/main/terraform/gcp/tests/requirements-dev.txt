@@ -1,0 +1,6 @@
+# Development dependencies for testing the cloud function
+-r requirements.txt.tpl
+
+pytest==7.4.*
+pytest-mock==3.12.*
+pytest-cov==4.1.*

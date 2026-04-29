@@ -1,0 +1,24 @@
+{
+  "models": [
+    {
+      "model_name": "gemini-3.0-flash",
+      "model_type": "chat_completion",
+      "template": "gemini-2.5-flash"
+    },
+    {
+      "model_name": "gemini-3.0-pro",
+      "model_type": "chat_completion",
+      "template": "gemini-2.5-pro"
+    },
+    {
+      "model_name": "text-embedding-005",
+      "model_type": "embedding",
+      "template": "text-multilingual-embedding-002"
+    },
+    {
+      "model_name": "imagen-4",
+      "model_type": "image",
+      "template": "imagen-3"
+    }
+  ]
+}

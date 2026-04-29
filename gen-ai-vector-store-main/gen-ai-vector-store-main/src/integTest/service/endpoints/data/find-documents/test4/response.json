@@ -1,0 +1,33 @@
+{
+  "documents": [
+    {
+      "documentID": "DOC-1",
+      "chunkStatus": {
+        "COMPLETED": 2,
+        "ERROR": 0,
+        "IN_PROGRESS": 0
+      },
+      "documentAttributes": [
+        {
+          "name": "org",
+          "values": [
+            "tso"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "version",
+          "values": [
+            "v1",
+            "v1.0"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "limit": 500,
+    "itemsTotal": 1
+  }
+}

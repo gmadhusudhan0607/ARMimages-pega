@@ -1,0 +1,20 @@
+[
+  {
+    "name": "org",
+    "value": [
+      "tso"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "version",
+    "value": [
+      "c1",
+      "c2",
+      "v1",
+      "v1.0",
+      "v2"
+    ],
+    "type": "string"
+  }
+]

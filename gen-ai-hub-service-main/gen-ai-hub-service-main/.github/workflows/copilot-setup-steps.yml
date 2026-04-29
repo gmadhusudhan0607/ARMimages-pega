@@ -1,0 +1,142 @@
+# For more information on customizing the Copilot coding agent environment, see:
+# https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment#preinstalling-tools-or-dependencies-in-copilots-environment
+
+name: "GitHub Copilot Environment Setup"
+
+# This workflow validates the Copilot coding agent environment configuration and Artifactory access
+# It can be triggered manually or runs automatically when the workflow file is modified
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # IMPORTANT: The job name MUST be 'copilot-setup-steps' - DO NOT change this
+  # GitHub Copilot relies on this specific job name for environment validation
+  copilot-setup-steps:
+    runs-on: runner-4-core-16gi
+
+    # Uses the 'copilot' environment which contains all required secrets
+    # Secrets are configured automatically during the setup process
+    environment: copilot
+
+    permissions:
+      contents: read  # Read-only access to repository contents
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # ============================================================================
+      # IMPORTANT: Do not modify anything above this line
+      # The above configuration is required for GitHub Copilot environment setup
+      # ============================================================================
+
+      # Step 2 (Optional): Verify Artifactory connectivity and credentials
+      # This validates that all required secrets are properly configured and accessible
+      # If this step fails, check that the 'copilot' environment has the correct secrets configured
+      # You can remove this step if you don't need Artifactory validation
+      - name: Validate Artifactory access with environment secrets
+        env:
+          ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
+        run: |
+          curl -s -o /dev/null -w "%{http_code}\n" \
+            -u "${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD}" \
+            "${ARTIFACTORY_URL}/api/system/ping" | tee /tmp/artifactory_status.txt
+          status=$(cat /tmp/artifactory_status.txt)
+          if [ "$status" != "200" ] && [ "$status" != "204" ]; then
+            echo "Artifactory returned HTTP $status from setup steps"
+            exit 1
+          fi
+
+          echo "✅ Artifactory access validated successfully (HTTP $status)"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-disabled: true
+
+      # Step 3 (Optional): Create gradle.properties file with Artifactory credentials
+      # This file is commonly needed for Gradle-based projects
+      # You can remove this step if your project doesn't use Gradle
+      - name: Create gradle.properties for Gradle projects
+        run: |
+          cat >> $GRADLE_USER_HOME/gradle.properties << EOF
+
+          artifactoryURL=${{ secrets.ARTIFACTORY_URL }}
+          artifactoryUser=${{ secrets.ARTIFACTORY_USER }}
+          artifactoryPassword=${{ secrets.ARTIFACTORY_PASSWORD }}
+          EOF
+
+          echo "✅ gradle.properties created in $GRADLE_USER_HOME"
+
+      # Step 4 (Optional): Verify Gradle configuration
+      - name: Make Gradle wrapper executable
+        run: |
+          if [ -f ./gradlew ]; then
+            chmod +x ./gradlew
+            echo "✅ gradlew made executable"
+          else
+            echo "ℹ️ No gradlew found, skipping"
+          fi
+
+      # Step 5: Set up Java for Gradle builds and tests
+      # Uses select-tool to activate the pre-installed Java version on the self-hosted runner
+      - name: Select Java version
+        run: select-tool java 17
+
+      # ============================================================================
+      # Custom stages for gen-ai-hub-service (Go service)
+      # ============================================================================
+
+      # Step 6: Set up Go toolchain
+      # Uses actions/setup-go which reads the Go version from go.mod.
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      # Step 7: Configure private Go module access
+      #
+      # go-sax is a private GitHub module at github.com/Pega-CloudEngineering/go-sax.
+      # The .netrc supplies GitHub credentials for the private repo.
+      #
+      # PREREQUISITE: A fine-grained PAT named PEGA_GO_MODULES_PAT must be
+      # stored in the 'copilot' environment. Required permissions:
+      #   - Resource owner: Pega-CloudEngineering
+      #   - Repository access: Pega-CloudEngineering/go-sax
+      #   - Permission: Contents (read-only)
+      - name: Configure private Go module access
+        env:
+          GO_MODULES_PAT: ${{ secrets.PEGA_GO_MODULES_PAT }}
+        run: |
+          cat > ~/.netrc <<EOF
+          machine github.com login x-access-token password ${GO_MODULES_PAT}
+          EOF
+          chmod 600 ~/.netrc
+          go env -w GONOSUMDB="github.com/Pega-CloudEngineering/*" GOPRIVATE="github.com/Pega-CloudEngineering/*"
+
+      # Step 8: Download all Go module dependencies and update go.sum
+      # go mod tidy ensures go.sum contains checksums for private modules
+      # that cannot be verified via the public sum database.
+      - name: Download Go dependencies
+        env:
+          GONOSUMDB: "github.com/Pega-CloudEngineering/*"
+          GOPRIVATE: "github.com/Pega-CloudEngineering/*"
+        run: |
+          go mod download
+          go mod tidy
+
+      # Step 9: Verify the toolchain works — build both binaries
+      - name: Verify build
+        run: |
+          go build ./cmd/service/...
+          go build ./cmd/ops/...

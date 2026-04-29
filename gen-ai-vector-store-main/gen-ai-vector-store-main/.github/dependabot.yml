@@ -1,0 +1,149 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+registries:
+  # Specify the private registries here
+  maven:
+    type: maven-repository
+    url: https://bin.pega.io/artifactory/repo2-release/
+    username: ${{secrets.ENG_ARTIFACTORY_USR}}
+    password: ${{secrets.ENG_ARTIFACTORY_PWD}}
+  npm:
+    type: npm-registry
+    url: https://bin.pega.io/artifactory/api/npm/npmjs-dev/
+    username: ${{secrets.ENG_ARTIFACTORY_USR}}
+    password: ${{secrets.ENG_ARTIFACTORY_PWD}}
+  docker:
+    type: docker-registry
+    url: https://docker-dev.bin.pega.io/
+    username: ${{secrets.ENG_ARTIFACTORY_USR}}
+    password: ${{secrets.ENG_ARTIFACTORY_PWD}}
+# note dependabot does not support scanning Helm dependencies.
+
+updates:
+  - package-ecosystem: "gradle" #Replace gradle with any package ecosystem you want Dependabot to scan, such as npm, maven, or pip.
+    # Important: If you include any package-ecosystem that does not exist in your repository, Dependabot will fail to run.
+
+    # Define the directories where Dependabot should scan for version updates. Use "/" to check the root directory or explicitly define the path, e.g., "/tools/*".
+    # To scan all directories, use the configuration below.
+    directories:
+      - "**/*"
+    registries: "*" #Includes both private and publicly available ones.
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    #reviewers: #you can enable the reviewers who would like to review the dependabot PRs and merge them with the main/master branch
+    # The groups section allows combining multiple dependency updates into a single pull request based on matching patterns.
+    # Hybrid approach: separate major from minor/patch for better isolation of breaking changes
+    # Alternative: single group for all updates (fewer PRs but harder to debug failures):
+    #groups:
+    #  all-dependencies:
+    #    patterns:
+    #      - "*"
+    groups:
+      major:
+        update-types:
+          - "major"
+        patterns:
+          - "*"
+      minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+        patterns:
+          - "*"
+    #To customize the Dependabot PR title, use the option below. Comment out if it is not required.
+    commit-message:
+      prefix: "Dependabot - [Gradle] -"
+    open-pull-requests-limit: 2 # Allow 2 PRs: one for major, one for minor/patch
+    #ignore: # Uncomment to ignore specific dependencies
+    #  - dependency-name: "some-dependency"
+    #    update-types: ["version-update:semver-patch"]
+
+  # Go modules - tracks updates from proxy.golang.org for public dependencies
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    # Hybrid approach: separate major from minor/patch for better isolation of breaking changes
+    groups:
+      major:
+        update-types:
+          - "major"
+        patterns:
+          - "*"
+      minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Dependabot - [Go] -"
+    open-pull-requests-limit: 2 # Allow 2 PRs: one for major, one for minor/patch
+    #ignore: # Uncomment to ignore specific dependencies
+    #  - dependency-name: "github.com/some/package"
+    #    update-types: ["version-update:semver-major"]
+
+  # Docker - tracks base image updates in Dockerfiles
+  - package-ecosystem: "docker"
+    directories:
+      - "/distribution/service-docker/src/main/docker"
+      - "/distribution/ops-docker/src/main/docker"
+      - "/distribution/background-docker/src/main/docker"
+    registries:
+      - "docker"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    # Group all Docker updates into single PR
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Dependabot - [Docker] -"
+    open-pull-requests-limit: 1 # Limit to 1 PR to minimize review overhead
+    #ignore: # Uncomment to ignore specific base images
+    #  - dependency-name: "gcr.io/distroless/static"
+    #    update-types: ["version-update:semver-patch"]
+
+  # Terraform - tracks provider updates from registry.terraform.io
+  # Note: Internal providers (pega.com/cloud/*) won't be tracked, but public providers will be
+  - package-ecosystem: "terraform"
+    directories:
+      - "/distribution/isolation-terraform/src/main/terraform/aws"
+      - "/distribution/isolation-terraform/src/main/terraform/gcp"
+      - "/distribution/role-terraform/src/main/terraform/aws"
+      - "/distribution/role-terraform/src/main/terraform/gcp"
+      - "/distribution/sax-registration-terraform/src/main/terraform/aws"
+      - "/distribution/service-infrastructure-terraform/src/main/terraform/aws"
+      - "/distribution/service-infrastructure-terraform/src/main/terraform/gcp"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    # Group all Terraform updates into single PR
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Dependabot - [Terraform] -"
+    open-pull-requests-limit: 1 # Limit to 1 PR to minimize review overhead
+    ignore:
+      # Ignore major version updates - require manual upgrade and testing
+      - dependency-name: "hashicorp/aws"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "hashicorp/google"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "terraform-aws-modules/iam/aws"
+        update-types: ["version-update:semver-major"]
+
+#similarly define for other package-ecosystem, like docker, maven, npm, etc.
+#Note: helm is not supported by dependabot
+#  - package-ecosystem: "docker"

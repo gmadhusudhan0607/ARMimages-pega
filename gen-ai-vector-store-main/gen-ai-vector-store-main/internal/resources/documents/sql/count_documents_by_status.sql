@@ -1,0 +1,3 @@
+SELECT COUNT(*)
+FROM %[1]s DOC
+%[2]s

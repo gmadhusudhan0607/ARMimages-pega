@@ -1,0 +1,6 @@
+{
+  "maxDistance": 1.0,
+  "filters": {
+    "query": "Pega Labs?"
+  }
+}

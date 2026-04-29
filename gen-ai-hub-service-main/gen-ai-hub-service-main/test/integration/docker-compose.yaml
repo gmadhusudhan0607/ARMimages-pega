@@ -1,0 +1,160 @@
+version: '3.8'
+services:
+  genai-hub-mockserver:
+    image: docker-dev.bin.pega.io/mockserver/mockserver
+    container_name: genai-hub-mockserver
+    environment:
+      - MOCKSERVER_SERVER_PORT=${MOCKSERVER_SERVER_PORT:-11080}
+      - MOCKSERVER_WATCH_INITIALIZATION_JSON=true
+      - MOCKSERVER_PROPERTY_FILE=/config/mockserver.properties
+      # - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializerJson.json
+    volumes:
+      - source: ./mockserver
+        target: /config
+        type: bind
+    ports:
+      - ${MOCKSERVER_SERVER_PORT:-11080}:${MOCKSERVER_SERVER_PORT:-11080}
+  genai-hub-service:
+    image: ${SERVICE_DOCKER_IMAGE:-}
+    container_name: genai-hub-service
+    depends_on:
+      genai-hub-mockserver:
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - LOG_LEVEL=DEBUG
+      - GENAI_URL=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - CONFIGURATION_FILE=/config/mapping.yaml
+      - SERVICE_PORT=${SERVICE_PORT:-18080}
+      - SERVICE_HEALTHCHECK_PORT=${SERVICE_HEALTHCHECK_PORT:-18082}
+      - PLATFORM_TYPE=infinity
+      - USE_SAX=false
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - source: ../../build/config
+        target: /config
+        type: bind
+    ports:
+      - ${SERVICE_PORT:-18080}:${SERVICE_PORT:-18080}
+      - ${SERVICE_HEALTHCHECK_PORT:-18082}:${SERVICE_HEALTHCHECK_PORT:-18082}
+  genai-hub-service1:
+    image: ${SERVICE_DOCKER_IMAGE:-}
+    container_name: genai-hub-service1
+    depends_on:
+      genai-hub-mockserver:
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - LOG_LEVEL=DEBUG
+      - GENAI_URL=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - CONFIGURATION_FILE=/config/mapping1.yaml
+      - REQUEST_PROCESSING_COPYRIGHT_PROTECTION=true
+      - REQUEST_PROCESSING_OUTPUT_TOKENS_ADJUSTMENT_STRATEGY=FIXED
+      - REQUEST_PROCESSING_OUTPUT_TOKENS_BASE_VALUE=1024
+      - SERVICE_PORT=48080
+      - SERVICE_HEALTHCHECK_PORT=48082
+      - PLATFORM_TYPE=infinity
+      - USE_SAX=false
+    volumes:
+      - source: ../../build/config
+        target: /config
+        type: bind
+    ports:
+      - 48080:48080
+      - 48082:48082
+  genai-gateway-ops:
+    image: ${SERVICE_DOCKER_OPS_IMAGE:-}
+    container_name: genai-gateway-ops
+    profiles:
+      - app
+    environment:
+      - SERVICE_PORT=13080
+      - OPS_PORT=13081
+      - LOG_LEVEL=DEBUG
+      - SERVICE_HEALTHCHECK_PORT=13082
+      - SAX_CONFIG_PATH=/genai-sax-config/genai-sax-config
+      - LLM_MODELS_REGION=us-east-1
+      - LLM_ACCOUNT_ID=1234567890123
+      - STAGE_NAME=local
+      - SAX_CELL=us
+      - GENAI_INFRA_MAPPING_REFRESH_INTERVAL=1s
+      - AWS_IGNORE_CONFIGURED_ENDPOINT_URLS=false # configure AWS API to hit mockserver
+      - AWS_ENDPOINT_URL_STS=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}/sts # mockserver URL
+      - AWS_ENDPOINT_URL_SECRETS_MANAGER=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}/secretsmanager # mockserver URL
+      - USE_GENAI_INFRA=true
+      - USE_AUTO_MAPPING=true
+    ports:
+      - 13081:13081
+      - 13082:13082
+    volumes:
+      - source: genai-sax-config/genai-sax-config
+        target: /genai-sax-config/genai-sax-config
+        type: bind
+  genai-hub-service-private-model:
+    image: ${SERVICE_DOCKER_IMAGE:-}
+    container_name: genai-hub-service-private-model
+    depends_on:
+      genai-hub-mockserver:
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - GENAI_URL=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - CONFIGURATION_FILE=/config/mapping-private-model.yaml
+      - REQUEST_PROCESSING_COPYRIGHT_PROTECTION=true
+      - SERVICE_PORT=58080
+      - SERVICE_HEALTHCHECK_PORT=58082
+      - PLATFORM_TYPE=infinity
+      - USE_SAX=false
+    volumes:
+      - source: ../../build/config
+        target: /config
+        type: bind
+      - source: ../../build/private-model-config
+        target: /private-model-config
+        type: bind
+    ports:
+      - 58080:58080
+      - 58082:58082
+  genai-hub-service-genai-infra:
+    image: ${SERVICE_DOCKER_IMAGE:-}
+    container_name: genai-hub-service-genai-infra
+    depends_on:
+      genai-hub-mockserver:
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - GENAI_URL=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - CONFIGURATION_FILE=/config/mapping-genai-infra.yaml
+      - SERVICE_PORT=9080
+      - SERVICE_HEALTHCHECK_PORT=9082
+      - PLATFORM_TYPE=infinity
+      - USE_SAX=false
+      - USE_GENAI_INFRA=true
+      - USE_AUTO_MAPPING=true
+      - REGION=us-east-1
+      - SAX_CELL=us
+      - AWS_IGNORE_CONFIGURED_ENDPOINT_URLS=false # configure AWS API to hit mockserver
+      - AWS_ENDPOINT_URL_STS=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}/sts # mockserver URL
+      - AWS_ENDPOINT_URL_BEDROCK_RUNTIME=http://genai-hub-mockserver:${MOCKSERVER_SERVER_PORT:-11080}/bedrock # mockserver URL
+      - SAX_CONFIG_PATH=/genai-sax-config/genai-sax-config
+      - MAPPING_ENDPOINT=http://genai-gateway-ops:13081/v1/mappings
+    volumes:
+      - source: ../../build/config
+        target: /config
+        type: bind
+      - source: genai-sax-config/genai-sax-config
+        target: /genai-sax-config/genai-sax-config
+        type: bind
+      - source: genai-infra-config/claude-3-haiku
+        target: /genai-infra-config/claude-3-haiku
+        type: bind
+      - source: genai-infra-config/titan-embed-text
+        target: /genai-infra-config/titan-embed-text
+        type: bind
+    ports:
+      - "9080:9080"
+      - "9082:9082"

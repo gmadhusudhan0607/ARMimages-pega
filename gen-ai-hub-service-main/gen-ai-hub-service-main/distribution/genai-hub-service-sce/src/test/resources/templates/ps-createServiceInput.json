@@ -1,0 +1,60 @@
+{
+  "labels": {
+    "clusterguid": "${testClusterGUID}",
+    "type": "GenAIHubService"
+  },
+  "parameters": [
+    {
+      "name": "ClusterGUID",
+      "value": "${testClusterGUID}"
+    },
+    {
+      "name": "Namespace",
+      "value": "${testNamespace}"
+    },
+    {
+      "name": "DockerRegistry",
+      "value": "cirrus-docker.jfrog.io"
+    },
+    {
+      "name": "ProvisioningType",
+      "value": "Advanced"
+    },
+    {
+      "name": "PlatformType",
+      "value": "infinity"
+    },
+    {
+      "name": "SaxCell",
+      "value": "us"
+    },
+    {
+      "name": "LLMAccountID",
+      "value": "045663071481"
+    },
+    {
+      "name": "LLMModelsRegion",
+      "value": "us-east-1"
+    },
+    {
+      "name": "UseGenAIInfra",
+      "value": "true"
+    },
+    {
+      "name": "UseAutoMapping",
+      "value": "true"
+    },
+    {
+      "name": "EnabledProviders",
+      "value": "Azure,Bedrock,Vertex"
+    }
+  ],
+  "verificationParams": {
+    "outputs": [
+      {
+        "name": "GenAIHubServiceBaseURL",
+        "value": "${outGenAIHubServiceBaseURL}"
+      }
+    ]
+  }
+}

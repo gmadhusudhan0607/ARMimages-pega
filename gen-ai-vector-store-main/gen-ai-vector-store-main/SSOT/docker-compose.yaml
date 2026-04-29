@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  db:
+    hostname: db
+    image: docker-dev.bin.pega.io/pgvector/pgvector:0.8.1-pg18
+    container_name: vs-db-1
+    restart: always
+    environment:
+      - POSTGRES_DB=vectordb
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpwd
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGPORT= 5434
+    ports:
+      - 5434:5434
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  vector-store:
+    image: cirrus-docker.jfrog.io/cloudservices/genai-vector-store:latest
+    container_name: vector-store
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - GENAI_GATEWAY_SERVICE_URL=
+      - GENAI_API_KEY=
+      - GENAI_SMART_CHUNKING_SERVICE_URL=
+      - REGION=us-east-1
+      - SAX_DISABLED=true
+      - SAX_CLIENT_DISABLED=true
+      - ISOLATION_ID_VERIFICATION_DISABLED=true
+      - DB_LOCAL=true
+      - DB_HOST=vs-db-1
+      - DB_PORT=5434
+      - DB_NAME=postgres
+      - DB_USR=testuser
+      - DB_PWD=testpwd
+      - SERVICE_PORT=${SERVICE_PORT:-8090}
+      - SERVICE_HEALTHCHECK_PORT=${SERVICE_HEALTHCHECK_PORT:-5090}
+    ports:
+      - 8090:8090
+      - 5090:5090
+  vector-store-ops:
+    image: cirrus-docker.jfrog.io/cloudservices/genai-vector-store-ops:latest
+    container_name: vector-store-ops
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - GENAI_GATEWAY_SERVICE_URL=
+      - GENAI_API_KEY=
+      - SAX_DISABLED=true
+      - SAX_CLIENT_DISABLED=true
+      - ISOLATION_ID_VERIFICATION_DISABLED=true
+      - DB_LOCAL=true
+      - DB_HOST=vs-db-1
+      - DB_PORT=5434
+      - DB_NAME=postgres
+      - DB_USR=testuser
+      - DB_PWD=testpwd
+      - OPS_PORT=8092
+      - OPS_HEALTHCHECK_PORT=5002
+    ports:
+      - 8092:8092
+      - 5092:5092
+

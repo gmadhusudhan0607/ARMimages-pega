@@ -1,0 +1,39 @@
+[
+  {
+    "resourceType": "backing-service",
+    "resourceGuid": "@@backingServiceGUID",
+    "labels": {
+      "owner": "${testOwner}",
+      "accountid": "${testClusterAccountId}",
+      "region": "us-east-1",
+      "clusterguid": "${testClusterGUID}",
+      "provider": "aws",
+      "type": "IntegTest GenAIHubService SCE",
+      "resource-type": "backing-services"
+    },
+    "services": [
+      {
+        "name": "ServiceAuthenticationClientService",
+        "version": "${serviceAuthenticationClientServiceVersion}",
+        "parameters": [
+          {
+            "name": "Owner",
+            "value": "${testOwner}"
+          },
+          {
+            "name": "ClusterGUID",
+            "value": "${testClusterGUID}"
+          },
+          {
+            "name": "ServiceType",
+            "value": "backing-services"
+          },
+          {
+            "name": "AllowedScopes",
+            "value": "genai-gateway-service:read genai-gateway-service:write"
+          }
+        ]
+      }
+    ]
+  }
+]

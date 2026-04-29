@@ -1,0 +1,193 @@
+# GenAI Vector Store Project Rules
+# These rules help maintain consistency with established project patterns and prevent common issues
+
+## ARCHITECTURE & CODE ORGANIZATION
+
+### Priorities
+- Prioritize performance and maintainability
+- Reduce DB load and number of queries where possible
+
+### Project Structure Standards
+- Follow Go standard project layout strictly
+- Place main entry points only in cmd/ subdirectories (cmd/service/, cmd/ops/, cmd/background/)
+- Keep core business logic in internal/ packages with clear separation of concerns
+- Use internal/ for code that should not be imported by other projects
+- Place generated mocks only in mocks/ directory
+- Keep API documentation in apidocs/ directory only
+- Organize tests by type: unit tests alongside source code, integration tests in src/integTest/
+- Use distribution/ only for deployment configurations and build artifacts
+- Apply KISS principle - avoid over-engineering
+- Avoid fallbacks - fail fast and return error to the client if something goes wrong
+
+### Code Organization Patterns
+- Maintain clear separation between service layers: API handlers in cmd/service/api/, middleware in cmd/middleware/, core logic in internal/
+- Group related functionality in dedicated internal packages (config, db, embedders, headers, helpers, etc.)
+- Follow established API versioning patterns (like v1, v2, ...) when adding new endpoints
+- Keep test utilities and common functions in src/integTest/functions/
+- Organize integration tests by service area (for example :  endpoints/, emulation_mode/, readonly_mode/, headers/,... etc)
+
+### File Naming and Structure
+- Use snake_case for Go file names following project convention
+- Add _test.go suffix for all test files
+- Use suite_test.go for test suite setup/teardown following Ginkgo patterns
+- Name middleware files with descriptive suffixes (e.g., emulation_middleware.go)
+- Group related API handlers in appropriately named files
+
+## INTEGRATION TEST STANDARDS
+
+When working with integration tests in src/integTest/:
+- Follow the comprehensive testing standards defined in src/integTest/README.md
+- These standards cover Ginkgo/BDD naming conventions, test organization, and WireMock patterns
+- Always read src/integTest/README.md before creating or modifying integration tests
+
+## CODING STANDARDS
+
+### Go Code Quality
+- Add copyright header with current year to ALL new Go files and test files: `// Copyright (c) 2025 Pegasystems Inc.\n// All rights reserved.\n//`, do not modify copyright it if already exist.
+- Use structured logging with zap.Logger, never fmt.Print* or log.Print*
+- Follow established error handling patterns with proper error wrapping
+- Use context.Context for all database and HTTP operations
+- Initialize loggers using log.GetNamedLogger() pattern
+- Use help function like helpers.GetEnvOrDefault() for environment variable access
+- Follow established configuration patterns using internal/config package
+- Always create a plan file before making changes.
+- Prioritize performance
+- Reduce number of queries to database by using bulk queries or SQL functions if that does not add complexity
+
+### Testing Standards
+- Use Ginkgo/Gomega BDD framework for integration tests, standard testing package for unit tests
+- Place integration test setup in suite_test.go files with BeforeSuite/AfterSuite
+- Use established test utilities from src/integTest/functions/
+- Follow naming pattern: package_name_test for integration test packages
+- Include test coverage and database cleanup in test suites
+- Use ExpectNoIdleTransactionsLeft pattern for database tests in every AfterSuite
+
+### Database and API Patterns
+- Use pgxpool.Pool for database connections following established patterns
+- Use gin.Engine for HTTP routing with established middleware chain
+- Use established API response patterns and error handling
+
+## BUILD AND TOOLING
+
+### Approved Tools and Commands
+- Use `make` targets defined in Makefile for build operations
+- Use `go tool mockery` for generating mocks (never create manual mocks)
+- Use `go tool golangci-lint` for linting
+- Use `go tool ginkgo` for running integration tests
+- Use `./gradle integrationTest` for running integration tests
+- Use `go tool staticcheck` for additional static analysis
+- Use `make integtest-background` to run background service integration tests only (Use KEEP=XXsec FOCUS="test1|test2.*" for focused specific tests)
+
+### Dependency Management
+- Only add dependencies that align with existing technology stack
+- Prefer libraries already in use: gin, zap, pgx/v5, ginkgo/gomega, prometheus
+- Do not add new HTTP frameworks, logging libraries, or database drivers
+- Use established patterns for new dependencies (AWS SDK, GCP SDK patterns already exist)
+
+## ENVIRONMENT VARIABLES DOCUMENTATION
+
+### Documentation Maintenance
+- Environment variables documentation is located in `docs/environment-variables.md`
+- This file MUST be updated whenever you add, remove, or rename an environment variable
+- When modifying environment variables:
+  1. Add/update/remove the variable entry in the documentation
+  2. Include the variable's description, default value, which services use it, and whether it's required
+  3. Update the service-specific usage summary if the change affects service usage
+  4. Commit the documentation changes together with your code changes
+
+### Environment Variable Changes Checklist
+When working with environment variables, ensure you:
+- [ ] Update `docs/environment-variables.md` with the change
+- [ ] Document the variable's purpose and impact clearly
+- [ ] Specify which services (Service, Ops, Background) use the variable
+- [ ] Include default values and example usage
+- [ ] Test the change with the new/modified variable
+- [ ] Commit documentation and code changes together
+
+## RESTRICTIONS AND ANTI-PATTERNS
+
+### Git Operations Restrictions
+- NEVER execute `git commit`, `git push`, or any command that modifies git history
+- NEVER create commits or push code to the repository unless the user explicitly requests it
+- Only perform read-only git operations (git status, git log, git diff, git show, etc.) without explicit permission
+- If the user asks to "save" or "apply" changes, only modify files locally - do NOT commit or push
+
+### File Generation Restrictions
+- NEVER create files outside the established project structure
+- Generate README files, documentation files, or markdown files only when explicitly asked.
+- Do NOT create separate documentation beyond minimal code comments
+- Do NOT generate example files or sample configurations
+
+### Code Generation Restrictions  
+- Do NOT create new main.go files outside cmd/ subdirectories
+- Do NOT generate duplicate middleware or configuration files
+- Do NOT generate CLI tools or utilities (pegacloud-cli/ already exists)
+
+### Architecture Violations
+- NEVER bypass established middleware patterns
+- Do NOT create direct database connections outside internal/db patterns
+- Do NOT implement custom logging solutions (use zap)
+- Do NOT create new HTTP server patterns (use established gin setup)
+
+## TESTING AND QUALITY REQUIREMENTS
+
+### Test Organization Requirements
+- Place ALL integration tests in src/integTest/ with proper package structure
+- Use existing test utilities, do NOT create duplicate helper functions
+- Follow established environment variable patterns for test configuration
+- Maintain test isolation and proper cleanup
+- Use established database setup/teardown patterns
+- Integration tests log files could be placed in src/integTest/**/logs/<service_name>.logs
+
+### Documentation Requirements
+- Add only minimal, necessary code comments
+- Do NOT create external documentation files
+- Focus on self-documenting code rather than extensive comments
+- Use existing swagger/OpenAPI definitions in apidocs/
+
+## WHEN MODIFYING EXISTING CODE
+
+### Refactoring Guidelines
+- When moving code, respect established package boundaries when possible
+- Maintain existing function signatures when possible
+- Preserve established error handling patterns
+- Keep existing logging statements and add new ones following zap patterns
+- Maintain backward compatibility for internal APIs
+
+### Adding Features
+- Follow established API versioning when adding endpoints
+- Use existing middleware patterns for new functionality
+- Prefer extending existing configuration structures rather than creating new ones if possible
+- Add tests following existing patterns and organization
+- Use established database migration patterns if schema changes are needed
+
+## ENVIRONMENT AND DEPLOYMENT
+
+### Environment Configuration
+- Use established environment variable patterns
+- Add new config to internal/config package following existing patterns
+- Use helpers package for environment variable access
+- Maintain separation between local, AWS, and GCP configurations
+- Follow established patterns for secrets management
+
+### Build Integration
+- Integrate with existing Makefile targets
+- Do NOT create alternative build processes
+- Use established Gradle integration for distribution
+- Follow existing Docker patterns for containerization
+- Maintain compatibility with existing CI/CD processes
+
+## PERFORMANCE TESTING
+
+### K6 Load Testing
+- Deploy tests using ./src/perfTest/k6/run-test.sh
+- Configure tests via src/perfTest/k6/k6-config.yaml
+- Stream K6 logs in real-time during execution
+
+### Load Testing with monitoring and analysis
+- Follow the performance test execution guide in src/perfTest/k6/perf-test-with-monitoring-execution-guide.md
+- Always create timestamped test directories: load_test_$(date +%Y%m%d_%H%M%S)
+- Use the guide's 5-phase approach: Pre-Test Setup, Monitoring Setup, Test Execution, Post-Test Collection, Analysis
+- Never modify test artifacts or logs until analysis is complete
+- Use src/perfTest/scripts/monitor_service.sh for metrics collection
+- Create Python analysis scripts following the guide's templates

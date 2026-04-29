@@ -1,0 +1,23 @@
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Gemini embedding models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings"
+models:
+  - name: gemini-embedding-001
+    version: '001'
+    label: Gemini Embedding 001
+    functionalCapabilities: ["embedding"]
+    endpoints:
+      - path: /embeddings
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [embedding]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens for input
+        type: integer
+        maximum: 2048
+        required: false

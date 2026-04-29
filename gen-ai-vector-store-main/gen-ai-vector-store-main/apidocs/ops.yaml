@@ -1,0 +1,330 @@
+openapi: 3.0.1
+info:
+  title: Vector Store Operations API
+  description: Vector Store Operations API
+  contact:
+    email: Jarvis@pega.com
+  version: 2.0.0
+paths:
+  "/v1/isolations/{isolationID}":
+    get:
+      tags:
+        - GOCDisabled
+        - Isolations
+      summary: Get isolation tables and schema
+      description: Get isolation data
+      parameters:
+        - name: isolationID
+          in: path
+          schema:
+            type: string
+          description: ID of the isolation
+          required: true
+      responses:
+        200:
+          description: Isolation details returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Isolation'
+        400:
+          description: Bad request. Invalid input.
+        500:
+          description: Internal Server Error.
+    put:
+      tags:
+        - GOCDisabled
+        - Isolations
+      summary: Update isolation details
+      description: "Update isolation details"
+      parameters:
+        - name: isolationID
+          in: path
+          schema:
+            type: string
+          description: ID of the isolation
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Isolation'
+      responses:
+        200:
+          description: Isolation details updated successfully.
+        400:
+          description: Bad request. Invalid input.
+        404:
+          description: Isolation not found.
+        500:
+          description: Internal Server Error.
+    delete:
+      tags:
+        - GOCDisabled
+        - Isolations
+      summary: Delete isolation tables and schema
+      description: "Delete 3 tables: attributes, documents, embeddings for isolationID"
+      parameters:
+        - name: isolationID
+          in: path
+          schema:
+            type: string
+          description: ID of the isolation
+          required: true
+      responses:
+        200:
+          description: Isolation tables deleted successfully.
+        400:
+          description: Bad request. Invalid input.
+        500:
+          description: Internal Server Error.
+  "/v1/isolations":
+    post:
+      tags:
+        - GOCDisabled
+        - Isolations
+      summary: Create isolation tables and schema
+      description: "Register isolation with details, like: maxStorageSize"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IsolationRequest'
+      responses:
+        200:
+          description: Isolation registered successfully.
+        400:
+          description: Bad request. Invalid input.
+        500:
+          description: Internal Server Error.
+  "/v1/ops/{isolationID}/documents":
+    post:
+      tags:
+        - Metrics
+      operationId: retrieveDocumentsMetrics
+      scope: "pega.genai-vector-store-ops:operations.read"
+      summary: Retrieve documents metrics data for isolation for GOC Dashboard
+      description: "Retrieve data regarding documents within isolation for GOC Dashboard, like: volume, last ingestion, number of documents"
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+          example: "483bd0b8-1cc0-45a8-83ea-9f7840e14622"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentsMetricsRequest'
+      responses:
+        200:
+          description: Get documents data successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentsMetrics'
+        400:
+          description: Bad request. Invalid input.
+        500:
+          description: Internal Server Error.
+  "/v1/ops/{isolationID}/documentsDetails":
+    post:
+      tags:
+        - Metrics
+      operationId: retrieveDocumentsMetricsDetails
+      scope: "pega.genai-vector-store-ops:operations.read"
+      summary: Retrieve documents metrics details for each collection within isolation for GOC Dashboard
+      description: "Retrieve detailed documents metrics for each collection within isolation for GOC Dashboard, like: volume, last ingestion, number of documents"
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentsMetricsDetailsRequest'
+      responses:
+        200:
+          description: Get detailed documents metrics data successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentsMetricsDetailsResponse'
+        400:
+          description: Bad request. Invalid input.
+        500:
+          description: Internal Server Error.
+  "/v1/db/size":
+    get:
+      tags:
+        - DBState
+      operationId: getDatabaseSize
+      scope: "pega.genai-vector-store-ops:operations.read"
+      summary: Get database size
+      description: Returns total database size in bytes via pg_database_size()
+      responses:
+        200:
+          description: Database size returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseSize'
+        500:
+          description: "Error: Internal Server Error."
+          content:
+            application/json:
+              schema:
+                type: object
+  "/v1/db/configuration":
+    get:
+      tags:
+        - DBState
+      operationId: getDbConfiguration
+      scope: "pega.genai-vector-store-ops:operations.read"
+      responses:
+        200:
+          description: Isolation details returned successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DBConfiguration'
+        401:
+          description: "Error: Unauthenticated."
+        500:
+          description: "Error: Internal Server Error."
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    DatabaseSize:
+      description: Database size in bytes
+      type: object
+      properties:
+        used_bytes:
+          description: Total database size in bytes.
+          type: integer
+          format: int64
+          example: 1073741824
+    DBConfiguration:
+      description: DB configuration
+      type: object
+      properties:
+        Key:
+          description: Key.
+          type: string
+          example: "modification_v01_fix_indexes"
+        Value:
+          description: Value
+          type: string
+          example: "completed"
+    IsolationRequest:
+      type: object
+      properties:
+        maxStorageSize:
+          description: Max Storage Size.
+          type: string
+          example: 1GB
+        pdcEndpointURL:
+          description: PDC Endpoint URL.
+          type: string
+          example: https://pdc.example.com
+    Isolation:
+      type: object
+      properties:
+        ID:
+          description: The isolation identifier.
+          type: string
+          example: e8271ca1-b1d4-49d1-85df-38abe524b692
+        maxStorageSize:
+          description: Max Storage Size.
+          type: string
+          example: 1GB
+        pdcEndpointURL:
+          description: PDC Endpoint URL.
+          type: string
+          example: https://pdc.example.com
+        createdAt:
+          description: Time the isolation was registered.
+          type: string
+          example: "2024-01-15T12:45:43.005523Z"
+        modifiedAt:
+          description: Time the isolation was modified.
+          type: string
+          example: "2024-01-15T12:45:43.005523Z"
+        collectionNames:
+          description: List of collection names registered under this isolation.
+          type: array
+          items:
+            type: string
+          example: ["default", "knowledgebuddy"]
+    DocumentsMetricsRequest:
+      type: object
+      properties:
+        Metrics:
+          description: Sort of data that should be returned in response.
+          type: array
+          items:
+            type: string
+          example: [ diskUsage, documentsCount, documentsModification ]
+    CollectionsMetrics:
+      type: object
+      properties:
+        ID:
+          description: Collection ID.
+          type: string
+          example: "default"
+        DocumentsDetailsMetrics:
+          description: Set of documents related metrics for given collection.
+          type: object
+          format: DocumentsMetrics
+          example: {
+            "diskUsage": 32768,
+            "documentsCount": 3,
+            "documentsModification": "2024-06-20T10:03:19.25555Z"
+          }
+    DocumentsMetrics:
+      type: object
+      properties:
+        DiskUsage:
+          description: Total disk usage per given isolation in bytes.
+          type: integer
+          format: int64
+          example: 32768
+        DocumentsCount:
+          description: Total number of documents within given isolation.
+          type: integer
+          example: 600
+        DocumentsModification:
+          description: Date of last modification performed within given isolation.
+          type: string
+          format: date-time
+          example: "2024-02-15T12:45:43.005523Z"
+    DocumentsMetricsDetailsRequest:
+      type: object
+      properties:
+        Metrics:
+          description: Specify what sort of data that should be returned in response.
+          type: array
+          items:
+            type: string
+          example: [ diskUsage, documentsCount, documentsModification ]
+    DocumentsMetricsDetailsResponse:
+      type: object
+      properties:
+        CollectionsMetrics:
+          description: Detailed documents metrics for collection within isolation
+          type: array
+          items:
+            $ref: "#/components/schemas/CollectionsMetrics"

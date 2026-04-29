@@ -1,0 +1,74 @@
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Gemini models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini"
+models:
+  - name: gemini-1.0-pro
+    version: v1
+    label: Gemini 1.0 Pro
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /generateContent
+      - path: :streamGenerateContent
+    capabilities:
+      features: [streaming, functionCalling]
+      inputModalities: [text]
+      outputModalities: [text]
+      mimeTypes: [text/plain]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 30720
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 2048
+        maximum: 2048
+        minimum: 1
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.9
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Top K parameter controlling predictability/diversity of output
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 40
+        required: false
+      candidateCount:
+        title: Candidate Count
+        description: Number of response candidates to generate
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 8
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Sequences that cause the model to stop generating
+        type: array
+        items:
+          type: string
+        default: []
+        required: false

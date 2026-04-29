@@ -1,0 +1,4 @@
+- productId: FnXCluster
+  productCatalogName: fnx-cloud-infrastructure-product-catalog
+  version: 1.49+ # dependency on CloudK 3.29
+  resourceGuid: "!e fn.select(prompts.ClusterGUID, cmdbService.labels().get('clusterguid'))"

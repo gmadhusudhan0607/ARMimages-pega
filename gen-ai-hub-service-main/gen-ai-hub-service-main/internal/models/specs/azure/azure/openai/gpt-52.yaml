@@ -1,0 +1,49 @@
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT-5.2 model family"
+  documentation: "https://platform.openai.com/docs/models/gpt-5.2"
+models:
+  - name: gpt-5.2
+    version: "2025-12-11"
+    label: "GPT-5.2"
+    id: openai.gpt-5.2-2025-12-11
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 400000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: null
+        maximum: 128000
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false

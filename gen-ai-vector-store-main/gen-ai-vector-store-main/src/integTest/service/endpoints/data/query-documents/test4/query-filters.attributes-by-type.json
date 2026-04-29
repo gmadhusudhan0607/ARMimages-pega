@@ -1,0 +1,12 @@
+{
+  "limit": 1000,
+  "maxDistance": 1.0,
+  "filters": {
+    "query": "Pega Labs?",
+    "attributes": [
+      {
+        "type": "string"
+      }
+    ]
+  }
+}

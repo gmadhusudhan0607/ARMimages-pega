@@ -1,0 +1,31 @@
+[
+  {
+    "id": "DOC-2-EMB-0",
+    "content": "Pega Labs",
+    "attributes": [
+      {
+        "name": "dataSource",
+        "value": [
+          "DS0"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "org",
+        "value": [
+          "tso"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "value": [
+          "v1"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "DOC-2",
+    "distance": 0
+  }
+]

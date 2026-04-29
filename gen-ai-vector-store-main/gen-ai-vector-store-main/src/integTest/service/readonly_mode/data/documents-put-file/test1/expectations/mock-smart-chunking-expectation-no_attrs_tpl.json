@@ -1,0 +1,14 @@
+{
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/v1/chunk",
+    "headers" : {
+      "vs-isolation-id":  "%s",
+      "vs-collection-id": "%s"
+    }
+  },
+  "httpResponse" : {
+    "statusCode": 200,
+    "body" : "{\n  \"documentName\": \"Astronomy\",\n  \"documentFileName\": \"Astronomy.md\",\n  \"documentChunks\": [\n    {\n      \"content\": \"some content 0\",\n      \"original\": \"some original content 0\",\n      \"index\": 0,\n      \"size\": 100,\n      \"attributes\": [\n        \"attribute 0.1\",\n        \"attribute 0.2\"\n      ]\n    },\n    {\n      \"content\": \"some content 1\",\n      \"original\": \"some original content 1\",\n      \"index\": 1,\n      \"size\": 101,\n      \"attributes\": [\n        \"attribute 1.1\",\n        \"attribute 1.2\"\n      ]\n    },\n    {\n      \"content\": \"some content 2\",\n      \"original\": \"some original content 2\",\n      \"index\": 2,\n      \"size\": 102,\n      \"attributes\": [\n        \"attribute 2.1\",\n        \"attribute 2.2\"\n      ]\n    }\n  ]\n}\n\n"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "limit": 100,
+  "maxDistance": 0.29,
+  "filters": {
+    "query": "Pega Labs?"
+  }
+}

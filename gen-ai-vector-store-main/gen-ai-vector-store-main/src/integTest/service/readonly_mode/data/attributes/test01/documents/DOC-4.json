@@ -1,0 +1,26 @@
+{
+  "id": "DOC-4",
+  "chunks": [
+    {
+      "content": "some text here",
+      "attributes": [
+        {
+          "name": "my number",
+          "value": [
+            "1"
+          ],
+          "type": "int"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "my number",
+      "value": [
+        "1"
+      ],
+      "type": "string"
+    }
+  ]
+}

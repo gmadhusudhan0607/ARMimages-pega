@@ -1,0 +1,2170 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+---
+openapi: 3.0.1
+info:
+  title: GenAI Hub Service
+  description: |
+    The GenAI Hub Service is an API gateway that routes Generative AI model requests to
+    cloud provider backends (Azure OpenAI, AWS Bedrock, Google Vertex AI). It provides a
+    unified authentication layer and model discovery interface.
+
+    ## API Ownership
+
+    This service **owns** the following endpoints:
+    - `GET /models` — Lists all available models and their capabilities
+    - `GET /models/defaults` — Returns default fast/smart/pro models
+
+    Use `GET /models` as the authoritative source for which models are currently available.
+    Model availability changes dynamically and is not hardcoded in this spec.
+    For the full list of supported models, see
+    [GenAI Gateway - Supported Models](https://knowledgehub.pega.com/GENAIINF:GenAI_Gateway_-_Supported_Models).
+
+    All other endpoints are **proxied** to cloud providers using their published APIs.
+    Request and response schemas for proxied endpoints are governed by the respective providers.
+    Sample request/response payloads are provided in each endpoint for convenience, but refer
+    to the provider documentation linked below for the authoritative specification.
+
+    ## Supported Provider APIs
+
+    The gateway integrates with the following provider APIs. Each provider section below
+    describes which API contract is used and what capabilities are available through it.
+
+    ### Azure OpenAI
+    API Reference: [Azure OpenAI REST API](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+
+    | Capability | Endpoint Pattern | API |
+    |---|---|---|
+    | Chat Completions | `/openai/deployments/{modelId}/chat/completions` | [Chat Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions) |
+    | Embeddings | `/openai/deployments/{modelId}/embeddings` | [Embeddings](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#embeddings) |
+    | Image Generation | `/openai/deployments/{modelId}/images/generations` | [Image Generation](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#image-generation) |
+    | Realtime (WebRTC) | `/openai/deployments/{modelId}/v1/realtime/*` | [Realtime API](https://platform.openai.com/docs/guides/realtime-webrtc) |
+
+    ### AWS Bedrock (Anthropic, Meta, Amazon, Mistral)
+    API Reference: [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html)
+
+    | Capability | Endpoint Pattern | API |
+    |---|---|---|
+    | Chat Completions | `/{provider}/deployments/{modelId}/converse` | [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) |
+    | Streaming Chat | `/{provider}/deployments/{modelId}/converse-stream` | [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) |
+    | Embeddings (Titan) | `/amazon/deployments/{modelId}/invoke` | [InvokeModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html) |
+
+    Where `{provider}` is one of: `anthropic`, `meta`, `amazon`, `mistral`.
+
+    ### Google Vertex AI
+    API Reference: [Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs)
+
+    | Capability | Endpoint Pattern | API |
+    |---|---|---|
+    | Chat Completions | `/google/deployments/{modelId}/chat/completions` | [OpenAI Compatibility](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/call-vertex-using-openai-library/) |
+    | Embeddings | `/google/deployments/{modelId}/embeddings` | [Text Embeddings](https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings) |
+    | Gemini Native | `/google/deployments/{modelId}/generateContent` | [GenerateContent](https://ai.google.dev/gemini-api/docs) |
+    | Imagen | `/google/deployments/{modelId}/images/generations` | [Imagen](https://cloud.google.com/vertex-ai/generative-ai/docs/image/generate-images) |
+
+    ## Authentication
+
+    All endpoints require a Bearer token (JWT) obtained via SAX/OAuth2 authentication.
+    Pass it in the `Authorization` header:
+    ```
+    Authorization: Bearer <JWT_TOKEN>
+    ```
+
+    ## Response Headers
+
+    The gateway adds the following response headers for observability:
+
+    **Non-streaming responses (HTTP headers):**
+    - `X-Genai-Gateway-Response-Time-Ms` — Response time in milliseconds
+    - `X-Genai-Gateway-Input-Tokens` — Number of input tokens
+    - `X-Genai-Gateway-Output-Tokens` — Number of output tokens
+    - `X-Genai-Gateway-Reasoning-Tokens` — Reasoning tokens (only for reasoning models)
+
+    **Streaming responses (HTTP trailers, available after body is fully consumed):**
+    - `X-Genai-Gateway-Input-Tokens` — Number of input tokens
+    - `X-Genai-Gateway-Output-Tokens` — Number of output tokens
+    - `X-Genai-Gateway-Reasoning-Tokens` — Reasoning tokens (only for reasoning models)
+
+    Note: To receive usage metrics in streaming mode, set `stream_options.include_usage: true` in the request body.
+
+    ## API Versioning
+
+    The service governs the Azure OpenAI API version internally. All requests to Azure
+    OpenAI backends currently use API version `2024-10-21`. Clients do not need to specify
+    an API version.
+
+  contact:
+    email: Jarvis@pega.com
+  version: 3.0.0
+
+servers:
+  - url: "http://genai-hub-service.genai-hub-service.svc.cluster.local:443"
+    description: In-cluster service endpoint
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Models
+    description: GenAI Gateway owned endpoints for model discovery and defaults.
+  - name: Azure OpenAI
+    description: >
+      Proxy endpoints for Azure OpenAI models. Uses the
+      [Azure OpenAI REST API](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference).
+  - name: Realtime
+    description: >
+      WebRTC realtime endpoints for audio/text interaction using the
+      [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime-webrtc).
+  - name: Bedrock - Anthropic
+    description: >
+      Proxy endpoints for Anthropic models via AWS Bedrock
+      [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+  - name: Bedrock - Meta
+    description: >
+      Proxy endpoints for Meta Llama models via AWS Bedrock
+      [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+  - name: Bedrock - Amazon
+    description: >
+      Proxy endpoints for Amazon models (Nova, Titan) via AWS Bedrock.
+  - name: Bedrock - Mistral
+    description: >
+      Proxy endpoints for Mistral models via AWS Bedrock
+      [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+  - name: Google Vertex AI
+    description: >
+      Proxy endpoints for Google Vertex AI models. Chat completions use the
+      [OpenAI-compatible API](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/call-vertex-using-openai-library/).
+      Native endpoints use the [Gemini API](https://ai.google.dev/gemini-api/docs).
+  - name: Buddies
+    description: Knowledge Buddy question-answering endpoints.
+
+paths:
+  # ===========================================================================
+  # OWNED ENDPOINTS — Full schema documentation
+  # ===========================================================================
+
+  /models:
+    get:
+      summary: List available GenAI models
+      description: >
+        Returns a list of all models available for use through the GenAI Gateway,
+        including their capabilities, parameters, deprecation status, and routing paths.
+        This is an endpoint owned by the GenAI Gateway Service.
+      operationId: listModels
+      tags:
+        - Models
+      responses:
+        '200':
+          description: Successfully retrieved the list of available models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelsResponse'
+        '401':
+          description: Unauthorized — missing or invalid Bearer token
+        '500':
+          description: Internal server error
+
+  /models/defaults:
+    get:
+      summary: Get default fast, smart, and pro models
+      description: >
+        Returns the default models configured for fast, smart, and pro tiers.
+        The pro model is optional and controlled by a feature flag.
+        This is an endpoint owned by the GenAI Gateway Service.
+      operationId: getDefaultModels
+      tags:
+        - Models
+      responses:
+        '200':
+          description: Successfully retrieved default models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultModels'
+        '401':
+          description: Unauthorized — missing or invalid Bearer token
+        '500':
+          description: Failed to retrieve default model mappings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ===========================================================================
+  # AZURE OPENAI PROXY ENDPOINTS
+  # ===========================================================================
+
+  /openai/deployments/{modelId}/chat/completions:
+    post:
+      summary: Chat completions (Azure OpenAI)
+      description: >
+        Creates a chat completion using Azure OpenAI models. The request and response
+        follow the [Azure OpenAI Chat Completions API](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions).
+        Supports streaming via `stream: true`. When streaming, set `stream_options.include_usage: true`
+        to receive token usage metrics in HTTP trailer headers.
+      operationId: openaiChatCompletions
+      tags:
+        - Azure OpenAI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The OpenAI model deployment name.
+          schema:
+            type: string
+          example: gpt-4.1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenAIChatCompletionRequest'
+            examples:
+              basic:
+                summary: Basic chat completion
+                value:
+                  messages:
+                    - role: system
+                      content: "You are a Go programmer."
+                    - role: user
+                      content: "Write \"Hello world\" program."
+              streaming:
+                summary: Streaming chat completion
+                value:
+                  stream: true
+                  messages:
+                    - role: system
+                      content: "You are a Go programmer."
+                    - role: user
+                      content: "Write \"Hello world\" program."
+      responses:
+        '200':
+          description: "Chat completion response (or SSE stream if stream: true)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIChatCompletionResponse'
+            text/event-stream:
+              schema:
+                type: string
+                description: "Server-sent events stream. Each event is prefixed with 'data: ' and contains a JSON chunk. The stream terminates with 'data: [DONE]'."
+        default:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIErrorResponse'
+
+  /openai/deployments/{modelId}/embeddings:
+    post:
+      summary: Generate embeddings (Azure OpenAI)
+      description: >
+        Generates vector embeddings for the given input text using Azure OpenAI embedding models.
+        Follows the [Azure OpenAI Embeddings API](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#embeddings).
+      operationId: openaiEmbeddings
+      tags:
+        - Azure OpenAI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The OpenAI embedding model deployment name.
+          schema:
+            type: string
+          example: text-embedding-3-large
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              properties:
+                input:
+                  description: >
+                    Input text to embed. Can be a single string or an array of strings for batch embedding.
+                  oneOf:
+                    - type: string
+                      example: "What happens when extended support expires for Pega products"
+                    - type: array
+                      items:
+                        type: string
+                      minItems: 1
+                      maxItems: 2048
+                user:
+                  type: string
+                  description: A unique identifier representing your end-user.
+                input_type:
+                  type: string
+                  description: Input type for the embedding (e.g., "query", "document").
+                  example: query
+              required:
+                - input
+      responses:
+        '200':
+          description: Embedding vectors generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIEmbeddingsResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /openai/deployments/{modelId}/images/generations:
+    post:
+      summary: Generate images (Azure OpenAI / DALL-E)
+      description: >
+        Generates images from a text prompt using DALL-E models via Azure OpenAI.
+        Follows the [Azure OpenAI Image Generation API](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#image-generation).
+      operationId: openaiImageGeneration
+      tags:
+        - Azure OpenAI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The DALL-E model deployment name.
+          schema:
+            type: string
+          example: dall-e-3
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenAIImageGenerationRequest'
+            examples:
+              basic:
+                summary: Basic image generation
+                value:
+                  prompt: "Draw a colorful flower in a vase"
+                  n: 1
+                  size: "1024x1024"
+                  quality: "standard"
+                  style: "vivid"
+                  response_format: "b64_json"
+      responses:
+        '200':
+          description: Images generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIImageGenerationResponse'
+        default:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIErrorResponse'
+
+  # ===========================================================================
+  # OPENAI REALTIME (WebRTC) ENDPOINTS
+  # ===========================================================================
+
+  /openai/deployments/{modelId}/v1/realtime/client_secrets:
+    post:
+      summary: Create ephemeral client secret for WebRTC
+      description: >
+        Creates an ephemeral client secret for establishing a WebRTC realtime session.
+        The secret is short-lived and should be used immediately for the SDP exchange.
+        See the [OpenAI Realtime API documentation](https://platform.openai.com/docs/guides/realtime-webrtc).
+      operationId: realtimeClientSecrets
+      tags:
+        - Realtime
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The OpenAI realtime model deployment name.
+          schema:
+            type: string
+          example: gpt-realtime-mini
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              properties:
+                session:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: realtime
+                    model:
+                      type: string
+                      description: The realtime model to use.
+                      example: gpt-realtime-mini
+                    instructions:
+                      type: string
+                      description: System instructions for the realtime session.
+                      example: "You are a helpful assistant. Always respond in English."
+                    audio:
+                      type: object
+                      properties:
+                        output:
+                          type: object
+                          properties:
+                            voice:
+                              type: string
+                              description: The voice to use for audio output.
+                              example: echo
+            examples:
+              basic:
+                summary: Create ephemeral token
+                value:
+                  session:
+                    type: realtime
+                    model: gpt-realtime-mini
+                    instructions: "You are a helpful assistant."
+                    audio:
+                      output:
+                        voice: echo
+      responses:
+        '200':
+          description: Ephemeral client secret created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  client_secret:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                        description: The ephemeral token value.
+                      expires_at:
+                        type: integer
+                        description: Unix timestamp when the token expires.
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /openai/deployments/{modelId}/v1/realtime/calls:
+    post:
+      summary: Establish WebRTC session via SDP exchange
+      description: >
+        Initiates a WebRTC realtime connection by exchanging SDP (Session Description Protocol)
+        offers and answers. The client sends an SDP offer and receives an SDP answer.
+        Requires an ephemeral token obtained from the `client_secrets` endpoint.
+        See the [OpenAI Realtime API documentation](https://platform.openai.com/docs/guides/realtime-webrtc).
+      operationId: realtimeCalls
+      tags:
+        - Realtime
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The OpenAI realtime model deployment name.
+          schema:
+            type: string
+          example: gpt-realtime-mini
+        - name: model
+          in: query
+          required: false
+          description: The model to use for the realtime session.
+          schema:
+            type: string
+            example: gpt-realtime-mini
+      requestBody:
+        required: true
+        content:
+          application/sdp:
+            schema:
+              type: string
+              description: SDP offer from the client.
+      responses:
+        '200':
+          description: SDP answer for WebRTC session establishment
+          content:
+            application/sdp:
+              schema:
+                type: string
+                description: SDP answer from the server.
+        '400':
+          description: Bad request or invalid SDP offer
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # AWS BEDROCK — ANTHROPIC
+  # ===========================================================================
+
+  /anthropic/deployments/{modelId}/{targetApi}:
+    post:
+      summary: Anthropic models via Bedrock Converse API
+      description: >
+        Routes requests to Anthropic models (Claude) hosted on AWS Bedrock using the
+        [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+        The `targetApi` path parameter determines the API variant: `converse` for non-streaming
+        or `converse-stream` for streaming responses.
+      operationId: anthropicConverse
+      tags:
+        - Bedrock - Anthropic
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Anthropic model deployment name.
+          schema:
+            type: string
+          example: claude-sonnet-4-6
+        - $ref: '#/components/parameters/targetApi'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BedrockConverseRequest'
+            examples:
+              basic:
+                summary: Basic Anthropic converse request
+                value:
+                  system:
+                    - text: "You are a Go programmer."
+                  messages:
+                    - role: user
+                      content:
+                        - text: "Write \"Hello world\" program."
+              claude35Sonnet:
+                summary: Claude 3.5 Sonnet with inference config
+                value:
+                  system:
+                    - text: "You are a helpful assistant."
+                  messages:
+                    - role: user
+                      content:
+                        - text: "Explain quantum computing in simple terms."
+                  inferenceConfig:
+                    max_tokens: 200
+                    temperature: 0.7
+      responses:
+        '200':
+          description: Converse API response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BedrockConverseResponse'
+        '400':
+          description: Bad request — invalid model or malformed request body
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # AWS BEDROCK — META
+  # ===========================================================================
+
+  /meta/deployments/{modelId}/{targetApi}:
+    post:
+      summary: Meta Llama models via Bedrock Converse API
+      description: >
+        Routes requests to Meta Llama models on AWS Bedrock using the
+        [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+        The `targetApi` path parameter determines the API variant: `converse` for non-streaming
+        or `converse-stream` for streaming responses.
+      operationId: metaConverse
+      tags:
+        - Bedrock - Meta
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Meta Llama model deployment name.
+          schema:
+            type: string
+          example: llama3-8b-instruct
+        - $ref: '#/components/parameters/targetApi'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BedrockConverseRequest'
+            examples:
+              llama3:
+                summary: Llama 3 converse request
+                value:
+                  system:
+                    - text: "You are a Go programmer."
+                  messages:
+                    - role: user
+                      content:
+                        - text: "Write \"Hello world\" program."
+      responses:
+        '200':
+          description: Converse API response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BedrockConverseResponse'
+        '400':
+          description: Bad request — invalid model or malformed request body
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # AWS BEDROCK — AMAZON
+  # ===========================================================================
+
+  /amazon/deployments/{modelId}/{targetApi}:
+    post:
+      summary: Amazon models via Bedrock (Nova chat, Titan/Nova embeddings)
+      description: >
+        Routes requests to Amazon models on AWS Bedrock. For chat completions (Nova models),
+        uses the [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+        For embeddings, uses the [Invoke API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html).
+        The `targetApi` path parameter determines the API variant: `converse`, `converse-stream`, or `invoke`.
+      operationId: amazonBedrock
+      tags:
+        - Bedrock - Amazon
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Amazon model deployment name (Nova for chat, Titan for embeddings).
+          schema:
+            type: string
+          example: titan-embed-text
+        - $ref: '#/components/parameters/targetApi'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/BedrockConverseRequest'
+                - $ref: '#/components/schemas/TitanEmbeddingsRequest'
+                - $ref: '#/components/schemas/Nova2MultimodalEmbeddingsRequest'
+            examples:
+              titanEmbeddings:
+                summary: Titan Text Embedding v2 request
+                value:
+                  inputText: "What happens when extended support expires for Pega products"
+              novaEmbeddings:
+                summary: Nova 2 Multimodal Embeddings (text)
+                value:
+                  taskType: SINGLE_EMBEDDING
+                  singleEmbeddingParams:
+                    embeddingPurpose: GENERIC_INDEX
+                    embeddingDimension: 1024
+                    text:
+                      truncationMode: END
+                      value: "What happens when extended support expires for Pega products"
+              novaChat:
+                summary: Nova chat completion via Converse
+                value:
+                  system:
+                    - text: "You are a Go programmer."
+                  messages:
+                    - role: user
+                      content:
+                        - text: "Write \"Hello world\" program."
+      responses:
+        '200':
+          description: Response varies by targetApi (Converse response or embedding vector)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/BedrockConverseResponse'
+                  - $ref: '#/components/schemas/TitanEmbeddingsResponse'
+                  - $ref: '#/components/schemas/Nova2MultimodalEmbeddingsResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # AWS BEDROCK — MISTRAL
+  # ===========================================================================
+
+  /mistral/deployments/{modelId}/{targetApi}:
+    post:
+      summary: Mistral models via Bedrock Converse API
+      description: >
+        Routes requests to Mistral models on AWS Bedrock using the
+        [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+        The `targetApi` path parameter determines the API variant: `converse` for non-streaming
+        or `converse-stream` for streaming responses.
+      operationId: mistralConverse
+      tags:
+        - Bedrock - Mistral
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Mistral model deployment name.
+          schema:
+            type: string
+          example: mistral-large
+        - $ref: '#/components/parameters/targetApi'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BedrockConverseRequest'
+            examples:
+              basic:
+                summary: Mistral converse request
+                value:
+                  system:
+                    - text: "You are a Go programmer."
+                  messages:
+                    - role: user
+                      content:
+                        - text: "Write \"Hello world\" program."
+      responses:
+        '200':
+          description: Converse API response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BedrockConverseResponse'
+        '400':
+          description: Bad request — invalid model or malformed request body
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # GOOGLE VERTEX AI ENDPOINTS
+  # ===========================================================================
+
+  /google/deployments/{modelId}/chat/completions:
+    post:
+      summary: Chat completions (Google Vertex AI, OpenAI-compatible)
+      description: >
+        Generates chat completions using Google Vertex AI models through the
+        [OpenAI-compatible API](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/call-vertex-using-openai-library/).
+        Supports streaming via `stream: true`.
+      operationId: googleChatCompletions
+      tags:
+        - Google Vertex AI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Gemini model deployment name.
+          schema:
+            type: string
+          example: gemini-2.5-flash
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleChatCompletionRequest'
+            examples:
+              basic:
+                summary: Basic Gemini chat completion
+                value:
+                  model: "google/gemini-2.5-flash"
+                  messages:
+                    - role: system
+                      content: "You are a Go programmer."
+                    - role: user
+                      content: "Write \"Hello world\" program."
+              streaming:
+                summary: Streaming Gemini chat completion
+                value:
+                  stream: true
+                  model: "google/gemini-2.5-flash"
+                  messages:
+                    - role: system
+                      content: "You are a Go programmer."
+                    - role: user
+                      content: "Write \"Hello world\" program."
+      responses:
+        '200':
+          description: "Chat completion response (or SSE stream if stream: true)"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenAIChatCompletionResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /google/deployments/{modelId}/embeddings:
+    post:
+      summary: Generate embeddings (Google Vertex AI)
+      description: >
+        Generates text embeddings using Google Vertex AI models.
+        See the [Vertex AI Embeddings documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings).
+      operationId: googleEmbeddings
+      tags:
+        - Google Vertex AI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Google embedding model deployment name.
+          schema:
+            type: string
+          example: text-multilingual-embedding-002
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  description: The model ID to use for text embedding.
+                  example: "text-multilingual-embedding-002"
+                texts:
+                  type: array
+                  items:
+                    type: string
+                  description: List of texts to embed.
+                  example: ["What happens when extended support expires for Pega products"]
+              required:
+                - model
+                - texts
+      responses:
+        '200':
+          description: Embeddings generated successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    statistics:
+                      type: object
+                      properties:
+                        token_count:
+                          type: number
+                          example: 6.0
+                        truncated:
+                          type: boolean
+                          example: false
+                    values:
+                      type: array
+                      items:
+                        type: number
+                      example: [-0.019, -0.068, 0.058]
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  /google/deployments/{modelId}/generateContent:
+    post:
+      summary: Generate content (Gemini native API)
+      description: >
+        Generates content using the native Gemini GenerateContent API. Supports text generation,
+        image generation (via `responseModalities: ["IMAGE"]`), and image editing with reference images.
+        See the [Gemini API documentation](https://ai.google.dev/gemini-api/docs).
+      operationId: geminiGenerateContent
+      tags:
+        - Google Vertex AI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Gemini model deployment name for native content generation.
+          schema:
+            type: string
+          example: gemini-2.5-flash-image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeminiGenerateContentRequest'
+            examples:
+              textToImage:
+                summary: Text-to-image generation
+                value:
+                  modelId: "google/gemini-3.1-flash-image-preview"
+                  contents:
+                    - role: user
+                      parts:
+                        - text: "Draw a colorful flower in a vase"
+                  generationConfig:
+                    responseModalities:
+                      - IMAGE
+              imageEditing:
+                summary: Image editing with reference image
+                value:
+                  contents:
+                    - role: user
+                      parts:
+                        - text: "Add a rainbow to this image"
+                        - inline_data:
+                            mime_type: "image/png"
+                            data: "<base64-encoded-image>"
+                  generationConfig:
+                    responseModalities:
+                      - IMAGE
+      responses:
+        '200':
+          description: Generated content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeminiGenerateContentResponse'
+        '400':
+          description: Bad request — invalid model ID or malformed request body
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limited
+        '500':
+          description: Internal server error
+
+  /google/deployments/{modelId}/images/generations:
+    post:
+      summary: Generate images (Google Vertex AI Imagen)
+      description: >
+        Generates images using Google Vertex AI Imagen models.
+        See the [Imagen API documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/image/generate-images).
+      operationId: googleImagenGeneration
+      tags:
+        - Google Vertex AI
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          description: The Imagen model deployment name.
+          schema:
+            type: string
+          example: imagen-4.0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImagenRequest'
+            examples:
+              basic:
+                summary: Basic Imagen generation
+                value:
+                  modelId: "imagen-4.0-generate-001"
+                  payload:
+                    prompt: "Draw a colorful flower in a vase"
+                    number_of_images: 1
+                    aspect_ratio: "1:1"
+                    safety_filter_level: "block_some"
+                    person_generation: "allow_all"
+      responses:
+        '200':
+          description: Images generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImagenResponse'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+  # ===========================================================================
+  # BUDDIES ENDPOINT
+  # ===========================================================================
+
+  /v1/{isolationId}/buddies/{buddyId}/question:
+    post:
+      summary: Submit a question to a Knowledge Buddy
+      description: >
+        Submits a question to a Knowledge Buddy instance for automated question answering.
+        Learn more about Knowledge Buddy in the
+        [documentation](https://kmbuddy.lab.pega.com/prweb/PRWebLDAP1/app/kmportal/help/PRIME).
+      operationId: submitBuddyQuestion
+      tags:
+        - Buddies
+      parameters:
+        - name: isolationId
+          in: path
+          required: true
+          description: The isolation ID for the tenant.
+          schema:
+            type: string
+            example: "iso-1"
+        - name: buddyId
+          in: path
+          required: true
+          description: The buddy instance identifier.
+          schema:
+            type: string
+            example: selfstudybuddy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              properties:
+                question:
+                  type: string
+                  description: The user's question.
+                questionSource:
+                  type: string
+                  description: The source of the question.
+                questionTag:
+                  type: string
+                  description: A tag associated with the question.
+                buddy:
+                  type: string
+                  description: The buddy name or identifier.
+                additionalTextInputs:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                filterAttributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      values:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+      responses:
+        '200':
+          description: Question answered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questionID:
+                    type: string
+                    description: Unique identifier for the submitted question.
+                  answer:
+                    type: string
+                    description: The generated answer.
+                  status:
+                    type: string
+                    description: Status indicating whether results were found.
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+
+# =============================================================================
+# COMPONENTS
+# =============================================================================
+
+components:
+
+  # ---------------------------------------------------------------------------
+  # PARAMETERS
+  # ---------------------------------------------------------------------------
+
+  parameters:
+    targetApi:
+      name: targetApi
+      in: path
+      required: true
+      description: >
+        The Bedrock API variant to use. Common values: `converse` (non-streaming),
+        `converse-stream` (streaming), `invoke` (embedding models).
+        Legacy values `chat/completions` and `embeddings` are also accepted for backward compatibility.
+      schema:
+        type: string
+        enum:
+          - converse
+          - converse-stream
+          - invoke
+          - chat/completions
+          - embeddings
+        example: converse
+
+  # ---------------------------------------------------------------------------
+  # SECURITY SCHEMES
+  # ---------------------------------------------------------------------------
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        JWT Bearer token. Pass it in the Authorization header as:
+        `Authorization: Bearer <token>`.
+        The token must include the audience claim `aud: backing-service`.
+
+  # ---------------------------------------------------------------------------
+  # SCHEMAS — OWNED ENDPOINTS
+  # ---------------------------------------------------------------------------
+
+  schemas:
+
+    # --- Models Response (GET /models) ---
+
+    ModelsResponse:
+      type: object
+      description: Response from the GET /models endpoint.
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelInfo'
+        errors:
+          type: array
+          description: Non-fatal errors encountered during model discovery.
+          items:
+            type: string
+
+    ModelInfo:
+      type: object
+      description: Information about a single model available in the gateway.
+      properties:
+        provider:
+          type: string
+          description: The cloud provider hosting the model (e.g., openai, anthropic, google, amazon, meta, mistral).
+          example: openai
+        creator:
+          type: string
+          description: The organization that created the model.
+          example: openai
+        model_name:
+          type: string
+          description: Human-readable display name of the model.
+          example: "GPT-4o"
+        description:
+          type: string
+          description: A brief description of the model's capabilities.
+          example: "Multimodal model with strong reasoning capabilities."
+        model_mapping_id:
+          type: string
+          description: Internal mapping identifier (omitted when empty).
+        name:
+          type: string
+          description: The deployment name used in API paths.
+          example: gpt-4.1
+        input_tokens:
+          type: integer
+          description: Maximum supported input tokens (omitted when not set).
+          example: 128000
+          nullable: true
+        output_tokens:
+          type: integer
+          description: Maximum supported output tokens (omitted when not set).
+          example: 16384
+          nullable: true
+        type:
+          type: string
+          description: >
+            The model type: `chat_completion`, `embedding`, `image`, or `realtime`.
+          enum:
+            - chat_completion
+            - embedding
+            - image
+            - realtime
+          example: chat_completion
+        model_id:
+          type: string
+          description: The underlying provider model identifier.
+          example: "gpt-4.1-2025-04-14"
+        default_model:
+          type: boolean
+          description: Whether this model is a default for its tier.
+          example: false
+        version:
+          type: string
+          description: Model version string.
+          example: "2024-08-06"
+        deprecation_info:
+          $ref: '#/components/schemas/DeprecationInfo'
+        supported_capabilities:
+          $ref: '#/components/schemas/SupportedCapabilities'
+        parameters:
+          type: object
+          description: Configurable parameters for this model.
+          additionalProperties:
+            $ref: '#/components/schemas/ParameterSpec'
+        alternate_model_info:
+          $ref: '#/components/schemas/AlternateModelInfo'
+        examples:
+          type: array
+          description: Example prompts for this model (omitted when empty).
+          items:
+            type: string
+        model_label:
+          type: string
+          description: Short label for UI display (legacy field).
+        model_path:
+          type: array
+          description: API paths for this model.
+          items:
+            type: string
+          example: ["/openai/deployments/gpt-4.1/chat/completions"]
+        lifecycle:
+          type: string
+          description: Lifecycle stage of the model.
+          enum:
+            - Generally Available
+            - Experimental
+            - Nearing Deprecation
+            - Deprecated
+          example: "Generally Available"
+        deprecation_date:
+          type: string
+          format: date
+          description: Scheduled deprecation date in ISO 8601 format (legacy field).
+
+    DeprecationInfo:
+      type: object
+      description: Model deprecation information.
+      properties:
+        is_deprecated:
+          type: boolean
+          description: Whether this model is currently deprecated.
+          example: false
+        scheduled_deprecation_date:
+          type: string
+          description: Scheduled deprecation date in ISO 8601 format.
+          example: "2025-06-30"
+
+    SupportedCapabilities:
+      type: object
+      description: Capabilities supported by the model.
+      properties:
+        streaming:
+          type: boolean
+          description: Whether the model supports streaming responses.
+          example: true
+        multimodal:
+          type: array
+          description: Supported modalities (e.g., text, image, audio).
+          items:
+            type: string
+          example: ["text", "image"]
+        functions:
+          type: boolean
+          description: Whether the model supports function/tool calling.
+          example: true
+        parallel_function_calling:
+          type: boolean
+          description: Whether the model supports parallel function calling.
+          example: true
+        json_mode:
+          type: boolean
+          description: Whether the model supports JSON mode output.
+          example: true
+        is_multimodal:
+          type: boolean
+          description: Whether the model accepts multimodal input.
+          example: true
+
+    ParameterSpec:
+      type: object
+      description: Specification for a configurable model parameter.
+      properties:
+        default:
+          description: The default value for the parameter.
+        description:
+          type: string
+          description: Human-readable description of the parameter.
+        maximum:
+          type: number
+          description: Maximum allowed value.
+        minimum:
+          type: number
+          description: Minimum allowed value.
+        title:
+          type: string
+          description: Display title for the parameter.
+        type:
+          type: string
+          description: The data type (e.g., number, integer, string, boolean).
+        required:
+          type: boolean
+          description: Whether the parameter is required.
+        examples:
+          type: array
+          description: Example values for the parameter.
+          items:
+            type: string
+
+    AlternateModelInfo:
+      type: object
+      description: Information about an alternate/fallback model.
+      properties:
+        name:
+          type: string
+          description: The alternate model's deployment name.
+        provider:
+          type: string
+          description: The alternate model's provider.
+        creator:
+          type: string
+          description: The alternate model's creator.
+
+    DefaultModels:
+      type: object
+      description: >
+        Default models for each performance tier.
+        The `pro` field is optional and controlled by a feature flag.
+      properties:
+        fast:
+          $ref: '#/components/schemas/ModelInfo'
+        smart:
+          $ref: '#/components/schemas/ModelInfo'
+        pro:
+          $ref: '#/components/schemas/ModelInfo'
+      required:
+        - fast
+        - smart
+
+    # --- Error Response ---
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing the failure.
+        statusCode:
+          type: integer
+          description: HTTP status code.
+        message:
+          type: string
+          description: Human-readable error message.
+
+    # ---------------------------------------------------------------------------
+    # SCHEMAS — AZURE OPENAI (proxy, sample schemas)
+    # ---------------------------------------------------------------------------
+
+    OpenAIChatCompletionRequest:
+      type: object
+      description: >
+        Azure OpenAI Chat Completion request body. See the
+        [Azure OpenAI API reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)
+        for the full specification.
+      additionalProperties: true
+      properties:
+        messages:
+          type: array
+          description: Messages comprising the conversation.
+          minItems: 1
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: The role of the message author.
+                enum: [system, user, assistant, tool, function]
+              content:
+                description: The message content (string or array of content parts).
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum: [text, image_url]
+                        text:
+                          type: string
+                        image_url:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            detail:
+                              type: string
+                              enum: [auto, low, high]
+            required:
+              - role
+        temperature:
+          type: number
+          description: Sampling temperature (0 to 2).
+          minimum: 0
+          maximum: 2
+        top_p:
+          type: number
+          description: Nucleus sampling parameter (0 to 1).
+          minimum: 0
+          maximum: 1
+        stream:
+          type: boolean
+          description: If true, returns a server-sent events stream.
+          default: false
+        stream_options:
+          type: object
+          properties:
+            include_usage:
+              type: boolean
+              description: If true, includes usage statistics in the final SSE chunk.
+              default: false
+        max_tokens:
+          type: integer
+          description: Maximum number of tokens to generate.
+        stop:
+          description: Up to 4 sequences where the API will stop generating.
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+              maxItems: 4
+        presence_penalty:
+          type: number
+          minimum: -2
+          maximum: 2
+        frequency_penalty:
+          type: number
+          minimum: -2
+          maximum: 2
+        tools:
+          type: array
+          description: Functions the model may call.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [function]
+              function:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  parameters:
+                    type: object
+                required:
+                  - name
+        tool_choice:
+          description: Controls function calling behavior.
+          oneOf:
+            - type: string
+              enum: [none, auto]
+            - type: object
+              properties:
+                type:
+                  type: string
+                  enum: [function]
+                function:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                  required:
+                    - name
+        response_format:
+          type: object
+          description: Response format control. Set `type` to `json_object` for JSON mode.
+          properties:
+            type:
+              type: string
+              enum: [text, json_object]
+        seed:
+          type: integer
+          description: Seed for deterministic sampling.
+        n:
+          type: integer
+          description: Number of completion choices to generate.
+          minimum: 1
+          default: 1
+      required:
+        - messages
+
+    OpenAIChatCompletionResponse:
+      type: object
+      description: >
+        Azure OpenAI Chat Completion response. See the
+        [Azure OpenAI API reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions)
+        for the full specification.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the completion.
+        object:
+          type: string
+          enum: [chat.completion]
+        created:
+          type: integer
+          description: Unix timestamp of creation.
+        model:
+          type: string
+          description: The model used.
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              finish_reason:
+                type: string
+                enum: [stop, length, content_filter, tool_calls, function_call]
+              message:
+                type: object
+                properties:
+                  role:
+                    type: string
+                    enum: [assistant]
+                  content:
+                    type: string
+                    nullable: true
+                  tool_calls:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum: [function]
+                        function:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            arguments:
+                              type: string
+        usage:
+          type: object
+          properties:
+            prompt_tokens:
+              type: integer
+            completion_tokens:
+              type: integer
+            total_tokens:
+              type: integer
+        system_fingerprint:
+          type: string
+      required:
+        - id
+        - object
+        - created
+        - model
+        - choices
+
+    OpenAIEmbeddingsResponse:
+      type: object
+      description: Azure OpenAI Embeddings response.
+      properties:
+        object:
+          type: string
+          example: list
+        model:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              object:
+                type: string
+              embedding:
+                type: array
+                items:
+                  type: number
+            required:
+              - index
+              - object
+              - embedding
+        usage:
+          type: object
+          properties:
+            prompt_tokens:
+              type: integer
+            total_tokens:
+              type: integer
+      required:
+        - object
+        - model
+        - data
+        - usage
+
+    OpenAIImageGenerationRequest:
+      type: object
+      description: Azure OpenAI DALL-E image generation request.
+      properties:
+        prompt:
+          type: string
+          description: Text description of the desired image.
+          minLength: 1
+          maxLength: 4000
+        n:
+          type: integer
+          description: Number of images to generate.
+          minimum: 1
+          maximum: 1
+          default: 1
+        size:
+          type: string
+          description: Image dimensions.
+          enum: ["1024x1024", "1792x1024", "1024x1792"]
+          default: "1024x1024"
+        response_format:
+          type: string
+          description: Format of generated images.
+          enum: [url, b64_json]
+          default: url
+        quality:
+          type: string
+          description: Image quality level.
+          enum: [standard, hd]
+          default: standard
+        style:
+          type: string
+          description: Image style.
+          enum: [vivid, natural]
+          default: vivid
+      required:
+        - prompt
+
+    OpenAIImageGenerationResponse:
+      type: object
+      description: Azure OpenAI DALL-E image generation response.
+      properties:
+        created:
+          type: integer
+          description: Unix timestamp.
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: URL to download the generated image (if response_format is url).
+              b64_json:
+                type: string
+                description: Base64-encoded image data (if response_format is b64_json).
+              revised_prompt:
+                type: string
+                description: The prompt that was used if it was revised.
+      required:
+        - created
+        - data
+
+    OpenAIErrorResponse:
+      type: object
+      description: Azure OpenAI error response.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            param:
+              type: string
+            type:
+              type: string
+
+    # ---------------------------------------------------------------------------
+    # SCHEMAS — BEDROCK CONVERSE API (proxy, sample schemas)
+    # ---------------------------------------------------------------------------
+
+    BedrockConverseRequest:
+      type: object
+      description: >
+        AWS Bedrock Converse API request body. See the
+        [Converse API reference](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html)
+        for the full specification.
+      additionalProperties: true
+      properties:
+        modelId:
+          type: string
+          description: The Bedrock model ID.
+          example: "anthropic.claude-3-haiku-20240307-v1:0"
+        messages:
+          type: array
+          description: The conversation messages.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: Message role (user or assistant).
+                enum: [user, assistant]
+                example: user
+              content:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                      description: Text content.
+                      example: "What is a black hole?"
+                  required:
+                    - text
+            required:
+              - role
+              - content
+        system:
+          type: array
+          description: System prompt messages.
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: System prompt text.
+                example: "You are a helpful assistant."
+            required:
+              - text
+        inferenceConfig:
+          type: object
+          description: Inference parameters.
+          properties:
+            max_tokens:
+              type: integer
+              description: Maximum tokens to generate.
+              example: 200
+            temperature:
+              type: number
+              description: Sampling temperature (0 to 1).
+              minimum: 0
+              maximum: 1
+              example: 1
+            top_p:
+              type: number
+              description: Nucleus sampling parameter.
+              minimum: 0
+              maximum: 1
+              example: 0.999
+      required:
+        - messages
+
+    BedrockConverseResponse:
+      type: object
+      description: >
+        AWS Bedrock Converse API response. See the
+        [Converse API reference](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html)
+        for the full specification.
+      properties:
+        output:
+          type: object
+          properties:
+            message:
+              type: object
+              properties:
+                role:
+                  type: string
+                  example: assistant
+                content:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        example: "Hello! How can I assist you today?"
+        stopReason:
+          type: string
+          description: Reason the generation stopped.
+          example: end_turn
+        usage:
+          type: object
+          properties:
+            inputTokens:
+              type: integer
+              example: 10
+            outputTokens:
+              type: integer
+              example: 12
+            totalTokens:
+              type: integer
+              example: 22
+        metrics:
+          type: object
+          properties:
+            latencyMs:
+              type: integer
+              description: Response latency in milliseconds.
+              example: 327
+
+    # ---------------------------------------------------------------------------
+    # SCHEMAS — AMAZON BEDROCK EMBEDDINGS
+    # ---------------------------------------------------------------------------
+
+    TitanEmbeddingsRequest:
+      type: object
+      description: Amazon Titan Text Embedding v2 request body.
+      properties:
+        inputText:
+          type: string
+          description: The text to embed.
+          example: "The Text Titan Embedding v2 model is provided by Amazon"
+      required:
+        - inputText
+
+    TitanEmbeddingsResponse:
+      type: object
+      description: Amazon Titan Text Embedding v2 response.
+      properties:
+        embedding:
+          type: array
+          items:
+            type: number
+          description: The embedding vector.
+        inputTextTokenCount:
+          type: integer
+          description: Number of tokens in the input text.
+
+    Nova2MultimodalEmbeddingsRequest:
+      type: object
+      description: >
+        Amazon Nova 2 Multimodal Embeddings request.
+        Supports text, image, video, and audio. Use `SINGLE_EMBEDDING` for text/image,
+        `SEGMENTED_EMBEDDING` for video/audio.
+      properties:
+        taskType:
+          type: string
+          enum: [SINGLE_EMBEDDING, SEGMENTED_EMBEDDING]
+          example: SINGLE_EMBEDDING
+        singleEmbeddingParams:
+          type: object
+          description: Parameters for single embedding (text/image).
+          properties:
+            embeddingPurpose:
+              type: string
+              enum: [GENERIC_INDEX]
+              example: GENERIC_INDEX
+            embeddingDimension:
+              type: integer
+              enum: [3072, 1024, 384, 256]
+              example: 1024
+            text:
+              type: object
+              properties:
+                truncationMode:
+                  type: string
+                  enum: [END, START]
+                  example: END
+                value:
+                  type: string
+                  example: "Your text content to embed here"
+              required:
+                - truncationMode
+                - value
+            image:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [png, jpeg, gif, webp]
+                source:
+                  type: object
+                  properties:
+                    bytes:
+                      type: string
+                      description: Base64-encoded image data.
+        segmentedEmbeddingParams:
+          type: object
+          description: Parameters for segmented embedding (video/audio).
+          properties:
+            embeddingPurpose:
+              type: string
+              enum: [GENERIC_INDEX]
+            embeddingDimension:
+              type: integer
+              enum: [3072, 1024, 384, 256]
+            video:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [mp4, mov, mkv, webm, flv, mpeg, mpg, wmv, three_gp]
+                embeddingMode:
+                  type: string
+                  enum: [VIDEO_ONLY, AUDIO_ONLY, AUDIO_VIDEO_COMBINED, AUDIO_VIDEO_SEPARATE]
+                source:
+                  type: object
+                  properties:
+                    s3Location:
+                      type: object
+                      properties:
+                        uri:
+                          type: string
+                          example: "s3://my-bucket/path/to/video.mp4"
+                segmentationConfig:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum: [FIXED_LENGTH, SHOT_BASED, SEMANTIC]
+                    fixedLengthSegmentationConfig:
+                      type: object
+                      properties:
+                        segmentLengthSeconds:
+                          type: integer
+                        overlapSeconds:
+                          type: integer
+      required:
+        - taskType
+
+    Nova2MultimodalEmbeddingsResponse:
+      type: object
+      description: Amazon Nova 2 Multimodal Embeddings response.
+      properties:
+        embeddings:
+          type: array
+          items:
+            type: object
+            properties:
+              embeddingType:
+                type: string
+                enum: [TEXT, IMAGE, MULTIMODAL]
+              embedding:
+                type: array
+                items:
+                  type: number
+      required:
+        - embeddings
+
+    # ---------------------------------------------------------------------------
+    # SCHEMAS — GOOGLE VERTEX AI (proxy, sample schemas)
+    # ---------------------------------------------------------------------------
+
+    GoogleChatCompletionRequest:
+      type: object
+      description: >
+        Google Vertex AI chat completion request using the OpenAI-compatible format.
+        See the [Vertex AI OpenAI compatibility docs](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/call-vertex-using-openai-library/).
+      additionalProperties: true
+      properties:
+        model:
+          type: string
+          description: The Gemini model identifier (prefixed with `google/`).
+          example: "google/gemini-2.5-flash"
+        messages:
+          type: array
+          description: Messages comprising the conversation.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                enum: [system, user, assistant]
+              content:
+                type: string
+            required:
+              - role
+              - content
+        stream:
+          type: boolean
+          default: false
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+        max_tokens:
+          type: integer
+      required:
+        - model
+        - messages
+
+    GeminiGenerateContentRequest:
+      type: object
+      description: >
+        Gemini native GenerateContent API request. See the
+        [Gemini API docs](https://ai.google.dev/gemini-api/docs).
+      properties:
+        modelId:
+          type: string
+          description: The Gemini model identifier (e.g., `google/gemini-3.1-flash-image-preview`).
+        contents:
+          type: array
+          description: Conversation contents (messages).
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                enum: [user, model]
+                example: user
+              parts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                      description: Text content.
+                    inline_data:
+                      type: object
+                      description: Inline binary data (e.g., reference images).
+                      properties:
+                        mime_type:
+                          type: string
+                          enum: [image/png, image/jpeg, image/webp]
+                        data:
+                          type: string
+                          format: byte
+                          description: Base64-encoded binary data.
+            required:
+              - role
+              - parts
+        generationConfig:
+          type: object
+          properties:
+            responseModalities:
+              type: array
+              description: Output modalities. Set to `["IMAGE"]` for image generation.
+              items:
+                type: string
+                enum: [TEXT, IMAGE]
+            temperature:
+              type: number
+              minimum: 0.0
+              maximum: 2.0
+            topP:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            topK:
+              type: integer
+              minimum: 1
+              maximum: 40
+            maxOutputTokens:
+              type: integer
+      required:
+        - contents
+
+    GeminiGenerateContentResponse:
+      type: object
+      description: Gemini GenerateContent API response.
+      properties:
+        candidates:
+          type: array
+          items:
+            type: object
+            properties:
+              content:
+                type: object
+                properties:
+                  parts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        inline_data:
+                          type: object
+                          properties:
+                            mime_type:
+                              type: string
+                              example: "image/png"
+                            data:
+                              type: string
+                              format: byte
+                              description: Base64-encoded image data.
+                        text:
+                          type: string
+                          description: Text content (if applicable).
+              finishReason:
+                type: string
+                example: STOP
+        usageMetadata:
+          type: object
+          properties:
+            promptTokenCount:
+              type: integer
+            candidatesTokenCount:
+              type: integer
+            totalTokenCount:
+              type: integer
+
+    ImagenRequest:
+      type: object
+      description: Google Vertex AI Imagen image generation request.
+      properties:
+        modelId:
+          type: string
+          description: The Imagen model ID.
+          example: "imagen-4.0-generate-001"
+        payload:
+          type: object
+          properties:
+            prompt:
+              type: string
+              description: Text prompt for image generation.
+              example: "A photorealistic image of ponies on a snowy beach."
+            number_of_images:
+              type: integer
+              description: Number of images to generate.
+              example: 1
+            aspect_ratio:
+              type: string
+              description: Image aspect ratio.
+              example: "1:1"
+            safety_filter_level:
+              type: string
+              description: Safety filter level.
+              example: "block_some"
+            person_generation:
+              type: string
+              description: Permission level for generating people.
+              example: "allow_all"
+      required:
+        - modelId
+        - payload
+
+    ImagenResponse:
+      type: object
+      description: Google Vertex AI Imagen image generation response.
+      properties:
+        predictions:
+          type: array
+          items:
+            type: object
+            properties:
+              bytesBase64Encoded:
+                type: string
+                description: Base64-encoded image data.
+              mimeType:
+                type: string
+                description: MIME type of the generated image.
+                example: "image/png"

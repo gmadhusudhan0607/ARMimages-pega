@@ -1,0 +1,88 @@
+# Gradle
+.gradle/
+
+# Compiled binaries
+build/
+bin/
+
+# Cline work directory
+clinework/
+
+#VS Code
+**/__debug_bin*
+
+# Intellij
+.idea/
+out/
+.settings/
+.classpath
+.project
+*.iml
+/qodana.yaml
+
+
+# Execution generated file
+*.log
+
+# VSCode
+test/**/initializerJson.json
+.vscode/
+/.copilot/commit-message-instructions.md
+
+# Python
+venv/
+**/__pycache__/
+
+# lambda lib packages
+**/genai-bedrock-converse-api-lambda/package
+**/genai-bedrock-converse-api-lambda/*zip
+
+# Terraform
+**/.terraform
+**/*.tfvars
+**/*.lock.hcl
+**/*.tfstate*
+**/function-source.zip
+
+# Test Reports
+/junit_report.xml
+/coverage.out
+/coverage.xml
+/cover_agent_unit_test_runs.db
+/test_results.html
+
+# Service model test file
+cmd/service/models_test.yaml
+
+## Please move/classify any file added to .gitignore below this line and bump it up the line
+##-------------------------------------------------
+
+# integration test related
+**/private-models-test-dir
+service.log
+service.pid
+genai-hub-service.log
+genai-hub-service.pid
+
+
+.clinerules
+/distribution/genai-gcpvertex-infra-terraform/src/main/terraform/gcp/terraform-dependencies.svg
+/distribution/genai-gcpvertex-infra-terraform/src/main/terraform/gcp/terraform-graph.dot
+/assistantTasks/
+/env.local
+/support/aplogs-10mins.ndjson
+/support/gateway-logs-10mins.ndjson
+/support/gatewaylogs-60sec (2).ndjson
+
+# Legacy harness directories (kept out of the repo so they can't drift)
+.claude/
+.opencode/agent-memory/
+**/MEMORY.md
+RUBBER-DUCKING.md
+TEST_REPORT.md
+
+# Environment files with secrets
+**/.env
+**/.env.*
+.opencode/specs/ENHANCEMENT-792-unblock-decommission-deprecated-models.md
+.opencode/package-lock.json

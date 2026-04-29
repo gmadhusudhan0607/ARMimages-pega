@@ -1,0 +1,30 @@
+- name: gpt-realtime
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-realtime"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-realtime"
+  provider: openai
+  creator: openai
+  infrastructure: azure
+  capabilities:
+    completions: false
+    embeddings: false
+- name: gpt-realtime-mini
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-realtime-mini"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-realtime-mini"
+  provider: openai
+  creator: openai
+  infrastructure: azure
+  capabilities:
+    completions: false
+    embeddings: false
+- name: gpt-realtime-1.5
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-realtime-1.5"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-realtime-1.5"
+  provider: openai
+  creator: openai
+  infrastructure: azure
+  capabilities:
+    completions: false
+    embeddings: false

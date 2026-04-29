@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-slave
+spec:
+  containers:
+  # do not change - name value has to be set to 'custom' in order to work
+  - name: custom
+    env:
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    image: cloudbees/java-with-docker-client
+    imagePullPolicy: Always
+    command:
+    - "/bin/sh"
+    tty: true
+    volumeMounts:
+      - name: docker-sock
+        mountPath: /var/run/docker.sock
+        readOnly: true
+      - name: workspace-volume
+        mountPath: "/root"
+        readOnly: true
+    workingDir: "/home/jenkins/agent"
+    resources: #MISCONFIG should be added
+      limits:
+        memory: "300m"
+        cpu: "300Mi"
+      requests:
+        memory: "500m"
+        cpu: "400Mi"
+    securityContext: #MISCONFIG MEDIUM should be added if it won't block anything
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+  restartPolicy: Never
+  imagePullSecrets:
+  - name: platform-services-docker-bin-pega-io
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: workspace-volume

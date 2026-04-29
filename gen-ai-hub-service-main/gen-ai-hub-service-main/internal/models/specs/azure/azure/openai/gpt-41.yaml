@@ -1,0 +1,133 @@
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT-4.1 model family"
+  documentation: "https://platform.openai.com/docs/models/gpt-4.1"
+models:
+  - name: gpt-4.1
+    version: "2025-04-14"
+    label: "GPT-4.1"
+    id: openai.gpt-4.1-2025-04-14
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 1047576
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: null
+        maximum: 32768
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+  - name: gpt-4.1-nano
+    version: "2025-04-14"
+    label: "GPT-4.1-Nano"
+    id: openai.gpt-4.1-nano-2025-04-14
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 1047576
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: null
+        maximum: 32768
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+  - name: gpt-4.1-mini
+    version: "2025-04-14"
+    label: "GPT-4.1-Mini"
+    id: openai.gpt-4.1-mini-2025-04-14
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 1047576
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: null
+        maximum: 32768
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false

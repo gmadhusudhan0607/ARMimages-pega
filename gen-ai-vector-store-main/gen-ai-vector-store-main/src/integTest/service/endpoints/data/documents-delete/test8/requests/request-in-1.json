@@ -1,0 +1,10 @@
+[
+  {
+    "operator": "in",
+    "name": "dataSource",
+    "value": [
+      "DS3"
+    ],
+    "type": "string"
+  }
+]

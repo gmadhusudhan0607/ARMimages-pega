@@ -1,0 +1,17 @@
+{
+  "filter": {
+    "status": "IN_PROGRESS",
+    "attributes": {
+      "operator": "AND",
+      "items": [
+        {
+          "name": "org",
+          "operator": "in",
+          "values": [
+            "tso"
+          ]
+        }
+      ]
+    }
+  }
+}

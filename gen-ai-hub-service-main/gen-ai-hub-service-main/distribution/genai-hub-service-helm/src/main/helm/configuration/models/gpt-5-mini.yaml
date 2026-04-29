@@ -1,0 +1,12 @@
+- name: gpt-5-mini
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-5-mini"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-5-mini"
+  provider: openai
+  creator: openai
+  targetAPI: "/chat/completions"
+  path: "/openai/deployments/gpt-5-mini/chat/completions"
+  infrastructure: azure
+  capabilities:
+    completions: true
+    embeddings: false

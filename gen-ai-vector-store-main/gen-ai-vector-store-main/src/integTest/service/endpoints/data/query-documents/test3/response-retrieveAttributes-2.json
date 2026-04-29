@@ -1,0 +1,42 @@
+[
+  {
+    "documentID": "Lab API",
+    "attributes": [
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "distance": 0.2317
+  },
+  {
+    "documentID": "Albert Einstein",
+    "attributes": [
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Who is Albert Einstein"
+        ],
+        "type": "string"
+      }
+    ],
+    "distance": 0.2993
+  }
+]

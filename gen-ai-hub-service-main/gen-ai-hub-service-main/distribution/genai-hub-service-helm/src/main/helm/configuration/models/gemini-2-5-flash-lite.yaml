@@ -1,0 +1,13 @@
+- name: gemini-2.5-flash-lite
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/gemini-2.5-flash-lite"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/gemini-2.5-flash-lite"
+  provider: google
+  creator: google
+  targetAPI: "/chat/completions"
+  path: "/google/deployments/gemini-2.5-flash-lite/chat/completions"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

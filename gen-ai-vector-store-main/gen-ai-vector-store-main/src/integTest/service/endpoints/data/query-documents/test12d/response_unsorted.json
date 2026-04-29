@@ -1,0 +1,29 @@
+[
+  {
+    "documentID": "DOC-2",
+    "attributes": [
+      {
+        "name": "location",
+        "value": [
+          "CA",
+          "IND"
+        ],
+        "type": "string"
+      }
+    ],
+    "distance": 0.2763
+  },  {
+    "documentID": "DOC-1",
+    "attributes": [
+      {
+        "name": "location",
+        "value": [
+          "IND",
+          "USA"
+        ],
+        "type": "string"
+      }
+    ],
+    "distance": 0.2763
+  }
+]

@@ -1,0 +1,1817 @@
+{
+  "version": "2.2.0",
+  "summary": {
+    "title": "Vector Store Data Flow",
+    "owner": "Jarvis",
+    "description": "The GenAI Vector Store is a service which takes customer selected data and vectorizes that data through an AI model.  The customer is then able to access the data by submitting queries.  The service receives the query, creates a vector of the query, and compares the request vector to vectorized data.  ",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "New STRIDE diagram",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "position": {
+              "x": 260,
+              "y": 229.99999999999972
+            },
+            "size": {
+              "width": 850,
+              "height": 340
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": "Vector Store Service"
+              }
+            },
+            "zIndex": -1,
+            "id": "0e03ed97-6232-414f-8c57-1b438a553ad4",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Vector Store Service",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 311.75,
+              "y": 50
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Infinity"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "id": "35b7cb8b-137e-4fbb-bf5d-5228375e0d3e",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Infinity",
+              "description": "The infinity product is required to access the vector store service.  The infinity environment is the primary input location for the VS service.  Data is input by the end users and sent to the service for vectorization.  Any document can be sent for vectorization, there is no control of data sent to the VS service by the end user customer.  ",
+              "outOfScope": true,
+              "reasonOutOfScope": "External service, not managed by the Vector Store team",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Fake Infinity Environment",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "A fake infinity environment could access the VS service.  \n",
+                  "mitigation": "Infinity environments are kept within a VPC and SAX authentication is required to validate the user(s) accessing the service",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 5,
+                "repudiation": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 520,
+              "y": 620.0000000000001
+            },
+            "size": {
+              "width": 290,
+              "height": 120
+            },
+            "attrs": {
+              "text": {
+                "text": "Vector Store Database"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 2,
+            "id": "666b66df-5532-4e62-a817-014fa86fce2a",
+            "data": {
+              "type": "tm.Store",
+              "name": "Vector Store Database",
+              "description": "DBMS SCE governed by DBMS team.  \nData stored is based on customer requests, data is stored in vectors.  DATA: Customer vectors, customer queries, configuration information, schema information",
+              "outOfScope": true,
+              "reasonOutOfScope": "Database is managed by DBMS team",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Connection Limit Exceeded",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Max number of connections to the database could limit new connections",
+                  "mitigation": "There is a queue system in place which is managed in the vector store code.  This system will retry requests that are denied if the maximum number of connections are met against a particular model. ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 4
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 520,
+              "y": 260.0000000000001
+            },
+            "size": {
+              "width": 190,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Vector Store:\nService"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 3,
+            "id": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d",
+            "data": {
+              "type": "tm.Process",
+              "name": "Vector Store:\nService",
+              "description": "This is the primary service within the VS service SCE.  The primary functionality of this service is the vectorization of data which is then stored in the VS database. DATA: Customer queries, customer documents",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "7ddd6c92-d4fc-4518-855b-7d4eb78c763a",
+                  "title": "Flooding of events",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "It is possible that multiple requests are sent to the service simultaneously causing the service to be unresponsive",
+                  "mitigation": "There is a queue system in place.  If the number of requests exceeds what is possible to request at the model level the requests are queued and sent once tokens are available.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 31,
+                  "score": ""
+                },
+                {
+                  "id": "9f3fe5d3-bee9-492a-a499-d4381a1fe218",
+                  "title": "Malicious Data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Customers could potentially send malicious data either intentionally or unintentionally.",
+                  "mitigation": "Only valid JSON is allowed into the VS service.  Additional formats may be added in the future, but for now the JSON is validated before being sent to the service.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 32,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 2,
+                "tampering": 2,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 4
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 482,
+              "y": 50
+            },
+            "size": {
+              "width": 180,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Backing Service: \nGenAI Assistant Service"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 4,
+            "id": "ee092c88-4aa2-4503-8523-ac63ac075d94",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Backing Service: \nGenAI Assistant Service",
+              "description": "The autopilot backing service has access to the vector store service.  ",
+              "outOfScope": true,
+              "reasonOutOfScope": "External service, not managed by the Vector Store team",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [],
+              "threatFrequency": {
+                "spoofing": 2,
+                "repudiation": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 740,
+              "y": 300.0000000000001
+            },
+            "size": {
+              "width": 190,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Vector Store: Ops"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 5,
+            "id": "5c5584a9-4ea9-4262-8d3f-79629673c849",
+            "data": {
+              "type": "tm.Process",
+              "name": "Vector Store: Ops",
+              "description": "the VS ops service is a component of the VS SCE\nThis component is used for operational tasks such as modifications to schema, sizing changes, or further configuration changes for the VS service. DATA: configuration information, operations requests.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 320,
+              "y": 280
+            },
+            "size": {
+              "width": 180,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Vector Store:\n Background"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 6,
+            "id": "86fffc84-0220-4554-88e9-fc98e81ba0fc",
+            "data": {
+              "type": "tm.Process",
+              "name": "Vector Store:\n Background",
+              "description": "The vector store background service is a temporary service being used during the schema update to the vector store.  It's primary function is replication of data from the old to the new schema.  ",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [],
+              "threatFrequency": {
+                "spoofing": 4,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 707.5,
+              "y": 50
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "GOC"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 7,
+            "id": "bae3e587-9780-4ea5-86ad-8e43fc20280e",
+            "data": {
+              "type": "tm.Actor",
+              "name": "GOC",
+              "description": "The GOC has the ability to provision and access the vector store services deployed within their access zone.",
+              "outOfScope": true,
+              "reasonOutOfScope": "External service, not managed by the Vector Store team",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Fake GOC Environment",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "A fake GOC environment could access the VS service",
+                  "mitigation": "GOC uses proper scopes and SAX authentication to verify access to service",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 3,
+                "repudiation": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 848,
+              "y": 50
+            },
+            "size": {
+              "width": 140,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Provisioning Service"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 8,
+            "id": "817accf5-9cb4-4ced-ad9e-ed14d461fe43",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Provisioning Service",
+              "description": "The provisioning service is used to deploy the vector store service",
+              "outOfScope": true,
+              "reasonOutOfScope": "External service, not managed by the Vector Store team",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Fake Provisioning Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "Provisioning service has access to build/modify the VS service and database",
+                  "mitigation": "The provisioning service uses proper scopes and SAX authentication to verify access to service",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 3,
+                "repudiation": 0
+              }
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Schema sync",
+              "description": "Communication from the VS background to the VS DB.  TCP/SSL(port 5432). DATA: Database schema (temporary while schema update is happening, to be removed after new schema is in place)",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "threatFrequency": {
+                "tampering": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            },
+            "id": "7140a6bb-2e3d-46f0-93a4-900251d4318b",
+            "labels": [
+              "Schema sync"
+            ],
+            "source": {
+              "cell": "86fffc84-0220-4554-88e9-fc98e81ba0fc"
+            },
+            "target": {
+              "cell": "666b66df-5532-4e62-a817-014fa86fce2a"
+            },
+            "vertices": [
+              {
+                "x": 439,
+                "y": 450
+              },
+              {
+                "x": 490,
+                "y": 540
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Storage of vectorized\ndata into VS DB",
+              "description": "VS service communication to the VS database, TCP/SSL(port 5432).  Data stored is the vectors which are created during processing within VS service. DATA: vectorized customer documents",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "threatFrequency": {
+                "tampering": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            },
+            "id": "82719cda-75fc-482b-9ce8-b896768d9da3",
+            "labels": [
+              "Storage of vectorized\ndata into VS DB"
+            ],
+            "source": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "target": {
+              "cell": "666b66df-5532-4e62-a817-014fa86fce2a"
+            },
+            "vertices": [
+              {
+                "x": 634.5,
+                "y": 500
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Operations requests \nsent to VS DB ",
+              "description": "VS Ops communication to VS DB, TCP/SSL(port 5432). Pps service may request data changes.  DATA: operational configuration",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "threatFrequency": {
+                "tampering": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            },
+            "id": "8989b3c6-6f01-4897-a041-22385773eda2",
+            "labels": [
+              "Operations requests \nsent to VS DB "
+            ],
+            "source": {
+              "cell": "5c5584a9-4ea9-4262-8d3f-79629673c849"
+            },
+            "target": {
+              "cell": "666b66df-5532-4e62-a817-014fa86fce2a"
+            },
+            "vertices": [
+              {
+                "x": 844.5,
+                "y": 450
+              },
+              {
+                "x": 860,
+                "y": 480
+              },
+              {
+                "x": 810,
+                "y": 520
+              },
+              {
+                "x": 760,
+                "y": 550
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Validate SAX Token",
+              "description": "Data transmitted is authentication data which validates that requests are from a valid source through OKTA. Data sent over HTTPS.  DATA: SAX token",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "4a92bf8d-6eca-4446-8fca-d9585f6295a0",
+                  "title": "Compromised SAX token",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "It could be possible for a SAX token to be compromised allowing a malicious actor to send calls to the service",
+                  "mitigation": "The SAX token is protected by multiple security measures.  A valid token must come from within the Pega application, only internal services can generate/validate tokens.  Additionally our service is a backend service, so the standard Pega application protections are in place to avoid the token from being compromised. Additionally communication is sent over HTTPS with valid certificates.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 34,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 2,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            },
+            "id": "2e2dbf2c-b0f6-45a3-82fa-8b92393761d6",
+            "labels": [
+              "Validate SAX Token"
+            ],
+            "source": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "target": {
+              "cell": "f0161472-f91c-4d16-89af-fead69a025a2"
+            },
+            "vertices": [
+              {
+                "x": 740,
+                "y": 270
+              },
+              {
+                "x": 940,
+                "y": 250
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "DB Tools requests\nsent to VS DB",
+              "description": "DB Tools communication into the VS database, TCP/SSL(port 5432).  Data transmitted is requests to see/modify database contents.  DATA: DB config changes",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "threatFrequency": {
+                "tampering": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "2959e64b-3523-4f30-b30a-c15e0f856200",
+            "labels": [
+              "DB Tools requests\nsent to VS DB"
+            ],
+            "source": {
+              "cell": "700720ae-80b0-4bb1-868d-2975b63e71db"
+            },
+            "target": {
+              "cell": "666b66df-5532-4e62-a817-014fa86fce2a"
+            },
+            "vertices": [
+              {
+                "x": 1022,
+                "y": 490
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Operations data \nto VS Service",
+              "description": "Communication between GOC and the VS Ops service, https and SAX authentication utilized.  Data is in form of requests to service to make infrastructure adjustments.  DATA: Operation information",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Communication between Infinity and Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Data transmitted should be using HTTPS.  Any other form of communication may lead to possible tampering of data.",
+                  "mitigation": "Data flowing from infinity to VS OPS service uses https and also requires SAX authentication.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 4,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "32d27c4a-2861-4440-ab21-64a458fb7726",
+            "labels": [
+              "Operations data \nto VS Service"
+            ],
+            "source": {
+              "cell": "bae3e587-9780-4ea5-86ad-8e43fc20280e"
+            },
+            "target": {
+              "cell": "5c5584a9-4ea9-4262-8d3f-79629673c849"
+            },
+            "vertices": [
+              {
+                "x": 790,
+                "y": 180
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Provisioning \nconfiguration",
+              "description": "Communication between provisioning service and the VS Ops service, https and SAX authentication utilized.  Data contains information about the environment to be provisioned.  DATA: Configuration Information",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Communication between Infinity and Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Data transmitted should be using HTTPS.  Any other form of communication may lead to possible tampering of data.",
+                  "mitigation": "Data flowing from infinity to VS OPS service uses https and also requires SAX authentication ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 4,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "3464d322-167b-480f-97d4-dcc88f6344dd",
+            "labels": [
+              "Provisioning \nconfiguration"
+            ],
+            "source": {
+              "x": 858,
+              "y": 110
+            },
+            "target": {
+              "cell": "5c5584a9-4ea9-4262-8d3f-79629673c849"
+            },
+            "vertices": [
+              {
+                "x": 950,
+                "y": 180
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Request for DB changes",
+              "description": "The dev & ops teams can send requests to change/update the database through DBTools",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "f58b9f27-2123-462d-b75e-986b32e6bf00",
+                  "title": "Intercept commands",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Commands sent from dev/ops teams could be intercepted in transit and modified by a malicious actor",
+                  "mitigation": "The communication between the Pega employees and the DB tools service utilizes the standard security practices.  LDAP is in place to validate users, and tooling is only accessible through Pega supplied devices.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 36,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "informationDisclosure": 0,
+                "denialOfService": 0
+              }
+            },
+            "id": "b8f05041-8d21-4dc1-b700-2e48665f1022",
+            "labels": [
+              "Request for DB changes"
+            ],
+            "source": {
+              "x": 1090,
+              "y": 140
+            },
+            "target": {
+              "cell": "700720ae-80b0-4bb1-868d-2975b63e71db"
+            },
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead",
+                "boundary",
+                "button-remove",
+                "vertices",
+                "source-arrowhead",
+                "target-arrowhead"
+              ],
+              "name": null
+            },
+            "vertices": [
+              {
+                "x": 1120,
+                "y": 280
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Autopilot data \ninto VS Service",
+              "description": "Communication between the Autopilot service and the VS service, https and SAX authentication utilized.  Data is customer selected, VS team has no control over what is sent.  DATA: Customer queries",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Communication between Infinity and Service",
+                  "status": "Mitigated",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Data transmitted should be using HTTPS.  Any other form of communication may lead to possible tampering of data.",
+                  "mitigation": "Data flowing from infinity to VS service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 2,
+                "informationDisclosure": 2,
+                "denialOfService": 0
+              }
+            },
+            "id": "e1704f19-e68a-4a60-b3b8-bb88d49e0a0c",
+            "labels": [
+              "Autopilot data \ninto VS Service"
+            ],
+            "source": {
+              "cell": "ee092c88-4aa2-4503-8523-ac63ac075d94"
+            },
+            "target": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "vertices": [
+              {
+                "x": 644.5,
+                "y": 150
+              },
+              {
+                "x": 644.5,
+                "y": 200
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Vectorized data sent to\nSC service for chunking",
+              "description": "Communication between the VS service and smart chunking, https and SAX authentication utilized.  Data is sent to SC service to be chunked before vectorization. DATA: Customer documents",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "91b79a28-564e-4379-9856-45f97c439ec9",
+                  "title": "Intercepted data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Data in transit could be intercepted and changed.  ",
+                  "mitigation": "Data flowing from VS to smart chunking service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": ""
+                },
+                {
+                  "id": "14add998-6c9a-4741-8d5f-4c50d8a3b3d1",
+                  "title": "Weak TLS",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "A weak TLS algorithm could allow for communication between the services to be compromised",
+                  "mitigation": "All communication will be using TLS 1.2 or newer",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 37,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 4,
+                "informationDisclosure": 2,
+                "denialOfService": 0
+              }
+            },
+            "id": "64580cbe-015a-41e8-b36d-abbd6b4c46da",
+            "labels": [
+              "Vectorized data sent to\nSC service for chunking"
+            ],
+            "source": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "target": {
+              "cell": "02c8514a-465c-45be-934e-8672b9718d93"
+            },
+            "vertices": [
+              {
+                "x": 530,
+                "y": 390
+              },
+              {
+                "x": 490,
+                "y": 420
+              },
+              {
+                "x": 490,
+                "y": 470
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Chunked data sent\nto Gateway for vectorization",
+              "description": "Data flow between Smart Chunking and gateway, https and SAX authentication utilized. SC service processes data into chunks and sends data to GW.  DATA: Customer documents chunked, to be vectorized.",
+              "outOfScope": false,
+              "reasonOutOfScope": "communication between two out of scope items",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "91b79a28-564e-4379-9856-45f97c439ec9",
+                  "title": "Intercepted data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Data in transit could be intercepted and changed.  ",
+                  "mitigation": "Data flowing from smart chunking to gateway service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": ""
+                },
+                {
+                  "id": "46aace96-0eeb-467d-b158-c34969cea8e7",
+                  "title": "Weak TLS",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "A weak TLS algorithm could allow for communication between the services to be compromised",
+                  "mitigation": "All communication will be using TLS 1.2 or newer",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 38,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 3,
+                "informationDisclosure": 2,
+                "denialOfService": 0
+              }
+            },
+            "id": "e60b5c3f-494b-488c-a156-06396f5f375b",
+            "labels": [
+              "Chunked data sent\nto Gateway for vectorization"
+            ],
+            "source": {
+              "cell": "02c8514a-465c-45be-934e-8672b9718d93"
+            },
+            "target": {
+              "cell": "60be07d7-30b5-44ad-8274-41d116557e06"
+            },
+            "vertices": [
+              {
+                "x": 220,
+                "y": 530
+              },
+              {
+                "x": 200,
+                "y": 450
+              },
+              {
+                "x": 120,
+                "y": 420
+              },
+              {
+                "x": 50,
+                "y": 440
+              },
+              {
+                "x": 30,
+                "y": 410
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data into VS Service",
+              "description": "Communication from Infinity to the VS service, https and SAX authentication utilized.  Data is customer selected, VS team has no control over what is sent.  DATA: Customer documents",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "b9fe364e-4462-463d-b1ea-a155500731bd",
+                  "title": "Communication between Infinity and Service",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Data being sent to the VS service from Infinity may be tampered with by a malicious actor.  The data could be tampered with in transit which could cause the stored data to be different than the requested data from the customer.",
+                  "mitigation": "Data flowing from infinity to VS service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 5,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "adb86cb1-189d-477b-88d6-1cdc5a1ebef4",
+            "labels": [
+              "Data into VS Service"
+            ],
+            "source": {
+              "cell": "35b7cb8b-137e-4fbb-bf5d-5228375e0d3e"
+            },
+            "target": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "vertices": [
+              {
+                "x": 368,
+                "y": 150
+              },
+              {
+                "x": 440,
+                "y": 150
+              },
+              {
+                "x": 480,
+                "y": 200
+              },
+              {
+                "x": 530,
+                "y": 250
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "1acde0ea-aaaf-4b02-893b-e041cf9bb227",
+            "source": {
+              "cell": "86fffc84-0220-4554-88e9-fc98e81ba0fc"
+            },
+            "target": {
+              "x": 320,
+              "y": 110
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data transmitted to\nAI model",
+              "description": "Communication between the VS service and Gateway, https and SAX authentication utilized.  DATA: Customer documents to be vectorized",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "91b79a28-564e-4379-9856-45f97c439ec9",
+                  "title": "Intercepted data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Data in transit could be intercepted and changed.  ",
+                  "mitigation": "Data flowing from VS to gateway service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": ""
+                },
+                {
+                  "id": "3c1e268c-3162-4950-b9cc-1141eb62eaaa",
+                  "title": "Weak TLS",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "A weak TLS algorithm could allow for communication between the services to be compromised",
+                  "mitigation": "All communication will be using TLS 1.2 or newer",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 40,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 4,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "7d6d2ef0-788c-48f6-80d0-ed6d1b21a3b4",
+            "labels": [
+              "Data transmitted to\nAI model"
+            ],
+            "source": {
+              "cell": "cc03ee16-4ae6-4c1b-98f1-e68c7ebb235d"
+            },
+            "target": {
+              "cell": "60be07d7-30b5-44ad-8274-41d116557e06"
+            },
+            "vertices": [
+              {
+                "x": 330,
+                "y": 240
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "VS Background to GW",
+              "description": "The VS background service sends data to the gateway service, https and SAX authentication utilized.  The background service is responsible for reindexing improperly indexed data.  Data: Customer data chunks to be reindexed",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "91b79a28-564e-4379-9856-45f97c439ec9",
+                  "title": "Intercepted data",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Data in transit could be intercepted and changed.  ",
+                  "mitigation": "Data flowing from VS background to gateway service uses https and also requires SAX authentication.  ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": ""
+                },
+                {
+                  "id": "643f129f-45a7-4845-b0d3-4a345fad4ae7",
+                  "title": "Weak TLS",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "A weak TLS algorithm could allow for communication between the services to be compromised",
+                  "mitigation": "All communication will be using TLS 1.2 or newer",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 39,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 4,
+                "informationDisclosure": 1,
+                "denialOfService": 0
+              }
+            },
+            "id": "a5031ea3-5d99-4e6c-964c-6f5331c88275",
+            "labels": [
+              "VS Background to GW"
+            ],
+            "source": {
+              "cell": "86fffc84-0220-4554-88e9-fc98e81ba0fc"
+            },
+            "target": {
+              "cell": "60be07d7-30b5-44ad-8274-41d116557e06"
+            },
+            "vertices": [
+              {
+                "x": 320,
+                "y": 420
+              },
+              {
+                "x": 270,
+                "y": 380
+              }
+            ]
+          },
+          {
+            "position": {
+              "x": 54,
+              "y": 245.00000000000023
+            },
+            "size": {
+              "width": 170,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "GenAI Gateway"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 14,
+            "id": "60be07d7-30b5-44ad-8274-41d116557e06",
+            "data": {
+              "type": "tm.Actor",
+              "name": "GenAI Gateway",
+              "description": "The gateway service communicates with vector store, as such communication could be intercepted and should be considered during a threat model.",
+              "outOfScope": true,
+              "reasonOutOfScope": "Not associated with threats for VS service.  Tool is managed by the same team but out of scope for VS service threat model",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 1250,
+              "y": 185.00000000000023
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "SAX"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 15,
+            "id": "f0161472-f91c-4d16-89af-fead69a025a2",
+            "data": {
+              "type": "tm.Actor",
+              "name": "SAX",
+              "description": "SAX authentication is integrated with VS to confirm the identify of requests from Infinity/Autopilot",
+              "outOfScope": true,
+              "reasonOutOfScope": "Tool is managed by 3rd party",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [],
+              "threatFrequency": {
+                "spoofing": 0,
+                "repudiation": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 978,
+              "y": 325.0000000000001
+            },
+            "size": {
+              "width": 80,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "DBTools"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 16,
+            "id": "700720ae-80b0-4bb1-868d-2975b63e71db",
+            "data": {
+              "type": "tm.Process",
+              "name": "DBTools",
+              "description": "DB Tools is an administrative tool used by dev teams and operations",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "c9f07541-db32-4c01-a541-66cf40e96ebc",
+                  "title": "Compromised Credentials",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "DB Tools is an administrative tool to troubleshoot database issues.  As such when deployed the tool will have direct access to VS database.  The credentials could be compromised and allow for unauthorized access.",
+                  "mitigation": "This tool is only used in development, or if used in production will only be used during troubleshooting and removed after.  DB tools is not deployed by default in production.  This tool is only used by cloudops.  Standard LDAP verification is required to access the tooling to install and access dbtools",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 28,
+                  "score": ""
+                },
+                {
+                  "id": "c9f07541-db32-4c01-a541-66cf40e96ebc",
+                  "title": "New STRIDE threat",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "DB Tools has direct access to the VS database.  ",
+                  "mitigation": "Rotation of credentials is done by the DBMS team.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 28,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 10,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 1058,
+              "y": 76
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Dev/Ops Teams"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": "4 3"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 18,
+            "id": "597efeb6-03ac-4289-9e47-4deffa2067fc",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Dev/Ops Teams",
+              "description": "Development and operations teams can interact with the VS database through DBTools",
+              "outOfScope": true,
+              "reasonOutOfScope": "The actions are not controlled by the VS team",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": [
+                {
+                  "id": "9ee524ae-7173-4877-a61e-8568fe7a76d0",
+                  "title": "Compromised User Account",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "The account information of a user who can access tooling may be compromised allowing for unauthorized access",
+                  "mitigation": "All standard LDAP protections are in place to avoid unauthorized access.  Additionally the tooling required to access DB tools is only accessible on a Pega laptop.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 35,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "repudiation": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 293,
+              "y": 460
+            },
+            "size": {
+              "width": 150,
+              "height": 90
+            },
+            "attrs": {
+              "text": {
+                "text": "Smart\nChunking"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 19,
+            "id": "02c8514a-465c-45be-934e-8672b9718d93",
+            "data": {
+              "type": "tm.Process",
+              "name": "Smart\nChunking",
+              "description": "The smart chunking service communicates with vector store, as such communication could be intercepted and should be considered during a threat model.  The service is a part of vector store, but is managed in a different repository.  ",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": []
+            }
+          }
+        ]
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "",
+    "threatTop": 40
+  }
+}

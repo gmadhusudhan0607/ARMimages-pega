@@ -1,0 +1,1 @@
+CREATE INDEX if not exists idx_embedding_queue_created_at ON vector_store.embedding_queue (created_at ASC, postpone_until ASC);

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "dataSource",
+    "value": [
+      "DS1",
+      "DS2",
+      "DS3.5"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "location",
+    "value": [
+      "Earth",
+      "Krakow",
+      "Lwow",
+      "Milky Way galaxy",
+      "Narnia"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "my number",
+    "value": [
+      "1"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "org",
+    "value": [
+      "tso"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "pets",
+    "value": [
+      "cat",
+      "dog",
+      "dragon",
+      "unicorn"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "version",
+    "value": [
+      "v1",
+      "v1.c1",
+      "v1.c2"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "weather",
+    "value": [
+      "cold",
+      "rain",
+      "sunny",
+      "warm"
+    ],
+    "type": "string"
+  }
+]

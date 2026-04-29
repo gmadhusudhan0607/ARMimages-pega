@@ -1,0 +1,98 @@
+# Copilot Coding Agent setup workflow for GenAI Vector Store
+# Reference: https://knowledgehub.pega.com/SDLC:Github_Copilot_Agent
+#
+# IMPORTANT:
+# - Do NOT rename this file or move it from .github/workflows/
+# - Do NOT rename the job from "copilot-setup-steps"
+# - The "copilot" environment must exist in repo Settings > Environments
+
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: runner-4-core-16gi
+    environment: copilot
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Set GitHub host variables
+        run: |
+          if [ -z "${GITHUB_SERVER_URL:-}" ]; then
+            echo "GITHUB_SERVER_URL=https://github.com" >> "$GITHUB_ENV"
+          fi
+          if [ -z "${GITHUB_API_URL:-}" ]; then
+            echo "GITHUB_API_URL=https://api.github.com" >> "$GITHUB_ENV"
+          fi
+          if [ -z "${GITHUB_HOST:-}" ]; then
+            echo "GITHUB_HOST=github.com" >> "$GITHUB_ENV"
+          fi
+
+      - name: Setup tools for runner
+        run: |
+          select-tool java 21
+          select-tool nodejs 20
+
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Configure Go private modules
+        run: |
+          go env -w GOPRIVATE="github.com/Pega-CloudEngineering/*"
+          go env -w GONOSUMDB="github.com/Pega-CloudEngineering/*"
+          echo "machine github.com login ${GH_USR} password ${GH_PWD}" > ~/.netrc
+          chmod 600 ~/.netrc
+        env:
+          GH_USR: ${{ secrets.GH_SERVICE_ACCOUNT_USR }}
+          GH_PWD: ${{ secrets.GH_SERVICE_ACCOUNT_PWD }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Create gradle.properties
+        run: |
+          mkdir -p "$GRADLE_USER_HOME"
+          {
+            echo "artifactoryURL=${ARTIFACTORY_URL}"
+            echo "artifactoryUser=${ARTIFACTORY_USR}"
+            echo "artifactoryPassword=${ARTIFACTORY_PWD}"
+          } > "$GRADLE_USER_HOME/gradle.properties"
+        env:
+          ARTIFACTORY_URL: ${{ vars.ARTIFACTORY_URL || 'https://bin.pega.io/artifactory' }}
+          ARTIFACTORY_USR: ${{ secrets.ARTIFACTORY_USR }}
+          ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
+
+      - name: Verify Artifactory access
+        run: |
+          ARTIFACTORY_URL="${ARTIFACTORY_URL:-https://bin.pega.io/artifactory}"
+          curl -sf "${ARTIFACTORY_URL}/api/system/ping" || {
+            echo "ERROR: Artifactory is unreachable at ${ARTIFACTORY_URL}"
+            exit 1
+          }
+          echo "Artifactory is reachable"
+        env:
+          ARTIFACTORY_URL: ${{ vars.ARTIFACTORY_URL || 'https://bin.pega.io/artifactory' }}
+
+      - name: Verify setup
+        run: |
+          java -version
+          go version
+          go mod vendor
+          go build ./cmd/service/...
+          go build ./cmd/ops/...
+          go build ./cmd/background/...

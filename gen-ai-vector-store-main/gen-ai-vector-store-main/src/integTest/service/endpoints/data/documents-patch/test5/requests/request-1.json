@@ -1,0 +1,11 @@
+{
+  "attributes":[
+    {
+      "name": "dataSource",
+      "value": [
+        "DS3.5"
+      ],
+      "type": "string"
+    }
+  ]
+}

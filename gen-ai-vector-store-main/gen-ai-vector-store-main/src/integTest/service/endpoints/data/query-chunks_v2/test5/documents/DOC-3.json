@@ -1,0 +1,69 @@
+{
+  "id": "DOC-3",
+  "chunks": [
+    {
+      "content": "DOC-3 content for chunk 0",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "value": [
+            "ver.0.x",
+            "ver.0.x.x",
+            "ver.0.x.1",
+            "ver.0.3",
+            "ver.0.3.1"
+          ]
+        },
+        {
+          "name": "dataSource",
+          "type": "string",
+          "value": [
+            "DS1"
+          ]
+        }
+      ]
+    },
+    {
+      "content": "DOC-3 content for chunk 1",
+      "attributes": [
+        {
+          "name": "version",
+          "type": "string",
+          "value": [
+            "ver.0.x",
+            "ver.0.x.x",
+            "ver.0.x.1",
+            "ver.0.3",
+            "ver.0.3.1"
+          ]
+        },
+        {
+          "name": "dataSource",
+          "type": "string",
+          "value": [
+            "DS1"
+          ]
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "type": "string",
+      "value": [
+        "ver.0.x",
+        "ver.0.3"
+      ]
+    },
+    {
+      "name": "dataSource",
+      "type": "string",
+      "value": [
+        "DS1",
+        "DS1.1"
+      ]
+    }
+  ]
+}

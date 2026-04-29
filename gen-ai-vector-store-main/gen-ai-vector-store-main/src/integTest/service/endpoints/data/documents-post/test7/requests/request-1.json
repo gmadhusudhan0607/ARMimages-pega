@@ -1,0 +1,11 @@
+[
+  {
+    "operator": "and",
+    "name": "dataSource",
+    "value": [
+      "DS1",
+      "DS2"
+    ],
+    "type": "string"
+  }
+]

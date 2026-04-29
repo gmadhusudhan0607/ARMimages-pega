@@ -1,0 +1,34 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+# Product Catalog listing the corresponding product definitions
+products:
+  - id: GenAIVectorStore
+    name: GenAI Vector Store Product
+    description: Provision GenAI Vector Store Product
+    path: product.yml
+    provider: aws,gcp
+    tags:
+      - key: groupName
+        value: fnx
+
+  - id: GenAIVectorStoreTestInfinity
+    name: GenAI Vector Store Test Infinity Product
+    description: Provision Test Infinity Isolation for GenAIVectorStore
+    path: test-infinity-product.yml
+    provider: aws,gcp
+    tags:
+      - key: groupName
+        value: fnx
+
+  - id: GenAIVectorStoreTestControlplane
+    name: GenAI Vector Store Test Controlplane Product
+    description: Provision Sax Cluent for Controlplane for GenAIVectorStoreOps service
+    path: test-controlplane-product.yml
+    provider: aws,gcp
+    tags:
+      - key: groupName
+        value: fnx
+

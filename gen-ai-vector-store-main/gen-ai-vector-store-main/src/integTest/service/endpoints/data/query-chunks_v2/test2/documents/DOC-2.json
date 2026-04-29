@@ -1,0 +1,47 @@
+{
+    "id": "DOC-2",
+    "chunks": [
+      {
+        "content": "Pega Labs",
+        "attributes": [
+          {
+            "name": "version",
+            "value": [
+              "v1"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "dataSource",
+            "value": [
+              "DS0"
+            ],
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "name": "version",
+        "value": [
+          "v1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "org",
+        "value": [
+          "tso"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS0"
+        ],
+        "type": "string"
+      }
+    ]
+}

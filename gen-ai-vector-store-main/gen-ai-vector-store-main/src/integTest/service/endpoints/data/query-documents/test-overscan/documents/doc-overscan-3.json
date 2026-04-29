@@ -1,0 +1,22 @@
+{
+  "id": "doc-overscan-3",
+  "attributes": [
+    {
+      "name": "category",
+      "type": "string",
+      "value": ["Technology"]
+    }
+  ],
+  "chunks": [
+    { "content": "Document 3 chunk 0: Cybersecurity frameworks protect organizations from digital threats." },
+    { "content": "Document 3 chunk 1: Encryption algorithms secure data during transmission and storage." },
+    { "content": "Document 3 chunk 2: Authentication protocols verify user identities before granting access." },
+    { "content": "Document 3 chunk 3: Firewall rules filter network traffic based on security policies." },
+    { "content": "Document 3 chunk 4: Intrusion detection systems monitor networks for suspicious activity." },
+    { "content": "Document 3 chunk 5: Vulnerability scanning identifies weaknesses in software configurations." },
+    { "content": "Document 3 chunk 6: Security incident response plans outline steps for breach containment." },
+    { "content": "Document 3 chunk 7: Zero trust architecture verifies every access request regardless of origin." },
+    { "content": "Document 3 chunk 8: Security audit logs provide a trail of system events for compliance." },
+    { "content": "Document 3 chunk 9: Penetration testing simulates attacks to evaluate system defenses." }
+  ]
+}

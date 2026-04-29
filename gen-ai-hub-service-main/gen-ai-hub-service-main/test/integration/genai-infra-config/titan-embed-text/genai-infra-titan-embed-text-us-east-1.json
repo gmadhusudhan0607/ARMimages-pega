@@ -1,0 +1,9 @@
+{
+  "ModelArn": "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v2:0",
+  "ModelId": "amazon.titan-embed-text-v2:0",
+  "ModelMapping": "titan-embed-text",
+  "OIDCIAMRoleArn": "arn:aws:iam::123456789012:role/genai-oidcrole-us-60et1",
+  "Region": "us-east-1",
+  "Endpoint": "http://genai-hub-mockserver:11080",
+  "Path": "/model/amazon.titan-embed-text-v2:0/invoke"
+}

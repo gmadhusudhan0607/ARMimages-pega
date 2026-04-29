@@ -1,0 +1,17 @@
+{
+  "filter": {
+    "status": "COMPLETED",
+    "attributes": {
+      "operator": "AND",
+      "items": [
+        {
+          "name": "org",
+          "operator": "in",
+          "values": [
+            "tso"
+          ]
+        }
+      ]
+    }
+  }
+}

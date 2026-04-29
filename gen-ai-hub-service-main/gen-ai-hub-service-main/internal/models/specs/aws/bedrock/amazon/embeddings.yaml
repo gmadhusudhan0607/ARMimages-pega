@@ -1,0 +1,47 @@
+infrastructure: aws
+provider: bedrock
+creator: amazon
+metadata:
+  description: "Amazon Titan model family on AWS Bedrock"
+  documentation: "https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html"
+models:
+  - name: titan-embed-text
+    version: v2
+    label: Titan Embed Text
+    id: amazon.titan-embed-text-v2:0
+    functionalCapabilities: ["embedding"]
+    endpoints:
+      - path: /invoke
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [embedding]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 50000
+        required: false
+  - name: nova-2-multimodal-embeddings
+    version: v1
+    label: Nova 2 Multimodal Embeddings
+    id: amazon.nova-2-multimodal-embeddings-v1:0
+    functionalCapabilities: ["embedding"]
+    endpoints:
+      - path: /invoke
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [embedding]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 50000
+        required: false

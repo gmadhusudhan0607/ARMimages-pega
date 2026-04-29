@@ -1,0 +1,13 @@
+- name: gemini-embedding-001
+  modelId: gemini-embedding-001
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/gemini-embedding-001"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/gemini-embedding-001"
+  provider: google
+  creator: google
+  targetAPI: "/embeddings"
+  path: "/google/deployments/gemini-embedding-001/embeddings"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: true
+    image-generation: false

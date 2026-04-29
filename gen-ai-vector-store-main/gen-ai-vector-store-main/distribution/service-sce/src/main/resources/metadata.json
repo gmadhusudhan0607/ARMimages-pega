@@ -1,0 +1,369 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ProvisioningType",
+      "description": "Determines how many prompts are shown. Standard option will show fewer prompts compared to Advanced. Default = Standard",
+      "defaultValue": "Standard",
+      "uicontrols": {
+        "type": "list",
+        "visibility": "true"
+      },
+      "constraints": {
+        "required": true,
+        "immutable": false,
+        "allowedValues": [
+          "Standard",
+          "Advanced"
+        ]
+      }
+    },
+    {
+      "name": "ClusterGUID",
+      "description": "The path of the CloudK Cluster in which GenAI Vector Store will be deployed",
+      "regional": true,
+      "constraints": {
+        "required": true,
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "OtlpSampler",
+      "description": "Otlp Sampler",
+      "defaultValue": "parentbased_traceidratio",
+      "defaultValues": {
+        "true": "parentbased_traceidratio"
+      },
+      "dependsOn": "dynamicParams.UseOtlp",
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e dynamicParams.UseOtlp"
+      },
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "OtlpSamplerArg",
+      "description": "Otlp Sampler argument.",
+      "defaultValue": "0.2",
+      "dependsOn": "dynamicParams.UseOtlp",
+      "defaultValues": {
+        "true": "0.2",
+        "false": "0"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e dynamicParams.UseOtlp"
+      },
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "UseOtlp",
+      "description": "Decides whether to use OTLP or not.",
+      "dependsOn": "cp.stageName",
+      "defaultValue": "false",
+      "defaultValues": {
+        "development": "false",
+        "integration": "true",
+        "staging": "false",
+        "prod-adoption": "false",
+        "showcase": "false",
+        "production": "false"
+      },
+      "uicontrols": {
+        "type": "text"
+      },
+      "constraints": {
+        "required": "false",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    {
+      "name": "IsFrontendService",
+      "description": "Set to true to create ingress resources and to allow the service to get traffic from external client browsers",
+      "defaultValue": "false",
+      "dependsOn": "cp.stageName",
+      "uicontrols": {
+          "type": "text"
+      }
+    },
+    {
+      "name": "Namespace",
+      "description": "K8s namespace in which the service is created",
+      "defaultValue": "genai-vector-store",
+      "constraints": {
+        "required": false,
+        "immutable": true,
+        "maxLength": 63,
+        "allowedPattern": "^[a-z0-9]([a-z0-9\\-]{0,61}[a-z0-9])?$"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "EnableDBTools",
+      "description": "(Optional) Set to true to create DB Tools for database debugging purposes",
+      "defaultValue": "false",
+      "constraints": {
+        "allowedValues": [
+          "false",
+          "true"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e dynamicParams.ProvisioningType == 'Advanced'"
+      }
+    },
+    {
+      "name": "LogLevel",
+      "description": "(Optional) Log level",
+      "defaultValue": "INFO",
+      "dependsOn": "cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "INFO",
+          "DEBUG"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' &&  cp.getStageName() in ['development', 'integration'] )"
+      }
+    },
+    {
+      "name": "LogPerformanceTrace",
+      "description": "Print performance trace information in the logs",
+      "dependsOn": "cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "defaultValue": "false",
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      },
+      "constraints": {
+        "required": false,
+        "immutable": false,
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    {
+      "name": "EmbeddingModel",
+      "description": "The model that will be used to embed the document chunks.",
+      "defaultValue": "amazon-titan-embed-text",
+      "dependsOn": "cp.provider",
+      "defaultValues": {
+        "aws": "amazon-titan-embed-text",
+        "gcp": "google-text-multilingual-embedding-002"
+      },
+      "constraints": {
+        "allowedValues": [
+          "openai-text-embedding-ada-002",
+          "amazon-titan-embed-text",
+          "google-text-multilingual-embedding-002"
+        ],
+        "required": true,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "RandomEmbedderEnabled",
+      "description": "Use a random embedder instead of the configured embedding model. This is useful for testing purposes.",
+      "defaultValue": "false",
+      "dependsOn": "cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' && cp.getStageName() == 'integration')"
+      }
+    },
+    {
+      "name": "RandomEmbedderDelay",
+      "description": "Random embedder delay in seconds. This is useful for testing purposes. Default is 0 (no delay)",
+      "defaultValue": "0",
+      "dependsOn": "cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' && cp.getStageName() == 'integration')"
+      }
+    },
+    {
+      "name": "ProfilerEnabled",
+      "description": "Enable profiling for the service. This will collect performance data and expose it via the endpoint.",
+      "defaultValue": "false",
+      "dependsOn": "cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' && cp.getStageName() == 'integration')"
+      }
+    },
+    {
+      "name": "EncourageSemSearchIndexUse",
+      "description": "Encourage the database to use the vector index during semantic search queries.",
+      "defaultValue": "true",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "QueryEmbeddingTimeoutMs",
+      "description": "Query chunks/documents embedding timeout",
+      "defaultValue": "5000",
+      "constraints": {
+        "required": false,
+        "allowedPattern": "^\\d+$"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "QueryEmbeddingMaxRetries",
+      "description": "Number of retries for embedder question requests.",
+      "defaultValue": "1",
+      "constraints": {
+        "required": false,
+        "allowedPattern": "^\\d+$"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "LogServiceMetrics",
+      "description": "Set to 'true' to enable logging of service metrics.",
+      "defaultValue": "true",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "SaxTokenCacheEnabled",
+      "description": "Enable JWT token caching to improve performance",
+      "defaultValue": "true",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "SaxTokenCacheMaxTTL",
+      "description": "Maximum cache TTL for JWT tokens (security limit)",
+      "defaultValue": "50m",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "SaxTokenCacheMaxSize",
+      "description": "Maximum number of JWT tokens to cache",
+      "defaultValue": "10000",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "SaxTokenCacheCleanupInterval",
+      "description": "Interval for cleaning up expired cache entries",
+      "defaultValue": "5m",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "UsageMetricsEnabled",
+      "description": "Set to 'true' to enable sending usage metrics to PDC.",
+      "defaultValue": "true",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "IsolationIdVerificationDisabled",
+      "description": "Disable isolation ID verification in JWT tokens. When set to true, the service will not validate that the isolation ID in the JWT token matches the isolation ID in the request.",
+      "defaultValue": "true",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    }
+  ],
+  "serviceMetadata":{
+    "service-type": "backing-service",
+    "provider": "aws,gcp",
+    "owner":"Jarvis@pega.com",
+    "webexChannel": "CloudK - GenAI Vector Store Support [webexteams://im?space=9828eb70-886f-11ee-a264-4d1eb3ef43cd]"
+  }
+}

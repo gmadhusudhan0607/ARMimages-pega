@@ -1,0 +1,30 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google embedding models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings"
+models:
+  - name: text-multilingual-embedding
+    version: "002"
+    label: Text Multilingual Embedding
+    id: google.text-multilingual-embedding-002
+    functionalCapabilities: ["embedding"]
+    deprecationDate: "2025-10-15"
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [embedding]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        default: null
+        required: false

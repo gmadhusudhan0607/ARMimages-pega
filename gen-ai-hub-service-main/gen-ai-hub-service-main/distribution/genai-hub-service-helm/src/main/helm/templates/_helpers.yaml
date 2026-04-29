@@ -1,0 +1,9 @@
+{{- define "pegaTags" }}
+{{- if .Values.global }}
+{{- if .Values.global.provisioningTags }}
+{{- range $lkey, $lval := .Values.global.provisioningTags }}
+{{ $lkey }}: {{ regexReplaceAll "[\\/|\\W]+" $lval "-"| trunc 63 | trimPrefix "-" | trimSuffix "-" | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

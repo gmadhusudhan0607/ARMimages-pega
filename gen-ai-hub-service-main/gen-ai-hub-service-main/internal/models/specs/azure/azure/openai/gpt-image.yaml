@@ -1,0 +1,55 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT-Image image generation models"
+  documentation: "https://platform.openai.com/docs/models/gpt-image-1.5"
+models:
+  - name: gpt-image-1.5
+    version: "2025-12-16"
+    label: "GPT-Image 1.5"
+    id: openai.gpt-image-1.5-2025-12-16
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: "/images/generations"
+    capabilities:
+      inputModalities: ["text", "image"]
+      outputModalities: ["image", "text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 4000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 4000
+        required: false
+      quality:
+        title: Quality
+        description: Controls the output quality for generated images
+        type: string
+        default: "standard"
+        required: false
+      size:
+        title: Size
+        description: Sets the output image dimensions
+        type: string
+        default: "1024x1024"
+        required: false
+      outputFormat:
+        title: Output Format
+        description: The format of the generated image
+        type: string
+        default: "png"
+        required: false

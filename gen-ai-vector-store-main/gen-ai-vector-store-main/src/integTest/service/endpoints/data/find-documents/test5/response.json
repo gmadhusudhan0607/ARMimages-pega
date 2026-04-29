@@ -1,0 +1,35 @@
+{
+  "documents": [
+    {
+      "chunkStatus": {
+        "COMPLETED": 1,
+        "ERROR": 0,
+        "IN_PROGRESS": 0
+      },
+      "documentAttributes": [
+        {
+          "name": "category",
+          "type": "string",
+          "values": [
+            "report"
+          ]
+        },
+        {
+          "name": "department",
+          "type": "string",
+          "values": [
+            "finance"
+          ]
+        }
+      ],
+      "documentID": "DOC-1",
+      "ingestionStatus": "COMPLETED",
+      "ingestionTime": "2026-02-20T10:46:14.730654Z",
+      "updateTime": "2026-02-20T10:46:14.855918Z"
+    }
+  ],
+  "pagination": {
+    "itemsTotal": 1,
+    "limit": 500
+  }
+}

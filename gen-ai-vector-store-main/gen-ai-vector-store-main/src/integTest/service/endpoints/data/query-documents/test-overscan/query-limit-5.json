@@ -1,0 +1,7 @@
+{
+  "limit": 5,
+  "maxDistance": 1.0,
+  "filters": {
+    "query": "technology and computing"
+  }
+}

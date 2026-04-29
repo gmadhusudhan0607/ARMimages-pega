@@ -1,0 +1,13 @@
+quiet: False
+with-expecter: True
+recursive: True
+dir: mocks
+outpkg: mocks
+filename: "{{ .InterfaceName | camelcase | firstLower }}_mock.go"
+packages:
+  github.com/Pega-CloudEngineering/gen-ai-vector-store/internal/embedding-models:
+    config:
+      all: True
+  github.com/Pega-CloudEngineering/gen-ai-vector-store/internal/resources/isolations:
+    config:
+      all: True

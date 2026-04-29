@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "attributes": {
+      "operator": "AND",
+      "items": [
+        {
+          "name": "department",
+          "operator": "in",
+          "values": [
+            "finance"
+          ]
+        }
+      ]
+    }
+  }
+}

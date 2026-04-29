@@ -1,0 +1,637 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ProvisioningType",
+      "regional": false,
+      "description": "Determines how many prompts are shown. Standard option will show fewer prompts compared to Advanced. Default = Standard",
+      "defaultValue": "Standard",
+      "uicontrols": {
+        "type": "list",
+        "visibility": "true"
+      },
+      "constraints": {
+        "required": true,
+        "immutable": false,
+        "allowedValues": [
+          "Standard",
+          "Advanced"
+        ]
+      }
+    },
+    {
+      "name": "UseGenAIInfra",
+      "regional": false,
+      "description": "Flag to enable the use of models provisioned via GenAI Infra Control Plane",
+      "defaultValue": "true",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "list"
+      }
+    },
+    {
+      "name": "UseAutoMapping",
+      "regional": false,
+      "description": "Flag to enable the the use of Model Mappings fetched automatically from GenAI Infra Control Plane",
+      "defaultValue": "true",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "list"
+      }
+    },
+    {
+      "name": "ClusterGUID",
+      "regional": true,
+      "description": "GUID of CloudK cluster where service is deployed",
+      "constraints": {
+        "required": true,
+        "description": "Must be a valid GUID",
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})",
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "SaxCell",
+      "description": "SAX Cell to be used for the deployment",
+      "defaultValue": "us",
+      "dependsOn": "dynamicParams.ProvisioningType, dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "required": false,
+        "allowedValues": [
+          "us",
+          "eu",
+          "apac"
+        ]
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced') || (dynamicParams.UseGenAIInfra == 'true')"
+      }
+    },
+    {
+      "name": "Namespace",
+      "regional": false,
+      "description": "K8s namespace in which the service is created",
+      "defaultValue": "genai-hub-service",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "immutable": true,
+        "maxLength": 63,
+        "allowedPattern": "^[a-z0-9]([a-z0-9\\-]{0,61}[a-z0-9])?$"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "DockerRegistry",
+      "regional": false,
+      "description": "The Docker Registry for the service images",
+      "dependsOn": "cp.stageName, dynamicParams.ProvisioningType",
+      "defaultValues": {
+        "rnd-usgov": "artifactory-pcfrrd-cp-pl-endpoint.rnd-pcfrpegaservice.net:5000",
+        "production-usgov": "artifactory-pcfr-cp-pl-endpoint.pcfrpegaservice.net:5000",
+        "production": "cirrus-docker-release.jfrog.io",
+        "prod-adoption": "cirrus-docker-release.jfrog.io",
+        "prod-launchpad": "cirrus-docker-release.jfrog.io",
+        "default": "cirrus-docker.jfrog.io"
+      },
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "RequestedCpu",
+      "regional": false,
+      "description": "Requested CPU for the service",
+      "defaultValue": "500m",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "description": "Must be a valid CPU value (e.g., 500m or 1)"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "RequestedMemory",
+      "regional": false,
+      "description": "Requested Memory for the service",
+      "defaultValue": "500Mi",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "description": "Must be a valid CPU value (e.g., 500Mi, 1.5Gi or 2Gi)"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "LimitCpu",
+      "regional": false,
+      "description": "CPU limit for the service",
+      "defaultValue": "2",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "description": "Must be a valid CPU value (e.g., 500m or 1)"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "LimitMemory",
+      "regional": false,
+      "description": "Memory limit for the service",
+      "defaultValue": "2Gi",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false,
+        "description": "Must be a valid CPU value (e.g., 500Mi, 1.5Gi or 2Gi)"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "OtlpSampler",
+      "description": "Otlp Sampler",
+      "defaultValue": "parentbased_traceidratio",
+      "defaultValues": {
+        "true": "parentbased_traceidratio"
+      },
+      "dependsOn": "dynamicParams.UseOtlp",
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e dynamicParams.UseOtlp"
+      },
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "OtlpSamplerArg",
+      "description": "Otlp Sampler argument.",
+      "defaultValue": "0.2",
+      "dependsOn": "dynamicParams.UseOtlp",
+      "defaultValues": {
+        "true": "0.2",
+        "false": "0"
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e dynamicParams.UseOtlp"
+      },
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "UseOtlp",
+      "description": "Decides whether to use OTLP or not.",
+      "dependsOn": "cp.stageName",
+      "defaultValue": "false",
+      "defaultValues": {
+        "development": "false",
+        "integration": "true",
+        "staging": "false",
+        "prod-adoption": "false",
+        "showcase": "false",
+        "production": "false"
+      },
+      "uicontrols": {
+        "type": "text"
+      },
+      "constraints": {
+        "required": false,
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    {
+      "name": "GenAIURL",
+      "regional": true,
+      "description": "(Optional) The URL of GenAI API",
+      "defaultValues": {
+        "integration": "!e cp.serviceConfig('genai-hub-service').lookup('azure-openai-url-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+        "staging": "!e cp.serviceConfig('genai-hub-service').lookup('azure-openai-url-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+        "prod-adoption": "!e cp.serviceConfig('genai-hub-service').lookup('azure-openai-url-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+        "production" : "!e cp.serviceConfig('genai-hub-service').lookup('azure-openai-url-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+        "trials" : "cp.serviceConfig('genai-hub-service-launchpad').lookup('azure-openai-url-launchpad-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service-launchpad').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+        "prod-launchpad" : "cp.serviceConfig('genai-hub-service-launchpad').lookup('azure-openai-url-launchpad-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service-launchpad').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))"
+      },
+      "dependsOn": "cp.stageName, dynamicParams.ClusterGUID, cp.provider, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedPattern": "^https:\\/\\/(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])(:[0-9]+)?$|(^\\s*$)",
+        "description": "Must be a valid DNS",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "SelfStudyBuddyURLv1",
+      "regional": true,
+      "description": "(Optional) The URL of SelfStudyBuddyURL API v1",
+      "defaultValue": "!e cp.serviceConfig('genai-hub-service').lookup('self-study-buddy-url-v1.0', cp.getStageName(), cp.serviceConfig('genai-hub-service').lookup('region-to-sax-cell-map', cmdbService.cluster(dynamicParams.ClusterGUID).get('Region')), cmdbService.cluster(dynamicParams.ClusterGUID).get('Region'))",
+      "dependsOn": "dynamicParams.ClusterGUID, cp.provider, cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedPattern": "^https:\\/\\/(([\\w]*)(\\.([\\w]*))*)(:\\d+)?([\\/\\w\\-\\.\\\\~!$&\"*+,;=:@]+)?$|(^\\s*$)",
+        "description": "Must be a valid URL",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "DemoAwsBedrockURL",
+      "regional": false,
+      "description": "(Optional) The URL of AWS Bedrock API for demonstration purpose.",
+      "dependsOn": "dynamicParams.ProvisioningType, dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "allowedPattern": "^https:\\/\\/(([\\w]*)(\\.([\\w]*))*)(:\\d+)?([\\/\\w\\-\\.\\\\~!$&\"*+,;=:@]+)?$|(^\\s*$)",
+        "description": "Must be a valid URL",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' && dynamicParams.UseGenAIInfra == 'false')"
+      }
+    },
+    {
+      "name": "DemoGcpVertexURL",
+      "regional": false,
+      "description": "(Optional) The URL of GCP Vertex API for demonstration purpose. Not present for Production environment.",
+      "dependsOn": "cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedPattern": "^https:\\/\\/(([\\w]*)(\\.([\\w]*))*)(:\\d+)?([\\/\\w\\-\\.\\\\~!$&\"*+,;=:@]+)?$|(^\\s*$)",
+        "description": "Must be a valid URL",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "UseVertexAIInfra",
+      "regional": false,
+      "description": "GCP VertexAI Endpoint provisioned via GenAI Infrastructure for GCP",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "false",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "LogLevel",
+      "regional": false,
+      "description": "(Optional) Log level",
+      "defaultValue": "INFO",
+      "dependsOn": "cp.stageName, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "INFO",
+          "DEBUG"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced' &&  cp.getStageName() in ['development', 'integration'] )"
+      }
+    },
+    {
+      "name": "ModelTimeoutSeconds",
+      "regional": false,
+      "description": "Client timeout in seconds that Gateway will wait for a model call to complete before close connection.",
+      "defaultValue": "1800",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "PlatformType",
+      "regional": true,
+      "description": "The type of the platform that is deployed in the cluster i.e. Infinity or Launchpad",
+      "dependsOn": "dynamicParams.ClusterGUID, dynamicParams.ProvisioningType, cp.provider",
+      "defaultValue": "!e cp.provider == 'aws' ? cmdbService.cluster(dynamicParams.ClusterGUID).get('ArchitectureType').toLowerCase() : 'infinity'",
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      },
+      "constraints": {
+        "required": true,
+        "immutable": true,
+        "allowedValues": [
+          "infinity",
+          "launchpad"
+        ]
+      }
+    },
+    {
+      "name": "UseSax",
+      "regional": true,
+      "description": "Issue SAX tokens",
+      "defaultValue": "!e (cp.provider == 'aws' ? cmdbService.cluster(dynamicParams.ClusterGUID).get('ArchitectureType') == 'Launchpad' : 'false')",
+      "dependsOn": "dynamicParams.ClusterGUID, dynamicParams.ProvisioningType",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": true
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "LLMAccountID",
+      "description": "AWS Account ID where the AWS Bedrock LLMs are hosted",
+      "dependsOn": "dynamicParams.UseGenAIInfra, cp.stageName, dynamicParams.UseAutoMapping",
+      "defaultValues" : {
+        "integration": "045663071481",
+        "staging": "",
+        "prod-adoption": "",
+        "production": "",
+        "trials": "",
+        "prod-launchpad": "",
+        "production-usgov": "",
+        "rnd-usgov": "",
+        "default": ""
+      },
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.UseGenAIInfra == 'true') && (dynamicParams.UseAutoMapping == 'true')"
+      }
+    },
+    {
+      "name": "LLMModelsRegion",
+      "description": "The AWS Region where the AWS Bedrock LLMs are hosted",
+      "dependsOn": "dynamicParams.UseGenAIInfra, dynamicParams.UseAutoMapping",
+      "constraints": {
+        "required":  false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.UseGenAIInfra == 'true') && (dynamicParams.UseAutoMapping == 'true')"
+      }
+    },
+    {
+      "name": "DisplayPreviewModels",
+      "description": "Displays models with preview lifecycle on list models endpoint",
+      "defaultValue": "false",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": true
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "SmartModelOverride",
+      "description": "(Optional) Override for the default smart model. Takes precedence over models defined by GenAI Infrastructure.",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "required":  false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "FastModelOverride",
+      "description": "(Optional) Override for the default fast model. Takes precedence over models defined by GenAI Infrastructure.",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "required":  false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "ProModelOverride",
+      "description": "(Optional) Override for the default pro model. Takes precedence over models defined by GenAI Infrastructure.",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "defaultValue": "",
+      "constraints": {
+        "required":  false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "EnabledProviders",
+      "description": "The enabled providers for the GenAI gateway service.",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "required": true,
+        "allowedValues": [
+          "Azure",
+          "Bedrock",
+          "Vertex"
+        ]
+      },
+      "defaultValue": "Azure,Bedrock",
+      "uicontrols": {
+        "type": "multi_select",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "EnableProModelDefault",
+      "regional": false,
+      "description": "Enable Pro tier in default model responses. When false, maintains backward compatibility by excluding Pro field from API responses.",
+      "defaultValue": "false",
+      "dependsOn": "dynamicParams.UseGenAIInfra",
+      "constraints": {
+        "allowedValues": ["true", "false"],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "list",
+        "visibility": "!e (dynamicParams.UseGenAIInfra == 'true')"
+      }
+    },
+    {
+      "name": "CopyrightProtection",
+      "regional": false,
+      "description": "[Experimental] Avoid Copyright Infringements",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "false",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "MaxTokensStrategy",
+      "regional": false,
+      "description": "Max Tokens adjustment strategy. When selected MONITORING_ONLY no adjustment is done only monitoring. When selected FIXED use the value provided as Max Tokens Value field. When selected AUTO_INCREASING use the MaxTokenValue as initial max_tokens and auto adjust it based on prompt size for each request. When selected P95/P96/P97/P98/P99 use historical data to set max_tokens to the selected percentile of the requests based on used tokens",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "AUTO_INCREASING",
+      "constraints": {
+        "allowedValues": [
+          "DISABLED",
+          "MONITORING_ONLY",
+          "FIXED",
+          "AUTO_INCREASING",
+          "P95",
+          "P96",
+          "P97",
+          "P98",
+          "P99"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "MaxTokensBaseValue",
+      "regional": false,
+      "description": "Base max-tokens value for  FIXED and AUTO_INCREASING strategies. For FIXED strategy this value is used as max_tokens for all requests. For AUTO_INCREASING strategy this value is used as initial max_tokens and auto increase value based on prompt size for each request.",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "4000",
+      "upgradeValue": "4000",
+      "constraints": {
+        "allowedPattern": "^\\d*$",
+        "description": "Must be digits only",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "MaxTokensForced",
+      "regional": false,
+      "description": "Force max_tokens adjustment for all requests, even if client provides max_tokens",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "false",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "MaxTokensInStreaming",
+      "regional": false,
+      "description": "Force max_tokens adjustment in streaming requests",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "false",
+      "constraints": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    },
+    {
+      "name": "ProcessingCacheSize",
+      "regional": false,
+      "description": "Request Cache Size (samples) form max-tokens adjustment.",
+      "dependsOn": "dynamicParams.ProvisioningType",
+      "defaultValue": "1000",
+      "constraints": {
+        "allowedPattern": "^\\d*$",
+        "description": "Must be digits only",
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.ProvisioningType == 'Advanced')"
+      }
+    }
+
+  ],
+  "serviceMetadata": {
+    "owner": "JarvisScrumTeam@pega.com",
+    "provider": "aws,gcp",
+    "service-type": "backing-service"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go build:*)",
+      "Bash(go test:*)",
+      "Bash(go vet:*)",
+      "Bash(go tool staticcheck:*)",
+      "Bash(go tool mockery:*)",
+      "Bash(make build:*)",
+      "Bash(/usr/bin/make build:*)",
+      "Bash(make test:*)",
+      "Bash(/usr/bin/make test:*)",
+      "Bash(make lint:*)",
+      "Bash(/usr/bin/make lint:*)",
+      "Bash(make mockery:*)",
+      "Bash(make integration-test-run:*)",
+      "Bash(make integration-test-run-locally:*)",
+      "Bash(make integtest-background:*)",
+      "Bash(make integtest-timeout:*)",
+      "Bash(make integtest-reembedding:*)",
+      "Bash(make pact-test:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
+      "Bash(git rebase:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(pegacloud describe:*)",
+      "Bash(pegacloud get:*)",
+      "Bash(pegacloud status:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl logs:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Create a team called 'genai-vs-dev' with description 'GenAI Vector Store development team'. Then read the .claude/agents/ directory to discover all agent definitions, and spawn one teammate for each agent found — using the agent's name as both the subagent_type and the teammate name. Do this silently without lengthy explanations."
+          }
+        ]
+      }
+    ]
+  }
+}

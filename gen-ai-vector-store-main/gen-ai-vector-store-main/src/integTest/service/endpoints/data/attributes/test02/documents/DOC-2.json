@@ -1,0 +1,54 @@
+{
+  "id": "DOC-2",
+  "chunks": [
+    {
+      "content": "some text here",
+      "attributes": [
+        {
+          "name": "pets",
+          "value": [
+            "cat",
+            "dog"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "Krakow"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "some text here",
+      "attributes": [
+        {
+          "name": "pets",
+          "value": [
+            "dragon",
+            "unicorn"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "Narnia"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "location",
+      "value": [
+        "Earth"
+      ],
+      "type": "string"
+    }
+  ]
+}

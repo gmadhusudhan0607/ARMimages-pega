@@ -1,0 +1,220 @@
+infrastructure: aws
+provider: bedrock
+creator: mistral
+models:
+  - name: mistral-large-3
+    version: v1
+    label: Mistral Large 3
+    id: mistral.mistral-large-3-675b-instruct
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 32768
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: ministral-14b
+    version: v1
+    label: Ministral 14B
+    id: mistral.ministral-3-14b-instruct
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp]
+    deployment:
+      region: eu-south-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 8192
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: ministral-8b
+    version: v1
+    label: Ministral 8B
+    id: mistral.ministral-3-8b-instruct
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp]
+    deployment:
+      region: eu-south-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 8192
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: ministral-3b
+    version: v1
+    label: Ministral 3B
+    id: mistral.ministral-3-3b-instruct
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp]
+    deployment:
+      region: eu-south-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 8192
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

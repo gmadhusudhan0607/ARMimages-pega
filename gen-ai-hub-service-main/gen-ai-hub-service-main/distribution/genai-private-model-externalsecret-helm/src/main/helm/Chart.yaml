@@ -1,0 +1,10 @@
+# Plugin 'com.pega.helmcli.helm' will automatically replace ${chartName} and ${chartVersion} with dynamic values calculated by the plugin
+name: ${chartName}
+version: ${chartVersion}
+apiVersion: v2 # Helm3
+description: A genai-private-model-externalsecret Helm chart
+keywords:
+  - fnx-service
+  - genai-private-model-externalsecret
+  - template
+  - backing-service

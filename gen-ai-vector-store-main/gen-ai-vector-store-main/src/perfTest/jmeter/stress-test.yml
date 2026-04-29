@@ -1,0 +1,6 @@
+---
+execution:
+  - concurrency: 1
+    ramp-up: 5m
+    hold-for: 5m
+    scenario: jmeter

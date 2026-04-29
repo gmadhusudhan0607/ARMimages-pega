@@ -1,0 +1,124 @@
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Imagen 4 models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/generative-ai/docs/models/imagen/4-0-generate"
+models:
+  - name: imagen-4.0
+    version: generate-001
+    label: Imagen 4
+    id: google.imagen-4-0-generate-001
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480 # TODO: Doublecheck - inherited from Imagen 3, not confirmed in Imagen 4 model card
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: imagen-4.0-fast
+    version: fast-generate-001
+    label: Imagen 4 Fast
+    id: google.imagen-4-0-fast-generate-001
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480 # TODO: Doublecheck - inherited from Imagen 3, not confirmed in Imagen 4 model card
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: imagen-4.0-ultra
+    version: ultra-generate-001
+    label: Imagen 4 Ultra
+    id: google.imagen-4-0-ultra-generate-001
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: :predict
+    capabilities:
+      inputModalities: [text]
+      outputModalities: [image]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 480 # TODO: Doublecheck - inherited from Imagen 3, not confirmed in Imagen 4 model card
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

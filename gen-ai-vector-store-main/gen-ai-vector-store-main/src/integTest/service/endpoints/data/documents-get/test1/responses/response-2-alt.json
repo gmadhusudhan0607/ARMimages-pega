@@ -1,0 +1,5 @@
+{
+  "error": "[{\"status\" : \"ERROR\", \"code\" : 500, \"message\" : \"embedding returned an error: \", \"count\" : 2}]",
+  "id": "DOC-2",
+  "status": "ERROR"
+}

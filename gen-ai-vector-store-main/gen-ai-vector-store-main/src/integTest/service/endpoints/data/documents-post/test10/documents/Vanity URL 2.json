@@ -1,0 +1,72 @@
+{
+  "id": "Vanity URL 2",
+  "attributes": [],
+  "chunks": [
+    {
+      "content": "\nSetting a Vanity URL on Your System\nOverview\nIf you require SSL with a valid CA issued cert, please follow the process outlined below. A CA issued cert is required for mobile application and certain REST integrations. The process only requires one IT ticket and could take a few days depending on the responsiveness of the person working on your ticket.\n\nNOTE: If your dashboard page does not display/use the Vanity URL after the ticket has been completed, contact Pega Labs support to have the vanityurl parameter on your system updated.\n\nPlease do not contact Pega Labs requesting the status of your ticket. Please reach out to the assigned IT Service Desk Analyst for updates.\n\nYou will need the following system information which can be found on your system page. The link to this page was sent to you in the onboarding email sent to you when the system was provisioned.\n\nLabName: Hostname field of the \"System Info\" table on the dashboard page.",
+      "attributes": [
+        {
+          "name": "roles",
+          "type": "string",
+          "value": [
+            "KnowledgeBuddy:Public"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "value": [
+            "Pega Labs Vanity URL"
+          ]
+        },
+        {
+          "name": "dataSource",
+          "type": "string",
+          "value": [
+            "DS2"
+          ]
+        },
+        {
+          "name": "command",
+          "type": "string",
+          "value": [
+            "Enable debug port URL"
+          ]
+        }
+      ]
+    },
+    {
+      "content": "LabName: Hostname field of the \"System Info\" table on the dashboard page.\n\nIpAddress: IP Address field of the \"System Info\" table on the dashboard page.\n\nTicket Template\nOpen the Service Management application and create a new ticket with IT. In the search box type \"f5\" and a submenu appears where you will choose \"Vanity URL Requests F5\".\n\nShort Description: PegaLabs -- Create Internal Vanity URL\n\nDetailed Description: Please create vanity URL https://<LabName>.lab.pega.com --> https://<IpAddress>:8443/ using the *.lab.pega.com certificate.\n\nFill out the additional fields as follows replacing <LAB NAME> and <LAB IP Address> with the values from above.\n\nNOTE: Once the request is completed by the NetOps Team, you should be able to access the system using the vanity URL.",
+      "attributes": [
+        {
+          "name": "roles",
+          "type": "string",
+          "value": [
+            "KnowledgeBuddy:Public"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "value": [
+            "Pega Labs Vanity URL"
+          ]
+        },
+        {
+          "name": "dataSource",
+          "type": "string",
+          "value": [
+            "DS2"
+          ]
+        },
+        {
+          "name": "command",
+          "type": "string",
+          "value": [
+            "Enable debug port URL"
+          ]
+        }
+      ]
+    }
+  ]
+}

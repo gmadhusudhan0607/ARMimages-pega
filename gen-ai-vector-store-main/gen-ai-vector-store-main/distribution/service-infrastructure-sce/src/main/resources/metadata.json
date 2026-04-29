@@ -1,0 +1,34 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ClusterGUID",
+      "description": "EKS Cluster GUID",
+      "regional": true,
+      "constraints": {
+        "required": true,
+        "immutable": true,
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Owner",
+      "description": "Owner of the deployment (for tagging purpose)",
+      "defaultValue": "",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "service-type": "backing-service",
+    "provider": "aws,gcp",
+    "owner": "Jarvis@pega.com",
+    "webexChannel": "CloudK - GenAI Vector Store Support [webexteams://im?space=9828eb70-886f-11ee-a264-4d1eb3ef43cd]"
+  }
+}

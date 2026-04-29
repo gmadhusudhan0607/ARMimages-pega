@@ -1,0 +1,387 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: aws
+provider: bedrock
+creator: amazon
+metadata:
+  description: "Amazon Nova model family on AWS Bedrock"
+  documentation: "https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html"
+models:
+  - name: nova-lite-v1
+    version: v1
+    id: amazon.nova-lite-v1:0
+    label: Nova Lite
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text, image, video]
+      outputModalities: [text]
+      mimeTypes: [application/pdf, application/docx, application/doc, text/csv, application/xls, application/xlsx, text/html, text/plain, text/markdown, image/png, image/jpeg, image/jpg, image/gif, image/webp, video/mp4, video/mov, video/mkv, video/webm, video/flv, video/mpeg, video/mpg, video/wmv, video/3gp]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 300000
+        required: false
+      maxOutputTokens:
+        title: Max output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 10000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.7
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: nova-micro
+    version: v1
+    label: Nova Micro
+    id: amazon.nova-micro-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text]
+      outputModalities: [text]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 10000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: nova-premier
+    version: v1
+    label: Nova Premier
+    id: amazon.nova-premier-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, toolCalling]
+      inputModalities: [text, image, video]
+      outputModalities: [text]
+      mimeTypes: [application/pdf, application/docx, application/doc, text/csv, application/xls, application/xlsx, text/html, text/plain, text/markdown, image/png, image/jpeg, image/jpg, image/gif, image/webp, video/mp4, video/mov, video/mkv, video/webm, video/flv, video/mpeg, video/mpg, video/wmv, video/3gp]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 1000000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 10000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: nova-pro
+    version: v1
+    label: Nova Pro
+    id: amazon.nova-pro-v1:0
+    functionalCapabilities: ["chat_completion"]
+    lifecycle:
+      status: Generally Available
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, toolCalling]
+      inputModalities: [text, image, video]
+      outputModalities: [text]
+      mimeTypes: [application/pdf, application/docx, application/doc, text/csv, application/xls, application/xlsx, text/html, text/plain, text/markdown, image/png, image/jpeg, image/jpg, image/gif, image/webp, video/mp4, video/mov, video/mkv, video/webm, video/flv, video/mpeg, video/mpg, video/wmv, video/3gp]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 300000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 5000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: nova-2-lite-v1
+    version: v1
+    id: amazon.nova-2-lite-v1:0
+    label: Nova 2 Lite
+    functionalCapabilities: [ "chat_completion" ]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [ streaming ]
+      inputModalities: [ text, image, video, document ]
+      outputModalities: [ text ]
+      mimeTypes: [ application/pdf, application/docx, application/doc, text/csv, application/xls, application/xlsx, text/html, text/plain, text/markdown, image/png, image/jpeg, image/jpg, image/gif, image/webp, video/mp4, video/mov, video/mkv, video/webm, video/flv, video/mpeg, video/mpg, video/wmv, video/3gp ]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 1000000
+        required: false
+      maxOutputTokens:
+        title: Max output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 65535
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.7
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: nova-2-pro-preview
+    version: v1
+    id: amazon.nova-2-pro-preview-20251202-v1:0
+    label: Nova 2 Pro
+    functionalCapabilities: ["chat_completion"]  # TODO: Verify
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]  # TODO: Verify features
+      inputModalities: [text]  # TODO: Verify modalities
+      outputModalities: [text]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens for input
+        type: integer
+        maximum: 128000  # TODO: Set correct maximum
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 4096  # TODO: Set correct maximum
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+  - name: nova-2-omni-preview
+    version: v1
+    id: amazon.nova-2-omni-v1:0
+    label: Nova 2 Omni V1
+    functionalCapabilities: ["chat_completion"]  # TODO: Verify
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]  # TODO: Verify features
+      inputModalities: [text]  # TODO: Verify modalities
+      outputModalities: [text]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens for input
+        type: integer
+        maximum: 128000  # TODO: Set correct maximum
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 4096  # TODO: Set correct maximum
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false

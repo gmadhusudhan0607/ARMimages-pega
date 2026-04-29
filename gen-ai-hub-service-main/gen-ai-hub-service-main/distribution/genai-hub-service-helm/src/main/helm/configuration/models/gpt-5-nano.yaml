@@ -1,0 +1,12 @@
+- name: gpt-5-nano
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-5-nano"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-5-nano"
+  provider: openai
+  creator: openai
+  targetAPI: "/chat/completions"
+  path: "/openai/deployments/gpt-5-nano/chat/completions"
+  infrastructure: azure
+  capabilities:
+    completions: true
+    embeddings: false

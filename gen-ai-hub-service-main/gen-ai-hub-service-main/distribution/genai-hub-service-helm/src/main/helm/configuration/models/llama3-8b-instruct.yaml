@@ -1,0 +1,10 @@
+- name: llama3-8b-instruct
+  modelId: meta.llama3-8b-instruct-v1:0
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/meta/deployments/llama3-8b-instruct"
+  redirectUrl: "{{ .Values.DemoAwsBedrockURL }}/meta/deployments/llama3-8b-instruct"
+  provider: meta
+  infrastructure: aws
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

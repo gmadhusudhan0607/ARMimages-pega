@@ -1,0 +1,74 @@
+{
+  "documentID" : "DOC #1",
+  "chunks" : [ {
+    "id" : "DOC #1-EMB-0",
+    "content" : "Chunk 0 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.0" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-1",
+    "content" : "Chunk 1 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.1" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-2",
+    "content" : "Chunk 2 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.2" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-3",
+    "content" : "Chunk 3 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.3" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-4",
+    "content" : "Chunk 4 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.4" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-5",
+    "content" : "Chunk 5 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.5" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-6",
+    "content" : "Chunk 6 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.6" ],
+      "type" : "string"
+    } ]
+  }, {
+    "id" : "DOC #1-EMB-7",
+    "content" : "Chunk 7 content",
+    "attributes" : [ {
+      "name" : "version",
+      "value" : [ "v1", "v1.7" ],
+      "type" : "string"
+    } ]
+  } ],
+  "pagination" : {
+    "nextCursor" : "DOC%20%231-EMB-7",
+    "limit" : 8,
+    "itemsTotal" : 30,
+    "itemsLeft": 22
+  }
+}

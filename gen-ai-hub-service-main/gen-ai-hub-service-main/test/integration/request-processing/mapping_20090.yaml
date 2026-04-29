@@ -1,0 +1,394 @@
+buddies:
+  - name: selfstudybuddy
+    buddyUrl: "http://localhost:20090/v1/:isolationID/buddies/selfstudybuddy"
+    redirectUrl: "http://localhost:11818"
+models:
+  - name: claude-3-5-haiku
+    modelId: us.anthropic.claude-3-5-haiku-20241022-v1:0
+    modelUrl: "http://localhost:20090/anthropic/deployments/claude-3-5-haiku"
+    redirectUrl: "http://localhost:11818/anthropic/deployments/claude-3-5-haiku"
+    provider: anthropic
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: claude-3-5-sonnet
+    modelId: us.anthropic.claude-3-5-sonnet-20241022-v2:0
+    modelUrl: "http://localhost:20090/anthropic/deployments/claude-3-5-sonnet"
+    redirectUrl: "http://localhost:11818/anthropic/deployments/claude-3-5-sonnet"
+    provider: anthropic
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: claude-3-haiku
+    modelId: anthropic.claude-3-haiku-20240307-v1:0
+    modelUrl: "http://localhost:20090/anthropic/deployments/claude-3-haiku"
+    redirectUrl: "http://localhost:11818/anthropic/deployments/claude-3-haiku"
+    provider: anthropic
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: claude-haiku-4-5
+    modelId: anthropic.claude-haiku-4-5-20251001-v1:0
+    modelUrl: "http://localhost:20090/anthropic/deployments/claude-haiku-4-5"
+    redirectUrl: "http://localhost:11818/anthropic/deployments/claude-haiku-4-5"
+    provider: anthropic
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: claude-sonnet-4-5
+    modelId: anthropic.claude-sonnet-4-5-20250929-v1:0
+    modelUrl: "http://localhost:20090/anthropic/deployments/claude-sonnet-4-5"
+    redirectUrl: "http://localhost:11818/anthropic/deployments/claude-sonnet-4-5"
+    provider: anthropic
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: dall-e-3
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/dall-e-3"
+    redirectUrl: "http://localhost:11818/openai/deployments/dall-e-3"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      image-generation: true
+      completions: false
+      embeddings: false
+  - name: gemini-1.5-flash
+    modelId: ""
+    modelUrl: "http://localhost:20090/google/deployments/gemini-1.5-flash"
+    redirectUrl: "http://localhost:11818/google/deployments/gemini-1.5-flash"
+    provider: google
+    creator: google
+    targetAPI: "/chat/completions"
+    path: "/google/deployments/gemini-1.5-flash/chat/completions"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: gemini-1.5-pro
+    modelId: ""
+    modelUrl: "http://localhost:20090/google/deployments/gemini-1.5-pro"
+    redirectUrl: "http://localhost:11818/google/deployments/gemini-1.5-pro"
+    provider: google
+    creator: google
+    targetAPI: "/chat/completions"
+    path: "/google/deployments/gemini-1.5-pro/chat/completions"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: gemini-2.0-flash
+    modelId: ""
+    modelUrl: "http://localhost:20090/google/deployments/gemini-2.0-flash"
+    redirectUrl: "http://localhost:11818/google/deployments/gemini-2.0-flash"
+    provider: google
+    creator: google
+    targetAPI: "/chat/completions"
+    path: "/google/deployments/gemini-2.0-flash/chat/completions"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: gpt-35-turbo
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-35-turbo"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-35-turbo-1106"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-35-turbo/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-4-preview
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4-preview"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4-1106-preview"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4-preview/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-4-vision-preview
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4-vision-preview"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4-vision-preview"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4-vision-preview/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-4o-mini
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4o-mini"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4o-mini"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4o-mini/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-4o
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4o"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4o"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4o/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: "gpt-4.1-mini"
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4.1-mini"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4.1-mini"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4.1-mini/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: "gpt-4.1"
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4.1"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4.1"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4.1/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: "gpt-4.1-nano"
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-4.1-nano"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4.1-nano"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4.1-nano/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-5
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-5-mini
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5-mini"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5-mini"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5-mini/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-5-nano
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5-nano"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5-nano"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5-nano/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-5-chat
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5-chat"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5-chat"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5-chat/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: "gpt-5.1"
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5.1"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5.1"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5.1/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: "gpt-5.2"
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/gpt-5.2"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-5.2"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-5.2/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: imagen-3-fast
+    modelId: imagen-3.0-fast-generate-001
+    modelUrl: "http://localhost:20090/google/deployments/imagen-3-fast"
+    redirectUrl: "http://localhost:11818/google/deployments/imagen-3-fast"
+    provider: google
+    creator: google
+    targetAPI: "/images/generations"
+    path: "/google/deployments/imagen-3-fast/images/generations"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: imagen-3
+    modelId: imagen-3.0-generate-002
+    modelUrl: "http://localhost:20090/google/deployments/imagen-3"
+    redirectUrl: "http://localhost:11818/google/deployments/imagen-3"
+    provider: google
+    creator: google
+    targetAPI: "/images/generations"
+    path: "/google/deployments/imagen-3/images/generations"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: imagen-4.0
+    modelId: imagen-4.0-generate-001
+    modelUrl: "http://localhost:20090/google/deployments/imagen-4.0"
+    redirectUrl: "http://localhost:11818/google/deployments/imagen-4.0"
+    provider: google
+    creator: google
+    targetAPI: "/images/generations"
+    path: "/google/deployments/imagen-4.0/images/generations"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: imagen-4.0-fast
+    modelId: imagen-4.0-fast-generate-001
+    modelUrl: "http://localhost:20090/google/deployments/imagen-4.0-fast"
+    redirectUrl: "http://localhost:11818/google/deployments/imagen-4.0-fast"
+    provider: google
+    creator: google
+    targetAPI: "/images/generations"
+    path: "/google/deployments/imagen-4.0-fast/images/generations"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: imagen-4.0-ultra
+    modelId: imagen-4.0-ultra-generate-001
+    modelUrl: "http://localhost:20090/google/deployments/imagen-4.0-ultra"
+    redirectUrl: "http://localhost:11818/google/deployments/imagen-4.0-ultra"
+    provider: google
+    creator: google
+    targetAPI: "/images/generations"
+    path: "/google/deployments/imagen-4.0-ultra/images/generations"
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: llama3-8b-instruct
+    modelId: meta.llama3-8b-instruct-v1:0
+    modelUrl: "http://localhost:20090/meta/deployments/llama3-8b-instruct"
+    redirectUrl: "http://localhost:11818/meta/deployments/llama3-8b-instruct"
+    provider: meta
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: false
+      image-generation: false
+  - name: text-embedding-3-large
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/text-embedding-3-large"
+    redirectUrl: "http://localhost:11818/openai/deployments/text-embedding-3-large"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      chat-completion: false
+      embeddings: true
+  - name: text-embedding-3-small
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/text-embedding-3-small"
+    redirectUrl: "http://localhost:11818/openai/deployments/text-embedding-3-small"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      chat-completion: false
+      embeddings: true
+  - name: text-embedding-ada-002
+    modelId: ""
+    modelUrl: "http://localhost:20090/openai/deployments/text-embedding-ada-002"
+    redirectUrl: "http://localhost:11818/openai/deployments/text-embedding-ada-002"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      chat-completion: false
+      embeddings: true
+  - name: text-multilingual-embedding-002
+    modelId: text-multilingual-embedding-002
+    modelUrl: "http://localhost:20090/google/deployments/text-multilingual-embedding-002"
+    redirectUrl: "http://localhost:11818/google/deployments/text-multilingual-embedding-002"
+    provider: google
+    infrastructure: gcp
+    capabilities:
+      completions: false
+      embeddings: true
+      image-generation: false
+  - name: titan-embed-text
+    modelId: amazon.titan-embed-text-v2:0
+    modelUrl: "http://localhost:20090/amazon/deployments/titan-embed-text"
+    redirectUrl: "http://localhost:11818/amazon/deployments/titan-embed-text"
+    provider: amazon
+    infrastructure: aws
+    capabilities:
+      completions: false
+      embeddings: true
+      image-generation: false

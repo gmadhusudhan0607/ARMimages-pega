@@ -1,0 +1,17 @@
+{
+  "filter": {
+    "status": "ERROR",
+    "attributes": {
+      "operator": "AND",
+      "items": [
+        {
+          "name": "org",
+          "operator": "in",
+          "values": [
+            "tso"
+          ]
+        }
+      ]
+    }
+  }
+}

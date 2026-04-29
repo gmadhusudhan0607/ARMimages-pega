@@ -1,0 +1,25 @@
+{
+  "limit": 1000,
+  "maxDistance": 1.0,
+  "filters": {
+    "query": "Pega Labs?",
+    "attributes": [
+      {
+        "name": "version",
+        "type": "string",
+        "operator": "in",
+        "value": [
+          "ver.0.x"
+        ]
+      },
+      {
+        "name": "dataSource",
+        "type": "string",
+        "operator": "in",
+        "value": [
+          "DS0.1"
+        ]
+      }
+    ]
+  }
+}

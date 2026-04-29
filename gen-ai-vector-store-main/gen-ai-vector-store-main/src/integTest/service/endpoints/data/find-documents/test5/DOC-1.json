@@ -1,0 +1,33 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "some text here 1",
+      "attributes": [
+        {
+          "name": "category",
+          "value": [
+            "report"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "category",
+      "value": [
+        "report"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "department",
+      "value": [
+        "finance"
+      ],
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+id: GenAIInfrastructure
+name: GenAI Infrastructure
+version: @version@
+description: GenAI Infrastructure Configuration Product
+
+mappings:
+  services_version:
+    {{>services_version.yml}}
+
+prompts:
+  - name: Owner
+    description: Owner of the deployment (for tagging purpose)
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+  - name: Region
+    description: Reference region for the GenAI Infrastructure
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+  - name: AccountID
+    description: Account to provision GenAI Infrastructure
+    dependsOn: cp.stageName
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+  - name: OidcIssuer
+    description: URL of the OIDC provider to be used by GenAI Infrastructure
+    uicontrols:
+      type: text
+
+node:
+  path: !e '"/controlplane-services/${fn.generateGUID()}"'
+  labels:
+    type: GenAI Infrastructure Product
+    name: 'genai-infrastruture'
+    owner: !e fn.select("", prompts.Owner)
+    accountid: !e fn.select("", prompts.AccountID)
+    region: !e fn.select("", prompts.Region)
+    provider: !e cp.provider
+    pega-service-id: PRD-7655
+    pega-service-name: GenAI Infrastructure Product
+  services:
+    - name: GenAIGCPVertexHost
+      namespace: default
+      version: @version@
+      parameters:
+        - name: Region
+          value: !e prompts.Region
+        - name: AccountID
+          value: !e prompts.AccountID
+        - name: Owner
+          value: !e prompts.Owner
+
+    - name: GenAIGCPVertexInfra
+      namespace: default
+      version: @version@
+      parameters:
+        - name: OidcIssuer
+          value: !e prompts.OidcIssuer
+
+  tags:
+    - key: Owner
+      value: !e prompts.Owner
+  nodes: []

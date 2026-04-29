@@ -1,0 +1,62 @@
+[
+  {
+    "id": "DOC-1-EMB-1",
+    "content": "DOC-1 content for chunk 1",
+    "attributes": [
+      {
+        "name": "dataSource",
+        "value": [
+          "DS0"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "org",
+        "value": [
+          "tso"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "value": [
+          "v1",
+          "v1.c2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "DOC-1",
+    "distance": 0.2763
+  },
+  {
+    "id": "DOC-1-EMB-0",
+    "content": "DOC-1 content for chunk 0",
+    "attributes": [
+      {
+        "name": "dataSource",
+        "value": [
+          "DS0"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "org",
+        "value": [
+          "tso"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "value": [
+          "v1",
+          "v1.c1"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "DOC-1",
+    "distance": 0.2804
+  }
+]

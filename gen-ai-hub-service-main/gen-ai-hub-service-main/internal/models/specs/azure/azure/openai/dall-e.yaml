@@ -1,0 +1,55 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI DALL-E image generation models"
+  documentation: "https://platform.openai.com/docs/models/dall-e"
+models:
+  - name: dall-e-3
+    version: "3.0"
+    label: "DALL-E 3"
+    id: openai.dall-e-3-3.0
+    functionalCapabilities: ["image"]
+    deprecationDate: '2025-10-31'
+    lifecycle:
+      status: Deprecated
+      deprecationDate: "2025-10-31"
+    endpoints:
+      - path: "/images/generations"
+    capabilities:
+      inputModalities: ["text"]
+      outputModalities: ["image"]
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 4000
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: null
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

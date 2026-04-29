@@ -1,0 +1,19 @@
+{
+  "id": "DOC-AR",
+  "chunks": [
+    {
+      "content": "some text",
+      "attributes": [
+        {
+          "name": "region",
+          "type": "string",
+          "kind": "auto-resolved",
+          "value": ["EU"]
+        }
+      ],
+      "metadata": {
+        "embeddingAttributes": ["region"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+name: Publish Swagger UI to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apidocs/spec.yaml"
+      - "index.html"
+      - ".github/workflows/github-pages-via-action.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Verify Swagger spec exists
+        run: test -f apidocs/spec.yaml
+
+      - name: Prepare GitHub Pages artifact
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+          cp apidocs/spec.yaml _site/spec.yaml
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,6 @@
+{
+  "_comment": "Branches matching exempt_branches_regex won't be auto-deleted. These patterns are also in defaults but added explicitly for safety.",
+  "default_recipient": "ozgom_pega",
+  "days_before_branch_delete": 7,
+  "exempt_branches_regex": "^patch/|^poc/|^release-hotfix/"
+}

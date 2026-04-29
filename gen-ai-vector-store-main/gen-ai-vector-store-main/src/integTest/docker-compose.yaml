@@ -1,0 +1,140 @@
+version: '3.8'
+services:
+  ada-mockserver:
+    image: docker-dev.bin.pega.io/mockserver/mockserver:5.15.0
+    container_name: mockserver
+    environment:
+      - MOCKSERVER_SERVER_PORT=${MOCKSERVER_SERVER_PORT:-11080}
+      - MOCKSERVER_WATCH_INITIALIZATION_JSON=true
+      - MOCKSERVER_PROPERTY_FILE=/config/mockserver.properties
+      # - MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializerJson.json
+    volumes:
+      - source: ./mockserver
+        target: /config
+        type: bind
+    ports:
+      - ${MOCKSERVER_SERVER_PORT:-11080}:${MOCKSERVER_SERVER_PORT:-11080}
+  db:
+    hostname: db
+    image: docker-dev.bin.pega.io/pgvector/pgvector:0.8.1-pg18
+    #    image: docker-dev.bin.pega.io/ankane/pgvector:v0.4.4
+    container_name: vs-db-1
+    user: postgres:postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_NAME:-vectordb}
+      - POSTGRES_USER=${DB_USR:-testuser}
+      - POSTGRES_PASSWORD=${DB_PWD:-testpwd}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGPORT=${DB_PORT:-15432}
+    ports:
+      - ${DB_PORT:-15432}:${DB_PORT:-15432}
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  vector-store:
+    image: ${SERVICE_DOCKER_IMAGE:-}
+    container_name: vector-store
+    depends_on:
+      db:
+        condition: service_healthy
+      ada-mockserver:
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - LOG_LEVEL=DEBUG
+      - GENAI_GATEWAY_SERVICE_URL=http://mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - GENAI_API_KEY=
+      - GENAI_SMART_CHUNKING_SERVICE_URL=http://mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - REGION=us-east-1
+      - SAX_DISABLED=true
+      - SAX_CLIENT_DISABLED=true
+      - ISOLATION_ID_VERIFICATION_DISABLED=true
+      - DB_LOCAL=true
+      - DB_HOST=vs-db-1
+      - DB_PORT=${DB_PORT:-15432}
+      - DB_NAME=${DB_NAME:-vectordb}
+      - DB_USR=${DB_USR:-testuser}
+      - DB_PWD=${DB_PWD:-testpwd}
+      - SERVICE_PORT=${SERVICE_PORT:-18080}
+      - SERVICE_HEALTHCHECK_PORT=${SERVICE_HEALTHCHECK_PORT:-18082}
+      - INJECT_TEST_HEADERS=true
+      - LOG_PERFORMANCE_TRACE=true
+      - PGVECTOR_DISTANCE_PRECISION=4
+#      - DOCUMENT_STATUS_UPDATE_PERIOD_MS=15000 # 15000 milliseconds for testing
+      - QUERY_EMBEDDING_TIMEOUT_MS=5000  # Use bigger timeout since many of the tests using delays 2 sec in mock
+      - QUERY_EMBEDDING_MAX_RETRIES=1
+      - ENABLE_RUNTIME_HEADER_CONFIG=true  # Used to allow change service for testing (ReadOnly mode, Headers, etc.)
+#      - OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+#      - OTEL_TRACES_SAMPLER=parentbased_traceidratio
+#      - OTEL_TRACES_SAMPLER_ARG=1
+#      - OTEL_RESOURCE_ATTRIBUTES=service.name=genai-vector-store
+#       - ENCOURAGE_SEM_SEARCH_INDEX_USE=true
+    ports:
+      - ${SERVICE_PORT:-18080}:${SERVICE_PORT:-18080}
+      - ${SERVICE_HEALTHCHECK_PORT:-18082}:${SERVICE_HEALTHCHECK_PORT:-18082}
+  vector-store-ops:
+    image: ${OPS_DOCKER_IMAGE:-}
+    container_name: vector-store-ops
+    depends_on:
+      db:
+        condition: service_healthy
+      ada-mockserver:
+        condition: service_started
+      vector-store:     ## avoid starting in parallel to avoid pg_vector plugin configuration conflicts
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - GENAI_GATEWAY_SERVICE_URL=http://mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - GENAI_API_KEY=
+      - SAX_DISABLED=true
+      - SAX_CLIENT_DISABLED=true
+      - ISOLATION_ID_VERIFICATION_DISABLED=true
+      - DB_LOCAL=true
+      - DB_HOST=vs-db-1
+      - DB_PORT=${DB_PORT:-15432}
+      - DB_NAME=${DB_NAME:-vectordb}
+      - DB_USR=${DB_USR:-testuser}
+      - DB_PWD=${DB_PWD:-testpwd}
+      - OPS_PORT=${OPS_PORT:-18090}
+      - OPS_HEALTHCHECK_PORT=${OPS_HEALTHCHECK_PORT:-18092}
+      - INJECT_TEST_HEADERS=true
+      - ENABLE_RUNTIME_HEADER_CONFIG=true  # Used to allow change service for testing (ReadOnly mode, Headers, etc.)
+    ports:
+      - ${OPS_PORT:-18090}:${OPS_PORT:-18090}
+      - ${OPS_HEALTHCHECK_PORT:-18092}:${OPS_HEALTHCHECK_PORT:-18092}
+  vector-store-background:
+    image: ${BACKGROUND_DOCKER_IMAGE:-}
+    container_name: vector-store-background
+    depends_on:
+      db:
+        condition: service_healthy
+      vector-store:      ## avoid starting in parallel to avoid pg_vector plugin configuration conflicts
+        condition: service_started
+      vector-store-ops:  ## avoid starting in parallel to avoid pg_vector plugin configuration conflicts
+        condition: service_started
+    profiles:
+      - app
+    environment:
+      - GENAI_GATEWAY_SERVICE_URL=http://mockserver:${MOCKSERVER_SERVER_PORT:-11080}
+      - GENAI_API_KEY=
+      - SAX_DISABLED=true
+      - SAX_CLIENT_DISABLED=true
+      - ISOLATION_ID_VERIFICATION_DISABLED=true
+      - DB_LOCAL=true
+      - DB_HOST=vs-db-1
+      - DB_PORT=${DB_PORT:-15432}
+      - DB_NAME=${DB_NAME:-vectordb}
+      - DB_USR=${DB_USR:-testuser}
+      - DB_PWD=${DB_PWD:-testpwd}
+      - BKG_HEALTHCHECK_PORT=${BKG_HEALTHCHECK_PORT:-18072}
+      - ENABLE_RUNTIME_HEADER_CONFIG=true  # Used to allow change service for testing (ReadOnly mode, Headers, etc.)
+      - ATTR_REPLICATION_BATCH_SIZE=10  # Small batch size for faster testing and multiple progress updates
+      - ATTR_REPLICATION_DELAY_MS=10  # Short delay between batches for faster testing
+      - ATTR_REPLICATION_ITERATION_DELAY_SEC=1  # Short iteration delay for faster testing
+    ports:
+      - ${BKG_HEALTHCHECK_PORT:-18072}:${BKG_HEALTHCHECK_PORT:-18072}

@@ -1,0 +1,4125 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-metadata
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pegaTags" . | nindent 4 }}
+data:
+  model-metadata.yaml: |
+    claude-3-haiku:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-3-Haiku
+      model_description: Claude3 Chat Completions model
+      model_mapping_id: claude-3-haiku
+      version: 3
+      model_label: Claude 3 Haiku
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 4096
+          maximum: 4096
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.7
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 1.0
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      alternate_model_info:
+        name: claude-haiku-4-5
+        provider: bedrock
+        creator: anthropic
+      deprecation_date: '2026-09-09'
+    claude-3-5-sonnet:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-35-Sonnet
+      model_description: Claude3 Chat Completions model
+      model_mapping_id: claude-3-5-sonnet
+      version: 3
+      model_label: Claude 3.5 Sonnet
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 8192
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.7
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      alternate_model_info:
+        name: claude-sonnet-4-5
+        provider: bedrock
+        creator: anthropic
+      deprecation_date: '2026-03-31'
+    claude-3-7-sonnet:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-37-Sonnet
+      model_description: Claude3 Chat Completions model
+      model_mapping_id: claude-3-7-sonnet
+      version: 3
+      model_label: Claude 3.7 Sonnet
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 128000
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      deprecation_date: '2026-04-28'
+      alternate_model_info:
+        name: claude-sonnet-4-5
+        provider: bedrock
+        creator: anthropic
+    claude-haiku-4-5:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-Haiku-45
+      model_description: Claude Chat Completions model
+      model_mapping_id: claude-haiku-4-5
+      version: 1.0
+      model_label: Claude Haiku 4.5
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 64000
+          maximum: 64000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    claude-sonnet-4-5:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-Sonnet-45
+      model_description: Claude Chat Completions model
+      model_mapping_id: claude-sonnet-4-5
+      version: 1.0
+      model_label: Claude Sonnet 4.5
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 64000
+          maximum: 64000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    gemini-1.5-flash:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Flash
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-1.5-flash
+      version: '1.5-flash'
+      model_label: Gemini 1.5 Flash
+      model_id: gemini-1.5-flash
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - structuredOutput
+          - jsonMode
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-09-24'
+      alternate_model_info:
+        name: gemini-2.5-flash
+        provider: vertex
+        creator: google
+    gemini-1.5-pro:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Pro
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-1.5-pro
+      version: '1.5-pro'
+      model_label: Gemini 1.5 Pro
+      model_id: gemini-1.5-pro
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - structuredOutput
+          - jsonMode
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-09-24'
+      alternate_model_info:
+        name: gemini-2.5-pro
+        provider: vertex
+        creator: google
+    gemini-2.0-flash:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Flash
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-2.0-flash
+      version: '2.0-flash'
+      model_label: Gemini 2.0 Flash
+      model_id: gemini-2.0-flash
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - structuredOutput
+          - jsonMode
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - images
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+          - text
+          - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-06-01'
+      alternate_model_info:
+        name: gemini-2.5-flash
+        provider: vertex
+        creator: google
+    gemini-2.5-pro:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Pro
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-2.5-pro
+      version: '2.5-pro'
+      model_label: Gemini 2.5 Pro
+      model_id: gemini-2.5-pro
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - jsonMode
+          - structuredOutput
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 65535
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: array
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+        thinking_budget:
+          title: Thinking Budget
+          description: Allows control over hov much model thinks during its responses
+          type: integer
+          default: null
+          maximum: 32768
+          minimum: 128
+          required: false
+      deprecation_date: '2026-06-16'
+    gemini-2.5-flash:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Flash
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-2.5-flash
+      version: '2.5-flash'
+      model_label: Gemini 2.5 Flash
+      model_id: gemini-2.5-flash
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - jsonMode
+          - structuredOutput
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 65535
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: array
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+        thinking_budget:
+          title: Thinking Budget
+          description: Allows control over hov much model thinks during its responses
+          type: integer
+          default: null
+          maximum: 24576
+          minimum: 1
+          required: false
+      deprecation_date: '2026-10-01'
+    gemini-2.5-flash-lite:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Flash-Lite
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-2.5-flash-lite
+      version: '2.5-flash-lite'
+      model_label: Gemini 2.5 Flash-Lite
+      model_id: gemini-2.5-flash-lite
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - jsonMode
+          - structuredOutput
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/webp
+          - audio/x-aac
+          - audio/flac
+          - audio/mp3
+          - audio/m4a
+          - audio/mpeg
+          - audio/mpga
+          - audio/mp4
+          - audio/ogg
+          - audio/pcm
+          - audio/wav
+          - audio/webm
+          - video/x-flv
+          - video/quicktime
+          - video/mpeg
+          - video/mpg
+          - video/mp4
+          - video/webm
+          - video/wmv
+          - video/3gpp
+          - application/pdf
+          - text/plain
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 65535
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: array
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+        thinking_budget:
+          title: Thinking Budget
+          description: Allows control over hov much model thinks during its responses
+          type: integer
+          default: null
+          maximum: 24576
+          minimum: 1
+          required: false
+      deprecation_date: '2026-07-21'
+    gemini-2.5-flash-image:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Flash-Image
+      model_description: Gemini 2.5 Flash Image generation model
+      model_mapping_id: gemini-2.5-flash-image
+      version: '2.5-flash-image'
+      model_label: Gemini 2.5 Flash Image
+      model_id: gemini-2.5-flash-image
+      type: image
+      input_tokens: 65536
+      output_tokens: 32768
+      model_capabilities:
+        features:
+          - promptCaching
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - image
+        mime_types:
+          - text/plain
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+      lifecycle: Generally Available
+    gpt-35-turbo-0125:
+      provider: azure
+      creator: openai
+      model_name: GPT-35-Turbo
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-35-turbo-0125
+      version: '0125'
+      model_label: Gpt 35 Turbo
+      model_id: gpt-35-turbo-0125
+      type: chat_completion
+      input_tokens: 16384
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+          - parallelFunctionCalling
+        input_modalities:
+          - text
+        output_modalities:
+          - text
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 4096
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 1.0
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-11-11'
+      alternate_model_info:
+        name: gpt-5-mini-2025-08-07
+        provider: azure
+        creator: openai
+    gpt-35-turbo-1106:
+      provider: azure
+      creator: openai
+      model_name: GPT-35-Turbo
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-35-turbo-1106
+      version: '1106'
+      model_label: Gpt 35 Turbo
+      model_id: gpt-35-turbo-1106
+      type: chat_completion
+      input_tokens: 16000
+      model_capabilities:
+        features:
+          - streaming
+          - parallelFunctionCalling
+          - jsonMode
+        input_modalities:
+          - text
+        output_modalities:
+          - text
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 4096
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 1.0
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-11-11'
+      alternate_model_info:
+        name: gpt-5-mini-2025-08-07
+        provider: azure
+        creator: openai
+    gpt-4-0125-preview:
+      provider: azure
+      creator: openai
+      model_name: GPT-4
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4-0125-preview
+      version: 0125-preview
+      model_label: Gpt 4
+      model_id: gpt-4-0125-preview
+      type: chat_completion
+      input_tokens: 16384
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structuredOutput
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+          - text/x-c
+          - text/x-csharp
+          - text/x-c++
+          - application/msword
+          - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+          - text/html
+          - text/x-java
+          - application/json
+          - text/markdown
+          - application/pdf
+          - text/x-php
+          - application/vnd.openxmlformats-officedocument.presentationml.presentation
+          - text/x-python
+          - text/x-script.python
+          - text/x-ruby
+          - text/x-tex
+          - text/plain
+          - text/css
+          - text/javascript
+          - application/x-sh
+          - application/typescript
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 4096
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: 1.0
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-05-01'
+    gpt-4o-2024-11-20:
+      provider: azure
+      creator: openai
+      model_name: GPT-4o
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4o-2024-11-20
+      version: 2024-11-20
+      model_label: Gpt 4o
+      model_id: gpt-4o-2024-11-20
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 16384
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-05-01'
+      alternate_model_info:
+        name: gpt-4.1-2025-04-14
+        provider: azure
+        creator: openai
+    gpt-4o-2024-08-06:
+      provider: azure
+      creator: openai
+      model_name: GPT-4o
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4o-2024-08-06
+      version: 2024-08-06
+      model_label: Gpt 4o
+      model_id: gpt-4o-2024-08-06
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+          - audio
+        output_modalities:
+          - text
+          - audio
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 16384
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-05-01'
+      alternate_model_info:
+        name: gpt-4.1-2025-04-14
+        provider: azure
+        creator: openai
+    gpt-4o-2024-05-13:
+      provider: azure
+      creator: openai
+      model_name: GPT-4o
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4o-2024-05-13
+      version: 2024-05-13
+      model_label: Gpt 4o
+      model_id: gpt-4o-2024-05-13
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structuredOutput
+        input_modalities:
+          - text
+          - image
+          - audio
+        output_modalities:
+          - text
+          - audio
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 4096
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-05-01'
+      alternate_model_info:
+        name: gpt-4.1-2025-04-14
+        provider: azure
+        creator: openai
+    gpt-4o-mini-2024-07-18:
+      provider: azure
+      creator: openai
+      model_name: GPT-4o-Mini
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4o-mini-2024-07-18
+      version: 2024-07-18
+      model_label: Gpt 4o Mini
+      model_id: gpt-4o-mini-2024-07-18
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structuredOutput
+        input_modalities:
+          - text
+          - image
+          - audio
+        output_modalities:
+          - text
+          - audio
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 16000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-05-01'
+      alternate_model_info:
+        name: gpt-4.1-mini-2025-04-14
+        provider: azure
+        creator: openai
+    imagen-3:
+      provider: vertex
+      creator: google
+      model_name: Imagen-3.0
+      model_description: Imagen Text-to-Image model
+      model_mapping_id: imagen-3.0-generate-002
+      version: generate-002
+      model_label: Imagen 3
+      model_id: imagen-3.0-generate-002
+      type: image
+      input_tokens: 480
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        aspect_ratio:
+          default: null
+          description: The aspect ratio for the generated output image
+          examples:
+            - 1:1
+            - 9:16
+            - 16:9
+            - 3:4
+            - 4:3
+          title: Aspect Ratio
+          type: string
+          required: false
+    text-multilingual-embedding-002:
+      provider: vertex
+      creator: google
+      model_name: Text-Multilingual-Embedding
+      model_description: Google Embedding model
+      model_mapping_id: text-multilingual-embedding-002
+      version: '002'
+      model_label: Text Multilingual Embedding
+      model_id: text-multilingual-embedding-002
+      type: embedding
+      input_tokens: 2048
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+    llama3-70b-instruct:
+      provider: bedrock
+      creator: meta
+      model_name: Llama3-70B-Instruct
+      model_description: Llama Chat Completions model
+      model_mapping_id: llama3-70b-instruct
+      version: 1
+      model_label: Llama 3 70B Instruct
+      type: chat_completion
+      input_tokens: 8192
+      model_capabilities:
+        features:
+          - streaming
+        input_modalities:
+          - text
+        output_modalities:
+          - text
+          - chat
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          minimum: 1
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+    llama3-8b-instruct:
+      provider: bedrock
+      creator: meta
+      model_name: Llama3-8B-Instruct
+      model_description: Llama Chat Completions model
+      model_mapping_id: llama3-8b-instruct
+      version: 1
+      model_label: Llama 3 8B Instruct
+      type: chat_completion
+      input_tokens: 8192
+      model_capabilities:
+        features:
+          - streaming
+        input_modalities:
+          - text
+        output_modalities:
+          - text
+          - chat
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        max_tokens:
+          title: Max Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          minimum: 1
+          required: false
+    imagen-3-fast:
+      provider: vertex
+      creator: google
+      model_name: Imagen-3.0-Fast
+      model_description: Imagen Text-to-Image model
+      model_mapping_id: imagen-3.0-fast-generate-001
+      version: generate-001
+      model_label: Imagen 3 Fast
+      model_id: imagen-3.0-fast-generate-001
+      type: image
+      input_tokens: 480
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        aspect_ratio:
+          default: null
+          description: The aspect ratio for the generated output image
+          examples:
+            - 1:1
+            - 9:16
+            - 16:9
+            - 3:4
+            - 4:3
+          title: Aspect Ratio
+          type: string
+          required: false
+    imagen-4.0:
+      provider: vertex
+      creator: google
+      model_name: Imagen-4.0
+      model_description: Imagen Text-to-Image model
+      model_mapping_id: imagen-4.0-generate-001
+      version: generate-001
+      model_label: Imagen 4
+      model_id: imagen-4.0-generate-001
+      type: image
+      input_tokens: 480 # Inherited from Imagen 3, not confirmed in Imagen 4 model card
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        aspect_ratio:
+          default: null
+          description: The aspect ratio for the generated output image
+          examples:
+            - 1:1
+            - 9:16
+            - 16:9
+            - 3:4
+            - 4:3
+          title: Aspect Ratio
+          type: string
+          required: false
+      lifecycle: Generally Available
+    imagen-4.0-fast:
+      provider: vertex
+      creator: google
+      model_name: Imagen-4.0-Fast
+      model_description: Imagen Text-to-Image model
+      model_mapping_id: imagen-4.0-fast-generate-001
+      version: fast-generate-001
+      model_label: Imagen 4 Fast
+      model_id: imagen-4.0-fast-generate-001
+      type: image
+      input_tokens: 480 # Inherited from Imagen 3, not confirmed in Imagen 4 model card
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        aspect_ratio:
+          default: null
+          description: The aspect ratio for the generated output image
+          examples:
+            - 1:1
+            - 9:16
+            - 16:9
+            - 3:4
+            - 4:3
+          title: Aspect Ratio
+          type: string
+          required: false
+      lifecycle: Generally Available
+    imagen-4.0-ultra:
+      provider: vertex
+      creator: google
+      model_name: Imagen-4.0-Ultra
+      model_description: Imagen Text-to-Image model
+      model_mapping_id: imagen-4.0-ultra-generate-001
+      version: ultra-generate-001
+      model_label: Imagen 4 Ultra
+      model_id: imagen-4.0-ultra-generate-001
+      type: image
+      input_tokens: 480 # Inherited from Imagen 3, not confirmed in Imagen 4 model card
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        aspect_ratio:
+          default: null
+          description: The aspect ratio for the generated output image
+          examples:
+            - 1:1
+            - 9:16
+            - 16:9
+            - 3:4
+            - 4:3
+          title: Aspect Ratio
+          type: string
+          required: false
+      lifecycle: Generally Available
+    nova-2-lite-v1:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-2-Lite
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-2-lite-v1
+      version: 1
+      model_label: Nova 2 Lite
+      type: chat_completion
+      input_tokens: 1000000
+      model_capabilities:
+        features:
+          - streaming
+          - promptCaching
+        input_modalities:
+          - text
+          - image
+          - video
+          - document
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 65535
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    nova-lite-v1:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-Lite
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-lite-v1
+      version: 1
+      model_label: Nova Lite
+      type: chat_completion
+      input_tokens: 300000
+      model_capabilities:
+        features:
+          - streaming
+        input_modalities:
+          - text
+          - image
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 10000
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    nova-micro-v1:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-Micro
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-micro-v1
+      version: 1
+      model_label: Nova Micro
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+        input_modalities:
+          - text
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 10000
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+    nova-premier-v1:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-Premier
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-premier-v1
+      version: 1
+      model_label: Nova Premier
+      type: chat_completion
+      input_tokens: 1000000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - toolCalling
+        input_modalities:
+          - text
+          - image
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 10000
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+      deprecation_date: '2026-09-13'
+    nova-pro-v1:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-Pro
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-pro-v1
+      version: 1
+      model_label: Nova Pro
+      type: chat_completion
+      input_tokens: 300000
+      model_capabilities:
+        features:
+          - streaming
+        input_modalities:
+          - text
+          - image
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 10000
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+      lifecycle: Generally Available
+    text-embedding-3-large-1:
+      provider: azure
+      creator: openai
+      model_name: Text-Embedding-3-Large
+      model_description: OpenAI Embedding model
+      model_mapping_id: text-embedding-3-large-1
+      version: '1'
+      model_label: Text Embedding 3 Large
+      model_id: text-embedding-3-large-1
+      type: embedding
+      input_tokens: 8191
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+    text-embedding-3-small-1:
+      provider: azure
+      creator: openai
+      model_name: Text-Embedding-3-Small
+      model_description: OpenAI Embedding model
+      model_mapping_id: text-embedding-3-small-1
+      version: '1'
+      model_label: Text Embedding 3 Small
+      model_id: text-embedding-3-small-1
+      type: embedding
+      input_tokens: 8191
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+    text-embedding-ada-002-2:
+      provider: azure
+      creator: openai
+      model_name: Text-Embedding-Ada-002
+      model_description: OpenAI Embedding model
+      model_mapping_id: text-embedding-ada-002-2
+      version: '2'
+      model_label: Text Embedding Ada 002
+      model_id: text-embedding-ada-002-2
+      type: embedding
+      input_tokens: 2046
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+      alternate_model_info:
+        name: text-embedding-3-large-1
+        provider: azure
+        creator: openai
+    dall-e-3-3.0:
+      provider: azure
+      creator: openai
+      model_name: DALLE-3
+      model_description: OpenAI Image model
+      model_mapping_id: dall-e-3-3.0
+      version: '3.0'
+      model_label: Dall·e 3
+      model_id: dall-e-3-3.0
+      type: image
+      input_tokens: 4000
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - image
+      parameters:
+        quality:
+          default: null
+          description: Controls the fidelity of the generated image
+          examples:
+            - standard
+            - hd
+          title: Quality
+          type: string
+          required: false
+        style:
+          default: null
+          description: Specifies the resolution of the output image
+          examples:
+            - vivid
+            - natural
+          title: Style
+          type: string
+          required: false
+        size:
+          default: null
+          description: Influences the artistic rendering of the image
+          examples:
+            - 256x256
+            - 512x512
+            - 1024x1024
+            - 1792x1024
+            - 1024x1792
+          title: Size
+          type: string
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2025-10-31'
+    gpt-image-1.5-2025-12-16:
+      provider: azure
+      creator: openai
+      model_name: GPT-Image
+      model_description: OpenAI Image model
+      model_mapping_id: gpt-image-1.5-2025-12-16
+      version: '2025-12-16'
+      model_label: GPT-Image 1.5
+      model_id: gpt-image-1.5-2025-12-16
+      type: image
+      input_tokens: 4000
+      model_capabilities:
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - image
+          - text
+      parameters:
+        quality:
+          default: standard
+          description: Controls the output quality for generated images
+          examples:
+            - standard
+            - hd
+          title: Quality
+          type: string
+          required: false
+        size:
+          default: 1024x1024
+          description: Sets the output image dimensions
+          examples:
+            - 1024x1024
+            - 1792x1024
+            - 1024x1792
+          title: Size
+          type: string
+          required: false
+        outputFormat:
+          default: png
+          description: The format of the generated image
+          examples:
+            - png
+            - jpeg
+          title: Output Format
+          type: string
+          required: false
+    titan-embed-text:
+      provider: bedrock
+      creator: amazon
+      model_name: Titan-Embed-Text
+      model_description: Amazon Embedding model
+      model_mapping_id: titan-embed-text-v2
+      version: 2
+      model_label: Titan Embed Text
+      type: embedding
+      input_tokens: 8192
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+    gpt-5-2025-08-07:
+      provider: azure
+      creator: openai
+      model_name: GPT-5
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5-2025-08-07
+      version: 2025-08-07
+      model_label: Gpt 5
+      model_id: gpt-5-2025-08-07
+      type: chat_completion
+      input_tokens: 400000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 1.0
+          minimum: 1.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 1.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+    gpt-5-mini-2025-08-07:
+      provider: azure
+      creator: openai
+      model_name: GPT-5-Mini
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5-mini-2025-08-07
+      version: 2025-08-07
+      model_label: Gpt 5 Mini
+      model_id: gpt-5-mini-2025-08-07
+      type: chat_completion
+      input_tokens: 400000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 1.0
+          minimum: 1.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 1.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2027-02-05'
+    gpt-5-nano-2025-08-07:
+      provider: azure
+      creator: openai
+      model_name: GPT-5-Nano
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5-nano-2025-08-07
+      version: 2025-08-07
+      model_label: Gpt 5 Nano
+      model_id: gpt-5-nano-2025-08-07
+      type: chat_completion
+      input_tokens: 400000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 1.0
+          minimum: 1.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 1.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2027-02-05'
+    gpt-5-chat-2025-08-07:
+      provider: azure
+      creator: openai
+      model_name: GPT-5-Chat
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5-chat-2025-08-07
+      version: 2025-08-07
+      model_label: Gpt 5 Chat
+      model_id: gpt-5-chat-2025-08-07
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 16384
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+    gpt-4.1-2025-04-14:
+      provider: azure
+      creator: openai
+      model_name: GPT-4.1
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4.1-2025-04-14
+      version: 2025-04-14
+      model_label: Gpt 4.1
+      model_id: gpt-4.1-2025-04-14
+      type: chat_completion
+      input_tokens: 1047576
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 32768
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-10-13'
+    gpt-4.1-nano-2025-04-14:
+      provider: azure
+      creator: openai
+      model_name: GPT-4.1-Nano
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4.1-nano-2025-04-14
+      version: 2025-04-14
+      model_label: Gpt 4.1 Nano
+      model_id: gpt-4.1-nano-2025-04-14
+      type: chat_completion
+      input_tokens: 1047576
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 32768
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-10-13'
+    gpt-4.1-mini-2025-04-14:
+      provider: azure
+      creator: openai
+      model_name: GPT-4.1-Mini
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-4.1-mini-2025-04-14
+      version: 2025-04-14
+      model_label: Gpt 4.1 Mini
+      model_id: gpt-4.1-mini-2025-04-14
+      type: chat_completion
+      input_tokens: 1047576
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 32768
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2026-10-13'
+    gpt-5.1-2025-11-13:
+      provider: azure
+      creator: openai
+      model_name: GPT-5.1
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5.1-2025-11-13
+      version: 2025-11-13
+      model_label: Gpt 5.1
+      model_id: gpt-5.1-2025-11-13
+      type: chat_completion
+      input_tokens: 400000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 1.0
+          minimum: 1.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 1.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2027-05-14'
+    gpt-5.2-2025-12-11:
+      provider: azure
+      creator: openai
+      model_name: GPT-5.2
+      model_description: OpenAI Chat Completions model
+      model_mapping_id: gpt-5.2-2025-12-11
+      version: 2025-12-11
+      model_label: Gpt 5.2
+      model_id: gpt-5.2-2025-12-11
+      type: chat_completion
+      input_tokens: 400000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - parallelFunctionCalling
+          - toolCalling
+          - parallelToolCalling
+          - jsonMode
+          - structured Output
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+        mime_types:
+          - image/png
+          - image/jpeg
+          - image/gif
+          - image/webp
+      parameters:
+        max_completion_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 128000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 1.0
+          minimum: 1.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 1.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        parallel_tool_calls:
+          default: null
+          description: parallel tool calls
+          title: Parallel Tool Calls
+          type: boolean
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      deprecation_date: '2027-05-11'
+    nova-2-pro-preview:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-2-Pro-Preview
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-2-pro-preview
+      version: v1
+      model_label: Nova 2 Pro Preview
+      type: chat_completion
+      input_tokens: 1000000
+      model_capabilities:
+        features:
+          - streaming
+          - promptCaching
+        input_modalities:
+          - text
+          - image
+          - video
+          - document
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 65535
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      lifecycle: Preview
+    nova-2-omni-preview:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-2-Omni-Preview
+      model_description: Amazon Nova Chat Completions model
+      model_mapping_id: nova-2-omni-preview
+      version: v1
+      model_label: Nova 2 Omni Preview
+      type: chat_completion
+      input_tokens: 1000000
+      model_capabilities:
+        features:
+          - streaming
+          - promptCaching
+        input_modalities:
+          - text
+          - image
+          - video
+          - document
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - application/docx
+          - application/doc
+          - text/csv
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+          - image/png
+          - image/jpeg
+          - image/jpg
+          - image/gif
+          - image/webp
+          - video/mp4
+          - video/mov
+          - video/mkv
+          - video/webm
+          - video/flv
+          - video/mpeg
+          - video/mpg
+          - video/wmv
+          - video/3gp
+      parameters:
+        max_tokens:
+          title: Max output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          maximum: 65535
+          default: null
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+      lifecycle: Preview
+    nova-2-multimodal-embeddings:
+      provider: bedrock
+      creator: amazon
+      model_name: Nova-2-Multimodal-Embeddings
+      model_description: Amazon Embedding model
+      model_mapping_id: nova-2-multimodal-embeddings
+      version: v1
+      model_label: Nova 2 Multimodal Embeddings
+      type: embedding
+      input_tokens: 8192
+      model_capabilities:
+        input_modalities:
+          - audio
+          - image
+          - text
+          - video
+        output_modalities:
+          - embedding
+    gemini-3.0-flash-preview:
+      provider: vertex
+      creator: google
+      model_name: Gemini-3.0-Flash-Preview
+      model_description: Gemini Chat Completions model
+      model_mapping_id: gemini-3.0-flash-preview
+      version: '3.0-flash-preview'
+      model_label: Gemini 3.0 Flash Preview
+      model_id: gemini-3.0-flash-preview
+      type: chat_completion
+      input_tokens: 1048576
+      model_capabilities:
+        features:
+          - functionCalling
+          - jsonMode
+          - structuredOutput
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 65536
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: array
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+        thinking_budget:
+          title: Thinking Budget
+          description: Allows control over hov much model thinks during its responses
+          type: integer
+          default: null
+          maximum: 24576
+          minimum: 1
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2026-03-15'
+      alternate_model_info:
+        name: gemini-2.5-flash
+        provider: google
+        creator: google
+    gemini-3.0-pro-preview:
+      provider: vertex
+      creator: google
+      model_name: Gemini-3.0-Pro-Preview
+      model_description: Gemini Chat Completions model  # TODO: Update description
+      model_mapping_id: gemini-3.0-pro-preview
+      version: '3.0-pro-preview'
+      model_label: Gemini 3.0 Pro Preview
+      model_id: gemini-3.0-pro-preview
+      type: chat_completion
+      input_tokens: 1048576  # TODO: Verify max input tokens
+      model_capabilities:
+        features:
+          - functionCalling  # TODO: Verify features
+          - jsonMode
+          - structuredOutput
+          - promptCaching
+        input_modalities:
+          - text
+          - code
+          - image
+          - audio
+          - video
+        output_modalities:
+          - text
+        mime_types:  # TODO: Verify supported mime types
+          - application/pdf
+          - text/csv
+          - text/plain
+          - text/markdown
+          - text/html
+          - text/xml
+          - audio/wav
+          - audio/mp3
+          - audio/aiff
+          - audio/aac
+          - audio/ogg
+          - audio/flac
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+          - video/mp4
+          - video/mpeg
+          - video/mov
+          - video/avi
+          - video/x-flv
+          - video/mpg
+          - video/webm
+          - video/wmv
+          - video/3gpp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 65535  # TODO: Verify max output tokens
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: array
+          default: null
+          required: false
+        response_format:
+          default: null
+          description: response_format
+          examples:
+            - text
+            - json_object
+          title: Response Format
+          type: object
+          required: false
+        n:
+          title: N
+          description: number of completions to generate
+          type: integer
+          default: null
+          required: false
+        tool_choice:
+          default: null
+          description: auto, none literals or valid function name string
+          examples:
+            - auto
+            - none
+            - <tool_name>
+          title: Tool Choice
+          type: string
+          required: false
+      lifecycle: Deprecated
+      deprecation_date: '2026-03-15'
+      alternate_model_info:
+        name: gemini-2.5-pro
+        provider: google
+        creator: google
+    gemini-3.1-flash-image-preview:
+      provider: vertex
+      creator: google
+      model_name: Gemini-3.1-Flash-Image-Preview
+      model_description: Gemini 3.1 Flash Image generation model
+      model_mapping_id: gemini-3.1-flash-image-preview
+      version: '3.1-flash-image-preview'
+      model_label: Gemini 3.1 Flash Image Preview
+      model_id: gemini-3.1-flash-image-preview
+      type: image
+      input_tokens: 131072
+      output_tokens: 32768
+      model_capabilities:
+        features: []
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - image
+        mime_types:
+          - text/plain
+          - application/pdf
+          - image/png
+          - image/jpeg
+          - image/webp
+          - image/heic
+          - image/heif
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 1.0
+          maximum: 2.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: 0.95
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+      lifecycle: Preview
+    claude-sonnet-4-6:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-Sonnet-4-6
+      model_description: Claude Chat Completions model
+      model_mapping_id: claude-sonnet-4-6
+      version: v1
+      model_label: Claude Sonnet 4.6
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 64000
+          maximum: 64000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    claude-opus-4-6:
+      provider: bedrock
+      creator: anthropic
+      model_name: Claude-Opus-4-6
+      model_description: Claude Chat Completions model
+      model_mapping_id: claude-opus-4-6
+      version: v1
+      model_label: Claude Opus 4.6
+      type: chat_completion
+      input_tokens: 200000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+          - application/pdf
+          - application/docx
+          - text/csv
+          - application/doc
+          - application/xls
+          - application/xlsx
+          - text/html
+          - text/plain
+          - text/markdown
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: 64000
+          maximum: 64000
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output.
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    gemini-embedding-001:
+      provider: vertex
+      creator: google
+      model_name: Gemini-Embedding-001
+      model_description: Google Embedding model
+      model_mapping_id: gemini-embedding-001
+      version: '001'
+      model_label: Gemini Embedding 001
+      model_id: gemini-embedding-001
+      type: embedding
+      input_tokens: 2048
+      model_capabilities:
+        input_modalities:
+          - text
+        output_modalities:
+          - embedding
+    mistral-large-3:
+      provider: bedrock
+      creator: mistral
+      model_name: Mistral-Large-3
+      model_description: Mistral Chat Completions model
+      model_mapping_id: mistral-large-3
+      version: v1
+      model_label: Mistral Large 3
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 32768
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    ministral-14b:
+      provider: bedrock
+      creator: mistral
+      model_name: Ministral-14B
+      model_description: Mistral Chat Completions model
+      model_mapping_id: ministral-14b
+      version: v1
+      model_label: Ministral 14B
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    ministral-8b:
+      provider: bedrock
+      creator: mistral
+      model_name: Ministral-8B
+      model_description: Mistral Chat Completions model
+      model_mapping_id: ministral-8b
+      version: v1
+      model_label: Ministral 8B
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    ministral-3b:
+      provider: bedrock
+      creator: mistral
+      model_name: Ministral-3B
+      model_description: Mistral Chat Completions model
+      model_mapping_id: ministral-3b
+      version: v1
+      model_label: Ministral 3B
+      type: chat_completion
+      input_tokens: 128000
+      model_capabilities:
+        features:
+          - streaming
+          - functionCalling
+          - jsonMode
+        input_modalities:
+          - text
+          - image
+        output_modalities:
+          - text
+          - chat
+        mime_types:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+      parameters:
+        max_tokens:
+          title: Max Output Tokens
+          description: Maximum number of tokens to generate
+          type: integer
+          default: null
+          maximum: 8192
+          required: false
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: null
+          maximum: 1.0
+          minimum: 0.0
+          required: false
+        top_p:
+          title: Top P
+          description: Nucleus sampling parameter controlling diversity of the output
+          type: float
+          default: null
+          minimum: 0.0
+          maximum: 1.0
+          required: false
+        stop:
+          title: Stop Sequences
+          description: Allows to define sequences causing model to terminate generation
+          type: string
+          default: null
+          required: false
+    gpt-realtime-2025-08-28:
+      provider: azure
+      creator: openai
+      model_name: GPT-Realtime
+      model_description: OpenAI Realtime speech and audio model
+      model_mapping_id: gpt-realtime-2025-08-28
+      version: 2025-08-28
+      model_label: GPT Realtime
+      model_id: gpt-realtime-2025-08-28
+      type: realtime
+      model_capabilities:
+        features:
+          - functionCalling
+          - toolCalling
+        input_modalities:
+          - text
+          - audio
+        output_modalities:
+          - text
+          - audio
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.8
+          maximum: 1.2
+          minimum: 0.6
+          required: false
+    gpt-realtime-mini-2025-10-06:
+      provider: azure
+      creator: openai
+      model_name: GPT-Realtime-Mini
+      model_description: OpenAI Realtime speech and audio model
+      model_mapping_id: gpt-realtime-mini-2025-10-06
+      version: 2025-10-06
+      model_label: GPT Realtime Mini
+      model_id: gpt-realtime-mini-2025-10-06
+      type: realtime
+      model_capabilities:
+        features:
+          - functionCalling
+          - toolCalling
+        input_modalities:
+          - text
+          - audio
+        output_modalities:
+          - text
+          - audio
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.8
+          maximum: 1.2
+          minimum: 0.6
+          required: false
+    gpt-realtime-mini-2025-12-15:
+      provider: azure
+      creator: openai
+      model_name: GPT-Realtime-Mini
+      model_description: OpenAI Realtime speech and audio model
+      model_mapping_id: gpt-realtime-mini-2025-12-15
+      version: 2025-12-15
+      model_label: GPT Realtime Mini
+      model_id: gpt-realtime-mini-2025-12-15
+      type: realtime
+      model_capabilities:
+        features:
+          - functionCalling
+          - toolCalling
+        input_modalities:
+          - text
+          - audio
+        output_modalities:
+          - text
+          - audio
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.8
+          maximum: 1.2
+          minimum: 0.6
+          required: false
+    gpt-realtime-1.5-2026-02-23:
+      provider: azure
+      creator: openai
+      model_name: GPT-Realtime-1.5
+      model_description: OpenAI Realtime speech and audio model
+      model_mapping_id: gpt-realtime-1.5-2026-02-23
+      version: 2026-02-23
+      model_label: GPT Realtime 1.5
+      model_id: gpt-realtime-1.5-2026-02-23
+      type: realtime
+      model_capabilities:
+        features:
+          - functionCalling
+          - toolCalling
+        input_modalities:
+          - text
+          - audio
+        output_modalities:
+          - text
+          - audio
+      parameters:
+        temperature:
+          title: Temperature
+          description: Controls randomness of the generated output
+          type: float
+          default: 0.8
+          maximum: 1.2
+          minimum: 0.6
+          required: false

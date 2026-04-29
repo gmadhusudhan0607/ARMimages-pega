@@ -1,0 +1,13 @@
+- name: gpt-image-1.5
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-image-1.5"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-image-1.5"
+  provider: openai
+  creator: openai
+  targetAPI: "/images/generations"
+  path: "/openai/deployments/gpt-image-1.5/images/generations"
+  infrastructure: azure
+  capabilities:
+    image-generation: true
+    completions: false
+    embeddings: false

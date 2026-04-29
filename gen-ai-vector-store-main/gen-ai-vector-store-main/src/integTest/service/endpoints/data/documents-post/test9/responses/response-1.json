@@ -1,0 +1,15 @@
+[
+  {
+    "id": "Lab API 2",
+    "status": "IN_PROGRESS"
+  },
+  {
+    "id": "Albert Einstein 2",
+    "status": "COMPLETED"
+  },
+  {
+    "id": "Vanity URL 2",
+    "status": "ERROR",
+    "error": "[{\"status\" : \"ERROR\", \"code\" : 401, \"message\" : \"embedding returned status code 401 without an error\", \"count\" : 1}, {\"status\" : \"IN_PROGRESS\", \"code\" : 0, \"message\" : \"\", \"count\" : 1}]"
+  }
+]

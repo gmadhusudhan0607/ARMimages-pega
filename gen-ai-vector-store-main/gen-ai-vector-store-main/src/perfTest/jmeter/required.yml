@@ -1,0 +1,40 @@
+---
+reporting:
+  # External performance report
+  - module: prometheus-grafana-reporter
+
+  # Final stats required by Jenkins Performance plugin
+  - module: final-stats
+    dump-xml: ${TAURUS_ARTIFACTS_DIR}/stats.xml
+
+  # Pass or fail test based on criteria
+  # WARNING: You must put pass-fail module, before junit-xml module
+  - module: passfail
+    criteria:
+      # If load driver CPU is too high, stop the test
+      - class: bzt.modules.monitoring.MonitoringCriteria
+        subject: local/cpu
+        condition: '>'
+        threshold: 90
+        timeframe: 5s
+
+  # JUnit results required by Jenkins JUnit plugin
+  - module: junit-xml
+    data-source: pass-fail
+    filename: ${TAURUS_ARTIFACTS_DIR}/junit.xml
+
+###############################################################################
+
+modules:
+  jmeter:
+    properties:
+      # Reuse established connections in Thread Groups in JMeter
+      # https://www.blazemeter.com/blog/what-is-new-jmeter-5
+      httpclient.reset_state_on_thread_group_iteration: 'false'
+
+      # Include external JARs to the classpath in JMeter
+      user.classpath: ${CLASSPATH}
+  prometheus-grafana-reporter:
+    class: localbzt.sender.PrometheusReporter
+    metrics-url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    dashboard-url: https://pegacloud.grafana.net/d/edj01042c52iof/launchpad3a-cobras-reporter

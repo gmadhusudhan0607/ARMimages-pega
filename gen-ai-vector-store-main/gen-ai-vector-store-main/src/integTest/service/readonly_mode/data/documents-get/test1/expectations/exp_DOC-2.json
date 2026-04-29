@@ -1,0 +1,36 @@
+{
+  "httpRequest": {
+    "method": "POST",
+    "path" : "/openai/deployments/text-embedding-ada-002/embeddings",
+    "headers" : {
+      "vs-isolation-id":  "%s",
+      "vs-collection-id": "%s"
+    },
+    "body": {
+      "input": "Content: some text here 2"
+    }
+  },
+  "httpResponse": {
+    "statusCode": 401,
+    "headers": {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "x-content-type-options": "nosniff",
+      "x-ratelimit-remaining-requests": "9",
+      "apim-request-id": "11360e69-691b-4e54-8428-f3849c242386",
+      "x-ratelimit-remaining-tokens": "9999",
+      "x-request-id": "4a755747-8dbb-41ae-a518-034d90d6b507",
+      "x-ms-client-request-id": "11360e69-691b-4e54-8428-f3849c242386",
+      "x-ms-region": "East US 2",
+      "azureml-model-session": "d006-20240131110621",
+      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+      "date": "Fri, 23 Feb 2024 19:47:10 GMT"
+    },
+    "body": {
+      "error": {
+        "code": "401",
+        "message": "Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource."
+      }
+    }
+  }
+}

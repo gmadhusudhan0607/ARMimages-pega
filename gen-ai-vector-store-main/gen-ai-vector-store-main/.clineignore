@@ -1,0 +1,54 @@
+# Build artifacts and outputs
+build/
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Gradle build system files
+gradlew
+gradlew.bat
+gradle/
+.gradle/
+
+# Development and tooling configuration
+.mockery.yaml
+.golangci.yaml
+staticcheck.conf
+.editorconfig
+.swagger-codegen-ignore
+renovate.json
+pipeline/
+.adr-dir
+.agilestudio
+
+# Documentation - reduce noise from docs
+CONTRIBUTING.md
+RELEASE_NOTES.md
+
+# Security and infrastructure files
+threat-model/
+SSOT/docker-compose.yaml
+
+# IDE and system files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+CODEOWNERS
+
+# CLI tools and utilities
+pegacloud-cli/
+
+# Temporary and cache files
+*.tmp
+*.temp
+*.cache

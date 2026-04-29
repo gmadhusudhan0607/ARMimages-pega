@@ -1,0 +1,13 @@
+- name: imagen-3
+  modelId: imagen-3.0-generate-002
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/imagen-3"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/imagen-3"
+  provider: google
+  creator: google
+  targetAPI: "/images/generations"
+  path: "/google/deployments/imagen-3/images/generations"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

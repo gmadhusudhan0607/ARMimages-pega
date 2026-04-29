@@ -1,0 +1,63 @@
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Gemini 3.1 image generation models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini"
+models:
+  - name: gemini-3.1-flash-image-preview
+    version: '3.1-flash-image-preview'
+    label: Gemini 3.1 Flash Image Preview
+    functionalCapabilities: ["image"]
+    endpoints:
+      - path: /generateContent
+    capabilities:
+      features: []
+      inputModalities: [text, image]
+      outputModalities: [text, image]
+      mimeTypes:
+        - text/plain
+        - application/pdf
+        - image/png
+        - image/jpeg
+        - image/webp
+        - image/heic
+        - image/heif
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 131072
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate (1,290 tokens per generated image)
+        type: integer
+        default: null
+        maximum: 32768
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 0.95
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

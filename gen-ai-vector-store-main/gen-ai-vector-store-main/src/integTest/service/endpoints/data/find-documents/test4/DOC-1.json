@@ -1,0 +1,48 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "some text here 1",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v1",
+            "c1"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "some text here 2",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v2",
+            "c2"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "value": [
+        "v1",
+        "v1.0"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "org",
+      "value": [
+        "tso"
+      ],
+      "type": "string"
+    }
+  ]
+}

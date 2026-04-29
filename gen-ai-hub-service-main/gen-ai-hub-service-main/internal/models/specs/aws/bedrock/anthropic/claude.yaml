@@ -1,0 +1,491 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: aws
+provider: bedrock
+creator: anthropic
+metadata:
+  description: "Anthropic Claude models on AWS Bedrock"
+  documentation: "https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html"
+models:
+  - name: claude-3-haiku
+    version: v1
+    label: Claude 3 Haiku
+    id: anthropic.claude-3-haiku-20240307-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.7
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-3-5-sonnet
+    version: v2
+    label: Claude 3.5 Sonnet
+    id: anthropic.claude-3-5-sonnet-20241022-v2:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 8192
+        maximum: 8192
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.7
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-3-5-haiku
+    version: v1
+    label: Claude 3.5 Haiku
+    id: anthropic.claude-3-5-haiku-20241022-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 8192
+        maximum: 8192
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.7
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-3-7-sonnet
+    version: v1
+    label: Claude 3.7 Sonnet
+    id: anthropic.claude-3-7-sonnet-*-v1:0  # Wildcard for optional regional prefix and date
+    functionalCapabilities: ["chat_completion"]
+    deprecationDate: '2025-10-28'
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 128000
+        maximum: 128000
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-haiku-4-5
+    version: 1.0
+    label: Claude Haiku 4.5
+    id: anthropic.anthropic.claude-haiku-4-5-20251001-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 32000
+        maximum: 64000
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-sonnet-4-5
+    version: 1.0
+    label: Claude Sonnet 4.5
+    id: anthropic.claude-sonnet-4-5-20250929-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming, functionCalling, jsonMode]
+      inputModalities: [text, image]
+      outputModalities: [text, chat]
+      mimeTypes: [image/jpeg, image/png, image/gif, image/webp, application/pdf, application/docx, text/csv, application/doc, application/xls, application/xlsx, text/html, text/plain, text/markdown]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 32000
+        maximum: 64000
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output.
+        type: float
+        default: null
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Tok K parameter controlling predictability/diversity of output.
+        type: integer
+        default: null
+        minimum: 1
+        maximum: 50
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: claude-sonnet-4-6
+    version: v1
+    id: anthropic.claude-sonnet-4-6
+    label: Claude Sonnet 4.6
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text]
+      outputModalities: [text]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 64000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+  - name: claude-opus-4-6
+    version: v1
+    id: anthropic.claude-opus-4-6-v1
+    label: Claude Opus 4.6
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text]
+      outputModalities: [text]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens for input
+        type: integer
+        maximum: 200000
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        maximum: 64000
+        default: null
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter
+        type: float
+        default: null
+        maximum: 1.0
+        minimum: 0.0
+        required: false

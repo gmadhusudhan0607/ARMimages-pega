@@ -1,0 +1,1 @@
+A report definition is a tool used in database interactions, specifically for retrieving required details or information based on certain conditions.

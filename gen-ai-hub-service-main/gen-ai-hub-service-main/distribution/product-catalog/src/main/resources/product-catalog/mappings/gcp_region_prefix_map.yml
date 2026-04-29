@@ -1,0 +1,17 @@
+# Maps GCP region first segment (before first hyphen) to AWS-style 2-letter prefix
+# Used for LLM infrastructure lookup when deploying on GCP clusters
+#
+# GCP regions format: {area}-{location}{number} (e.g., asia-southeast1, northamerica-northeast1)
+# AWS regions format: {prefix}-{location}-{number} (e.g., us-east-1, eu-central-1)
+#
+# This mapping allows GCP deployments to use AWS LLM infrastructure by translating
+# the GCP region prefix to the corresponding AWS region prefix used in aws_llm_infra.yml
+
+us: us                    # us-east4, us-central1, us-west1, us-west2, us-west3, us-west4, us-south1
+europe: eu                # europe-west1, europe-west2, europe-west3, europe-west4, europe-west6, europe-west8, europe-west9, europe-west10, europe-west12, europe-north1, europe-southwest1, europe-central2
+asia: ap                  # asia-southeast1, asia-southeast2, asia-east1, asia-east2, asia-northeast1, asia-northeast2, asia-northeast3, asia-south1, asia-south2
+australia: ap             # australia-southeast1, australia-southeast2 → uses AP (Asia Pacific) infrastructure
+northamerica: ca          # northamerica-northeast1, northamerica-northeast2 (Canada)
+southamerica: sa          # southamerica-east1, southamerica-west1
+africa: af                # africa-south1
+me: eu                    # me-central1, me-central2, me-west1 (Middle East → EU infrastructure)

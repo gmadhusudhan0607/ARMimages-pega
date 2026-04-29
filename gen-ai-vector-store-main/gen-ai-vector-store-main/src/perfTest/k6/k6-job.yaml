@@ -1,0 +1,51 @@
+# NOTE: Before applying this Job, create the k6-scripts-runner ConfigMap from the external script file:
+# kubectl create configmap k6-scripts-runner --from-file=k6-scripts-runner.sh --namespace=genai-vector-store --dry-run=client -o yaml | kubectl apply -f -
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-job
+spec:
+#  parallelism: 1  # Number of pods to run in parallel
+#  completions: 1  # Total number of pods to complete
+  template:
+    spec:
+      serviceAccountName: genai-vector-store
+      containers:
+      - name: k6
+        image: grafana/k6:latest
+        command: ["/bin/sh", "/tests/runner/k6-scripts-runner.sh"]
+        envFrom:
+          - configMapRef:
+              name: k6-config
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 4Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        volumeMounts:
+        - name: scripts
+          mountPath: /tests
+        - name: runner-script
+          mountPath: /tests/runner
+        - name: sax-token-secret
+          mountPath: /etc/secrets
+          readOnly: true
+      volumes:
+      - name: scripts
+        configMap:
+          name: k6-scripts
+      - name: runner-script
+        configMap:
+          name: k6-scripts-runner
+          defaultMode: 0755
+      - name: sax-token-secret
+        secret:
+          secretName: k6-token
+          items:
+            - key: SAX_TOKEN
+              path: SAX_TOKEN
+      restartPolicy: Never
+  backoffLimit: 0

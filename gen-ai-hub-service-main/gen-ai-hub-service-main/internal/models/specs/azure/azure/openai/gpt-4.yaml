@@ -1,0 +1,205 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI GPT-4 models on Azure OpenAI"
+  documentation: "https://docs.microsoft.com/en-us/azure/cognitive-services/openai/"
+models:
+  - name: gpt-4
+    version: "0613"
+    label: "GPT-4"
+    id: openai.gpt-4-0613
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling"]
+      inputModalities: ["text"]
+      outputModalities: ["text"]
+    deployment:
+      region: "eastus"
+      instanceType: "azure-openai"
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of input tokens"
+        type: "integer"
+        maximum: 8192
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of output tokens"
+        type: "integer"
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 2.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+  - name: gpt-4
+    version: "0125-preview"
+    label: "GPT-4 Turbo Preview"
+    id: openai.gpt-4-0125-preview
+    functionalCapabilities: ["chat_completion"]
+    deprecationDate: '2025-05-01'
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 16384
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: "Stop Sequences"
+        description: "Allows to define sequences causing model to terminate generation"
+        type: "array"
+        items:
+          type: "string"
+        default: null
+        required: false
+  - name: gpt-4-preview
+    version: "1106"
+    label: "GPT-4 Turbo Preview"
+    id: openai.gpt-4-preview-1106
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling", "toolCalling", "parallelToolCalling", "jsonMode", "structuredOutput"]
+      inputModalities: ["text"]
+      outputModalities: ["text"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: "Stop Sequences"
+        description: "Allows to define sequences causing model to terminate generation"
+        type: "array"
+        items:
+          type: "string"
+        default: null
+        required: false
+  - name: gpt-4-vision-preview
+    version: "1106"
+    label: "GPT-4 Vision Preview"
+    id: openai.gpt-4-vision-preview-1106
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: "/chat/completions"
+    capabilities:
+      features: ["streaming", "functionCalling", "parallelFunctionCalling"]
+      inputModalities: ["text", "image"]
+      outputModalities: ["text"]
+      mimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 128000
+        required: false
+      maxOutputTokens:
+        title: "Max Output Tokens"
+        description: "Maximum number of tokens to generate"
+        type: "integer"
+        default: 4096
+        maximum: 4096
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness of the generated output"
+        type: "float"
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Nucleus sampling parameter controlling diversity of the output"
+        type: "float"
+        default: 1.0
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      stopSequences:
+        title: "Stop Sequences"
+        description: "Allows to define sequences causing model to terminate generation"
+        type: "array"
+        items:
+          type: "string"
+        default: null
+        required: false

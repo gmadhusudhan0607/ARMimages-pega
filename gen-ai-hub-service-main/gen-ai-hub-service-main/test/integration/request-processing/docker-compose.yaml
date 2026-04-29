@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  genai-hub-wiremock:
+    image: docker-dev.bin.pega.io/wiremock/wiremock:latest
+    container_name: genai-hub-wiremock
+    ports:
+      - "11818:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+    command: --verbose --global-response-templating --enable-browser-proxying
+    environment:
+      - WIREMOCK_OPTIONS=--verbose --global-response-templating

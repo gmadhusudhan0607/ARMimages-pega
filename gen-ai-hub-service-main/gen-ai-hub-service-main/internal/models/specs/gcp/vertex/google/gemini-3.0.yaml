@@ -1,0 +1,188 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: gcp
+provider: vertex
+creator: google
+metadata:
+  description: "Google Gemini models on GCP Vertex AI"
+  documentation: "https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini"
+models:
+  - name: gemini-3.0-flash-preview
+    version: '3.0-flash-preview'
+    label: Gemini 3.0 Flash Preview
+    functionalCapabilities: ["chat_completion"]
+    lifecycle:
+      status: Deprecated
+      deprecationDate: "2026-03-15"
+      replacementModel: "gemini-2.5-flash"
+    endpoints:
+      - path: /generateContent
+      - path: :streamGenerateContent
+    capabilities:
+      features: [streaming, functionCalling, jsonMode, structuredOutput, promptCaching]  # TODO: Verify features
+      inputModalities: [text, code, image, audio, video]  # TODO: Verify modalities
+      outputModalities: [text]
+      mimeTypes:
+        - application/pdf
+        - text/csv
+        - text/plain
+        - text/markdown
+        - text/html
+        - text/xml
+        - audio/wav
+        - audio/mp3
+        - audio/aiff
+        - audio/aac
+        - audio/ogg
+        - audio/flac
+        - image/png
+        - image/jpeg
+        - image/webp
+        - image/heic
+        - image/heif
+        - video/mp4
+        - video/mpeg
+        - video/mov
+        - video/avi
+        - video/x-flv
+        - video/mpg
+        - video/webm
+        - video/wmv
+        - video/3gpp
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 1048576  # TODO: Set correct maximum
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 65536  # TODO: Set correct maximum
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 0.95
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Top K parameter controlling predictability/diversity of output
+        type: integer
+        default: 64
+        minimum: 64
+        maximum: 64
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false
+  - name: gemini-3.0-pro-preview
+    version: '3.0-pro-preview'
+    label: Gemini 3.0 Pro Preview
+    functionalCapabilities: ["chat_completion"]
+    lifecycle:
+      status: Deprecated
+      deprecationDate: "2026-03-15"
+      replacementModel: "gemini-2.5-pro"
+    endpoints:
+      - path: /generateContent
+      - path: :streamGenerateContent
+    capabilities:
+      features: [streaming, functionCalling, jsonMode, structuredOutput, promptCaching]  # TODO: Verify features
+      inputModalities: [text, code, image, audio, video]  # TODO: Verify modalities
+      outputModalities: [text]
+      mimeTypes:
+        - application/pdf
+        - text/csv
+        - text/plain
+        - text/markdown
+        - text/html
+        - text/xml
+        - audio/wav
+        - audio/mp3
+        - audio/aiff
+        - audio/aac
+        - audio/ogg
+        - audio/flac
+        - image/png
+        - image/jpeg
+        - image/webp
+        - image/heic
+        - image/heif
+        - video/mp4
+        - video/mpeg
+        - video/mov
+        - video/avi
+        - video/x-flv
+        - video/mpg
+        - video/webm
+        - video/wmv
+        - video/3gpp
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 1048576  # TODO: Set correct maximum
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: null
+        maximum: 65536  # TODO: Set correct maximum
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 1.0
+        maximum: 2.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 0.95
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Top K parameter controlling predictability/diversity of output
+        type: integer
+        default: 64
+        minimum: 64
+        maximum: 64
+        required: false
+      stopSequences:
+        title: Stop Sequences
+        description: Allows to define sequences causing model to terminate generation
+        type: array
+        items:
+          type: string
+        default: null
+        required: false

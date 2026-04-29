@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css"/>
+    <title>GenAI Vector Store API</title>
+    <style>
+        .api-selector {
+            padding: 10px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .api-selector select {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .api-selector label {
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="api-selector">
+        <label for="api-select">Select API:</label>
+        <select id="api-select" onchange="loadSpec(this.value)">
+            <option value="apidocs/service.yaml">Service API</option>
+            <option value="apidocs/ops.yaml">Ops API</option>
+        </select>
+    </div>
+    <div id="swagger-ui"></div>
+    <script>
+        function loadSpec(url) {
+            window.ui = SwaggerUIBundle({
+                url: url,
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+                plugins: [SwaggerUIBundle.plugins.DownloadUrl]
+            });
+        }
+        window.onload = function() {
+            // Load Service API by default
+            loadSpec('apidocs/service.yaml');
+        };
+    </script>
+</body>
+</html>

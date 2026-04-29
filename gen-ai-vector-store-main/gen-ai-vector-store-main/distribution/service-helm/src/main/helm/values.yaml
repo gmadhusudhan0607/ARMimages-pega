@@ -1,0 +1,445 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+service-base:
+  chartName: ${chartName} # name of this chart
+  chartVersion: ${chartVersion} # version of this chart
+  ClusterName: "{{ .Values.ClusterName }}" # name of the cluster in which service gets deployed
+  namespace: ${namespace} # namespace of the service
+  usePrivateDockerReg: true # When set to true , uses the private docker registry supported by k8s external secrets
+  skipCreateNamespace: false # When set to true, namespace wide resources like logging config maps , external secrets etc. are not created.
+  createIngress: true  # Need it to be always true because we have Ops service.  Default true. Set to false to not create ingress resources so that the service is not reachable from outside the cluster i.e. The service will be reachable from cuttyhunk clients.
+  pegaservices:
+    genai-vector-store: # name of an application within the service that will get its own docker container , e.g. your-service-name
+      podDisruptionBudget: # Pod disruption budget should be enabled to limit concurrent disruptions to service and ensure smooth cluster maintenance
+        enabled: true
+        minAvailable: 1
+      replicaCount: 2 # default number of containers to create (Not used when HPA used)
+      applicationPort: 8080 # the port on which the application listens
+      serviceIAMRole: "" # The IAM role that your container should use
+      serviceType: http # service communication type, other available value could be for example 'grpc'
+      createServiceAccount: true # Keep it =true. But it is redundant because the account is automatically created when serviceIAMRole is defined. (See also BUG-89169)
+      serviceAccountName: genai-vector-store
+      localConnections:
+        clients:
+          - serviceAccount: pega-infinity-sa        # infinity whitelist service account
+          - serviceAccount: pega-infinity-sa-v2     # infinity whitelist new service account
+          - serviceAccount: autopilot-sa            # autopilot-service whitelist service account
+          - serviceAccount: genai-smart-chunking    # smart chunking service account (Legacy service)
+          - serviceAccount: genai-smart-chunking-sa # smart chunking service account (GenAI API service)
+        services:
+          - namespace: genai-hub-service   # connect to genai-hub-service
+            name: genai-hub-service
+          - namespace: genai-smart-chunking #connect to genai-smart-chunking API service (Legacy service)
+            name: genai-smart-chunking
+          - namespace: genai-smart-chunking #connect to genai-smart-chunking API service
+            name: genai-api
+      image:
+        repository: "{{ .Values.DockerImageRepo }}/${imageName}" # service docker image name
+        tag: ${imageTag} # tag of the service docker image
+      serviceRoot: / # The context root of your application
+      serviceIngressPrefix: /${namespace}/ # Prefix for any traffic that should be forwarded from the public facing load balancer to your app
+      egressRules:  "" # To enable Istio access for an external service(s) , provide list of external services to give access to (e.g. "www.service01.com:443,www.service02.com:80")
+      isFrontendService: "{{ .Values.isFrontendService }}" # Default false. Set to true to allow the service to get traffic from external client browsers instead of from cuttyhunk clients or GOC.
+      dnsName: "" # Configure this for a frontend service which wants to use host based routing instead of url path based routing.
+      skipIngress: false # skip exposing service outside the cluster
+      healthCheckPort: 8082 # Port on which liveness and readiness HTTP requests get invoked
+
+      livenessProbePath: /health/liveness # The HTTP GET request path that should be invoked to test liveness
+      livenessProbeInitialDelay: 10 # Number of seconds after the container has started before liveness probe is initiated.
+      livenessFailureThreshold: 5 # Number of times the probe can fail before the container is restarted
+      livenessProbeTimeout: 5 # Number of seconds after which the liveness probe times out
+
+      readinessProbePath: /health/readiness # The HTTP GET request path that should be invoked to test readiness
+      readinessProbeInitialDelay: 10 # Number of seconds after the container has started before readiness probe is initiated.
+      readinessFailureThreshold: 2 # Number of times the probe can fail before the container is restarted
+      readinessProbeTimeout: 5 # Number of seconds after which the readiness probe times out
+
+      # An array of environment variables
+      environmentTemplate: >
+        - name: ACCOUNT
+          value: "{{ .Values.account}}"
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
+        - name: REGION
+          value: "{{ .Values.region }}"
+        - name: DB_INSTANCE
+          value: "{{ .Values.databaseID }}"
+        - name: DB_HOST
+          value: "{{ .Values.databaseHost }}"
+        - name: DB_PORT
+          value: "{{ .Values.databasePort }}"
+        - name: DB_NAME
+          value: "{{ .Values.databaseName }}"
+        - name: DB_SECRET
+          value: "{{ .Values.databaseSecret }}"
+        - name: DB_WITH_PRIVATE_IP
+          value: "{{- if eq .Values.cloudProvider "gcp" }}true{{- else }}false{{- end }}"
+        - name: DB_USE_LEGACY_ATTRIBUTE_IDS
+          value: "{{ .Values.useLegacyAttributesIDs }}"
+        - name: GENAI_GATEWAY_SERVICE_URL
+          value: "{{ .Values.genAIURL }}"
+        - name: SAX_CLIENT_ID
+          value: "{{ .Values.SaxClientID }}"
+        - name: SAX_CLIENT_SCOPES
+          value: "{{ .Values.SaxClientScopes }}"
+        - name: SAX_CLIENT_SECRET
+          value: "{{ .Values.SaxClientSecret }}"
+        - name: SAX_CLIENT_TOKEN_ENDPOINT
+          value: "{{ .Values.SaxClientTokenEndpoint }}"
+        - name: SAX_ISSUER
+          value: "{{ .Values.SaxIssuer }}"
+        - name: SAX_JWKS_ENDPOINT
+          value: "{{ .Values.SaxJWKSEndpoint }}"
+        - name: SAX_AUDIENCE
+          value: "{{ .Values.SaxAudience }}"
+        - name: MAX_CONNS
+          value: "50"
+        - name: LOG_LEVEL
+          value: "{{ .Values.logLevel }}"
+        - name: LOG_PERFORMANCE_TRACE
+          value: "{{ .Values.logPerformanceTrace }}"
+        - name: GENAI_SMART_CHUNKING_SERVICE_URL
+          value: "{{ .Values.genaiSmartChunkingURL}}"
+        - name: DEFAULT_EMBEDDING_PROFILE
+          value: "{{ .Values.defaultEmbeddingProfile}}"
+        - name: READ_ONLY_MODE
+          value: "{{ .Values.readOnlyMode}}"
+        - name: RANDOM_EMBEDDER_ENABLED
+          value: "{{ .Values.randomEmbedderEnabled }}"
+        - name: RANDOM_EMBEDDER_DELAY
+          value: "{{ .Values.randomEmbedderDelay }}"
+        - name: TROUBLESHOOTING_MODE
+          value: "{{ .Values.profilerEnabled }}"
+        - name: ENCOURAGE_SEM_SEARCH_INDEX_USE
+          value: "{{ .Values.encourageSemSearchIndexUse }}"
+        - name: QUERY_EMBEDDING_TIMEOUT_MS
+          value: "{{ .Values.queryEmbeddingTimeoutMs }}"
+        - name: QUERY_EMBEDDING_MAX_RETRIES
+          value: "{{ .Values.queryEmbeddingMaxRetries }}"
+        - name: LOG_SERVICE_METRICS
+          value: "{{ .Values.logServiceMetrics }}"
+        - name: EMULATION_MODE
+          value: "{{ .Values.emulationMode }}"
+        - name: EMULATION_MIN_TIME
+          value: "{{ .Values.emulationMinTime }}"
+        - name: EMULATION_MAX_TIME
+          value: "{{ .Values.emulationMaxTime }}"
+        - name: HTTP_REQUEST_TIMEOUT
+          value: "{{ .Values.httpRequestTimeout | default "25s" }}"
+        - name: HTTP_REQUEST_BACKGROUND_TIMEOUT
+          value: "{{ .Values.httpRequestBackgroundTimeout | default "60s" }}"
+        - name: SAX_TOKEN_CACHE_ENABLED
+          value: "{{ .Values.saxTokenCacheEnabled | default "true" }}"
+        - name: SAX_TOKEN_CACHE_MAX_TTL
+          value: "{{ .Values.saxTokenCacheMaxTTL | default "50m" }}"
+        - name: SAX_TOKEN_CACHE_MAX_SIZE
+          value: "{{ .Values.saxTokenCacheMaxSize | default "10000" }}"
+        - name: SAX_TOKEN_CACHE_CLEANUP_INTERVAL
+          value: "{{ .Values.saxTokenCacheCleanupInterval | default "5m" }}"
+        - name: USAGE_METRICS_ENABLED
+          value: "{{ .Values.usageMetricsEnabled }}"
+        - name: ISOLATION_ID_VERIFICATION_DISABLED
+          value: "{{ .Values.isolationIdVerificationDisabled | default "true" }}"
+      # Monitoring annotations for New Relic
+      # Refer https://git.pega.io/projects/CTRL/repos/service-base/browse/docs/options/monitoring_annotation_for_newrelic.md
+      monitorPrometheusEp:
+        enabled: true
+        prometheusScrape: true
+        prometheusPort: 8082
+        prometheusPath: /metrics
+      # Enable Logging for the namespace. Below logging configuration in form of fluent.conf will parse all the logs as json, merge exceptions in single line and send all the logs to CloudWatch.
+      # Refer https://docs.fluentd.org/filter/parser for more info. on parser filter plugin used.
+      loggingConfigMap:
+        fluent.conf: |-
+          <filter **>
+            @type parser
+            key_name log
+            reserve_data true
+            hash_value_field log
+            remove_key_name_field true
+            emit_invalid_record_to_error false
+            <parse>
+              @type json
+            </parse>
+          </filter>
+      # Specify resource (cpu and memory) requests and limits for service container
+      container:
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2500Mi
+          limits:
+            cpu: 2000m
+            memory: 4500Mi
+      proxySidecar:
+        resources:
+          limits:
+            cpu: "3"
+            memory: 3Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+      # Enable horizontal pod autoscaling based on cpu utilization
+      hpa:
+        enabled: true
+        minReplicas: 3
+        maxReplicas: 30
+        metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 60
+          - type: Resource
+            resource:
+              name: memory
+              target:
+                type: Utilization
+                averageUtilization: 70
+    genai-vector-store-ops: # name of an application within the service that will get its own docker container , e.g. your-service-name
+      isOpsService: true
+      podDisruptionBudget: # Pod disruption budget should be enabled to limit concurrent disruptions to service and ensure smooth cluster maintenance
+        enabled: true
+        minAvailable: 1
+      replicaCount: 2 # default number of containers to create (Not used when HPA used)
+      applicationPort: 8080 # the port on which the application listens
+      serviceIAMRole: "" # The IAM role that your container should use
+      serviceType: http # service communication type, other available value could be for example 'grpc'
+      serviceAccountName: genai-vector-store
+      image:
+        repository: "{{ .Values.DockerImageRepo }}/${opsImageName}" # service docker image name
+        tag: ${imageTag} # tag of the service docker image
+      serviceRoot: / # The context root of your application
+      serviceIngressPrefix: /${namespace}-ops/ # Prefix for any traffic that should be forwarded from the public facing load balancer to your app
+      egressRules:  "" # To enable Istio access for an external service(s) , provide list of external services to give access to (e.g. "www.service01.com:443,www.service02.com:80")
+#      isFrontendService: "{{ .Values.isFrontendService }}" # Default false. Set to true to allow the service to get traffic from external client browsers instead of from cuttyhunk clients or GOC.
+      dnsName: "" # Configure this for a frontend service which wants to use host based routing instead of url path based routing.
+      skipIngress: false # skip exposing service outside the cluster
+      livenessProbePath: /health/liveness # The HTTP GET request path that should be invoked to test liveness
+      readinessProbePath: /health/readiness # The HTTP GET request path that should be invoked to test readiness
+      healthCheckPort: 8082 # Port on which liveness and readiness HTTP requests get invoked
+      livenessProbeInitialDelay: 5 # Number of seconds after the container has started before liveness probe is initiated.
+      readinessProbeInitialDelay: 10 # Number of seconds after the container has started before readiness probe is initiated.
+      readinessProbeTimeout: 5 # Number of seconds after which the readiness probe times out
+      livenessProbeTimeout: 5 # Number of seconds after which the liveness probe times out
+      # An array of environment variables
+      environmentTemplate: >
+        - name: ACCOUNT
+          value: "{{ .Values.account}}"
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
+        - name: REGION
+          value: "{{ .Values.region }}"
+        - name: DB_INSTANCE
+          value: "{{ .Values.databaseID }}"
+        - name: DB_HOST
+          value: "{{ .Values.databaseHost }}"
+        - name: DB_PORT
+          value: "{{ .Values.databasePort }}"
+        - name: DB_NAME
+          value: "{{ .Values.databaseName }}"
+        - name: DB_SECRET
+          value: "{{ .Values.databaseSecret }}"
+        - name: DB_WITH_PRIVATE_IP
+          value: "{{- if eq .Values.cloudProvider "gcp" }}true{{- else }}false{{- end }}"
+        - name: GENAI_GATEWAY_SERVICE_URL
+          value: "{{ .Values.genAIURL }}"
+        - name: SAX_ISSUER
+          value: "{{ .Values.SaxOpsIssuer }}"
+        - name: SAX_JWKS_ENDPOINT
+          value: "{{ .Values.SaxOpsJWKSEndpoint }}"
+        - name: SAX_AUDIENCE
+          value: "{{ .Values.SaxOpsAudience }}"
+        - name: SAX_CLIENT_SECRET
+          value: "{{ .Values.SaxClientSecret }}"
+        - name: SAX_CLIENT_TOKEN_ENDPOINT
+          value: "{{ .Values.SaxClientTokenEndpoint }}"
+        - name: SAX_CLIENT_ID
+          value: "{{ .Values.SaxClientID }}"
+        - name: SAX_CLIENT_SCOPES
+          value: "{{ .Values.SaxClientScopes }}"
+        - name: MAX_CONNS
+          value: "20"
+        - name: LOG_LEVEL
+          value: "{{ .Values.logLevel }}"
+        - name: READ_ONLY_MODE
+          value: "{{ .Values.readOnlyMode}}"
+        - name: SAX_TOKEN_CACHE_ENABLED
+          value: "{{ .Values.saxTokenCacheEnabled | default "true" }}"
+        - name: SAX_TOKEN_CACHE_MAX_TTL
+          value: "{{ .Values.saxTokenCacheMaxTTL | default "50m" }}"
+        - name: SAX_TOKEN_CACHE_MAX_SIZE
+          value: "{{ .Values.saxTokenCacheMaxSize | default "10000" }}"
+        - name: SAX_TOKEN_CACHE_CLEANUP_INTERVAL
+          value: "{{ .Values.saxTokenCacheCleanupInterval | default "5m" }}"
+      # Monitoring annotations for New Relic
+      # Refer https://git.pega.io/projects/CTRL/repos/service-base/browse/docs/options/monitoring_annotation_for_newrelic.md
+      monitorPrometheusEp:
+        enabled: false
+        prometheusScrape: false
+        prometheusPort: 8082
+        prometheusPath: /prometheus
+      # Enable Logging for the namespace. Below logging configuration in form of fluent.conf will parse all the logs as json, merge exceptions in single line and send all the logs to CloudWatch.
+      # Refer https://docs.fluentd.org/filter/parser for more info. on parser filter plugin used.
+      loggingConfigMap:
+        fluent.conf: |-
+          <filter **>
+            @type parser
+            key_name log
+            reserve_data true
+            hash_value_field log
+            remove_key_name_field true
+            emit_invalid_record_to_error false
+            <parse>
+              @type json
+            </parse>
+          </filter>
+      # Specify resource (cpu and memory) requests and limits for service container
+      container:
+        resources:
+          requests:
+            cpu: 300m
+            memory: 300Mi
+          limits:
+            cpu: 500m
+            memory: 400Mi
+      # Enable horizontal pod autoscaling based on cpu utilization
+      hpa:
+        enabled: true
+        minReplicas: 2
+        maxReplicas: 2
+        metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 80
+    genai-vector-store-background: # name of an application within the service that will get its own docker container , e.g. your-service-name
+      podDisruptionBudget: # Pod disruption budget should be enabled to limit concurrent disruptions to service and ensure smooth cluster maintenance
+        enabled: false
+        # minAvailable: 50%
+      replicaCount: 1 # default number of containers to create (Not used when HPA used)
+      applicationPort: 8080 # the port on which the application listens
+      serviceIAMRole: "" # The IAM role that your container should use
+      serviceType: http # service communication type, other available value could be for example 'grpc'
+      serviceAccountName: genai-vector-store
+      localConnections:
+        services:
+          - namespace: genai-hub-service # connect to genai-hub-service
+            name: genai-hub-service
+      image:
+        repository: "{{ .Values.DockerImageRepo }}/${bkgImageName}" # service docker image name
+        tag: ${imageTag} # tag of the service docker image
+      serviceRoot: / # The context root of your application
+      serviceIngressPrefix: /${namespace}/ # Prefix for any traffic that should be forwarded from the public facing load balancer to your app
+      egressRules: "" # To enable Istio access for an external service(s) , provide list of external services to give access to (e.g. "www.service01.com:443,www.service02.com:80")
+      #isFrontendService: "{{ .Values.isFrontendService }}" # Default false. Set to true to allow the service to get traffic from external client browsers instead of from cuttyhunk clients or GOC.
+      dnsName: "" # Configure this for a frontend service which wants to use host based routing instead of url path based routing.
+      # skipIngress: false # skip exposing service outside the cluster
+      skipIngress: true # skip exposing service outside the cluster
+      livenessProbePath: /health/liveness # The HTTP GET request path that should be invoked to test liveness
+      readinessProbePath: /health/readiness # The HTTP GET request path that should be invoked to test readiness
+      healthCheckPort: 8082 # Port on which liveness and readiness HTTP requests get invoked
+      livenessProbeInitialDelay: 5 # Number of seconds after the container has started before liveness probe is initiated.
+      readinessProbeInitialDelay: 10 # Number of seconds after the container has started before readiness probe is initiated.
+      readinessProbeTimeout: 5 # Number of seconds after which the readiness probe times out
+      livenessProbeTimeout: 5 # Number of seconds after which the liveness probe times out
+      # An array of environment variables
+      environmentTemplate: >
+        - name: ACCOUNT
+          value: "{{ .Values.account}}"
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
+        - name: REGION
+          value: "{{ .Values.region }}"
+        - name: DB_INSTANCE
+          value: "{{ .Values.databaseID }}"
+        - name: DB_HOST
+          value: "{{ .Values.databaseHost }}"
+        - name: DB_PORT
+          value: "{{ .Values.databasePort }}"
+        - name: DB_NAME
+          value: "{{ .Values.databaseName }}"
+        - name: DB_SECRET
+          value: "{{ .Values.databaseSecret }}"
+        - name: DB_WITH_PRIVATE_IP
+          value: "{{- if eq .Values.cloudProvider "gcp" }}true{{- else }}false{{- end }}"
+        - name: GENAI_GATEWAY_SERVICE_URL
+          value: "{{ .Values.genAIURL }}"
+        - name: SAX_CLIENT_ID
+          value: "{{ .Values.SaxClientID }}"
+        - name: SAX_CLIENT_SCOPES
+          value: "{{ .Values.SaxClientScopes }}"
+        - name: SAX_CLIENT_SECRET
+          value: "{{ .Values.SaxClientSecret }}"
+        - name: SAX_CLIENT_TOKEN_ENDPOINT
+          value: "{{ .Values.SaxClientTokenEndpoint }}"
+        - name: SAX_ISSUER
+          value: "{{ .Values.SaxIssuer }}"
+        - name: SAX_JWKS_ENDPOINT
+          value: "{{ .Values.SaxJWKSEndpoint }}"
+        - name: SAX_AUDIENCE
+          value: "{{ .Values.SaxAudience }}"
+        - name: MAX_CONNS
+          value: "100"
+        - name: LOG_LEVEL
+          value: "{{ .Values.logLevel }}"
+        - name: LOG_PERFORMANCE_TRACE
+          value: "{{ .Values.logPerformanceTrace }}"
+        - name: READ_ONLY_MODE
+          value: "{{ .Values.readOnlyMode}}"
+        - name: USAGE_METRICS_ENABLED
+          value: "{{ .Values.usageMetricsEnabled }}"
+        - name: DATABASE_ENGINE_VERSION
+          value: "{{ .Values.dbEngineVersion }}"
+      # Monitoring annotations for New Relic
+      # Refer https://git.pega.io/projects/CTRL/repos/service-base/browse/docs/options/monitoring_annotation_for_newrelic.md
+      monitorPrometheusEp:
+        enabled: true
+        prometheusScrape: true
+        prometheusPort: 8082
+        prometheusPath: /metrics
+        #prometheusScrape: true
+        #prometheusPort: 8082
+        #prometheusPath: /metrics
+      # Enable Logging for the namespace. Below logging configuration in form of fluent.conf will parse all the logs as json, merge exceptions in single line and send all the logs to CloudWatch.
+      # Refer https://docs.fluentd.org/filter/parser for more info. on parser filter plugin used.
+      loggingConfigMap:
+        fluent.conf: |-
+          <filter **>
+            @type parser
+            key_name log
+            reserve_data true
+            hash_value_field log
+            remove_key_name_field true
+            emit_invalid_record_to_error false
+            <parse>
+              @type json
+            </parse>
+          </filter>
+      # Specify resource (cpu and memory) requests and limits for service container
+      container:
+        resources:
+          requests:
+            cpu: 300m
+            memory: 300Mi
+          limits:
+            cpu: 500m
+            memory: 400Mi
+      # Enable horizontal pod autoscaling based on cpu utilization
+      hpa:
+        enabled: false
+        #minReplicas: 2
+        #maxReplicas: 5
+        #metrics:
+        #  - type: Resource
+        #    resource:
+        #      name: cpu
+        #      target:
+        #        type: Utilization
+        #        averageUtilization: 80

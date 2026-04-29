@@ -1,0 +1,9 @@
+{
+  "ModelArn": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0",
+  "ModelId": "anthropic.claude-3-haiku-20240307-v1:0",
+  "ModelMapping": "claude-3-haiku",
+  "OIDCIAMRoleArn": "arn:aws:iam::123456789012:role/genai-oidcrole-us-60et1",
+  "Region": "us-east-1",
+  "Endpoint": "http://genai-hub-mockserver:11080",
+  "Path": "/model/anthropic.claude-3-haiku-20240307-v1:0/converse"
+}

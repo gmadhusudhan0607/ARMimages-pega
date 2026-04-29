@@ -1,0 +1,180 @@
+#
+# Copyright (c) 2024 Pegasystems Inc.
+# All rights reserved.
+#
+
+id: GenAIVectorStore
+name: GenAIVectorStore
+version: @version@
+description: Deploys the components required for GenAIVectorStore
+
+dependencies:
+  {{>dependencies.yml}}
+
+mappings:
+  services_versions:
+    {{>services_versions.yml}}
+
+prompts:
+  - name: ClusterGUID
+    description: The GUID of CloudK cluster in which product will be deployed
+    regional: true
+    constraints:
+      allowedPattern: (\w{8}-\w{4}-\w{4}-\w{4}-\w{12})
+      required: true
+    uicontrols:
+      type: text
+
+  - name: Owner
+    description: Owner of the deployment (for tagging purpose)
+    constraints:
+      required: true
+    uicontrols:
+      type: text
+
+  - name: ProvisioningType
+    dependsOn: cp.stageName
+    defaultValue: "Standard"
+    description: Determines how many prompts are shown. Standard option will show fewer prompts compared to Advanced. Default = Standard
+    constraints:
+      description: Allowed values are (Standard or Advanced)
+      allowedValues:
+        - "Standard"
+        - "Advanced"
+      provider: aws,gcp
+    uicontrols:
+      type: text
+      visibility: !e (cp.getStageName() == 'integration')
+
+  - name: ProductSuffix
+    dependsOn: cp.stageName
+    defaultValue: ""
+    description: The suffix that will be added to K8s namespaces of very SCE in this product (max 8 characters)
+    constraints:
+      immutable: true
+      maxLength: 8
+      description: Add suffix to all installed service namespaces (max 8 characters)
+      provider: aws,gcp
+    uicontrols:
+      type: text
+      visibility: !e (cp.getStageName() == 'integration')
+
+  - name: IsFrontendService
+    description: IsFrontendService indicates if service should be exposed externally
+    dependsOn: cp.stageName, prompts.ProvisioningType
+    defaultValue: "false"
+    constraints:
+      allowedValues:
+        - "true"
+        - "false"
+      description: Allowed values are (true or false)
+    uicontrols:
+      type: text
+      visibility: !e (cp.getStageName() == 'integration' && prompts.ProvisioningType == 'Advanced')
+
+node:
+  path: !e '"/backing-services/${fn.generateGUID()}"'
+  labels:
+    name: "!e prompts.ProductSuffix ? 'genai-vector-store-'.concat(prompts.ProductSuffix) : 'genai-vector-store'"
+    type: GenAIVectorStore
+    clusterguid: !e fn.select("", prompts.ClusterGUID)
+    owner: !e fn.select("", prompts.Owner)
+    accountid: !e cmdbService.cluster(fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))).get('AccountID')
+    region: !e cmdbService.cluster(fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))).get('Region')
+    provider: !e cmdbService.cluster(fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))).labels().get('provider')
+    pega-service-id: @pegaServiceId@
+    pega-service-name: @pegaServiceName@
+    excludeInMRDRSimulation: 'true'
+  services:
+    - name: DBInstance
+      version: !e fn.lookup('services_versions', 'DBInstance')
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: DatabaseHaProfile
+          value: !e "cp.getStageName() == 'integration' ? 'none' : 'ha'"
+        - name: DatabasePerformanceProfile
+          value: cost-optimized-large
+        - name: DatabaseStorageSize
+          value: 25
+        - name: Owner
+          value: !e fn.select(prompts.Owner, cmdbService.findInput('Owner'))
+        - name: HoursToLive
+          value: -1
+        - name: EnvironmentType
+          value: "GenAI"
+        - name: NetworkGUID
+          value: !e cmdbService.cluster(fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))).labels().get('networkguid')
+        - name: PostgresVersion
+          value: "auto"
+          upgradeValue: "auto"
+        - name: DatabaseEngineVersion
+          value: !e "fn.lookupLatestDBMSEngineVersion(prompts.DatabaseEngine, 18, prompts.DBMSProvisioningGUID)"
+        - name: UsageType
+          value: "vector-store"
+          upgradeValue: "vector-store"
+        - name: DRMode
+          value: "replication"
+          upgradeValue: "replication"
+    - name: GenAIVectorStoreInfrastructure
+      version: @version@
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: Owner
+          value: !e fn.select(prompts.Owner, cmdbService.findInput('Owner'))
+        - name: ClusterGUID
+          value:        !e fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))
+          upgradeValue: !e fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))
+    - name: ServiceAuthenticationClientService
+      version: !e fn.lookup('services_versions', 'ServiceAuthenticationClientService')
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: Owner
+          value: !e fn.select(prompts.Owner, cmdbService.findInput('Owner'))
+          upgradeValue: !e fn.select(prompts.Owner, cmdbService.findInput('Owner'))
+        - name: ClusterGUID
+          value: !e fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))
+          upgradeValue: !e fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID'))
+        - name: ServiceType
+          value: backing-services
+          upgradeValue: backing-services
+        - name: AllowedScopes
+          value:        "genai-vector-store:read genai-vector-store:write"
+          upgradeValue: "genai-vector-store:read genai-vector-store:write"
+        - name: IsolationID
+          value: !e UUID.randomUUID().toString()
+    - name: GenAIVectorStoreRole
+      version: @version@
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: Owner
+          value: !e fn.select(prompts.Owner, cmdbService.findInput('Owner'))
+        - name: Namespace
+          value: "!e prompts.ProductSuffix ? 'genai-vector-store-'.concat(prompts.ProductSuffix) : 'genai-vector-store'"
+    - name: GenAIVectorStore
+      version: @version@
+      action: INSTALL_UPGRADE_BACKUP
+      parameters:
+        - name: Namespace
+          value: "!e prompts.ProductSuffix ? 'genai-vector-store-'.concat(prompts.ProductSuffix) : 'genai-vector-store'"
+        - name: IsFrontendService
+          value: !e prompts.IsFrontendService
+        - name: LogLevel
+          value: "INFO"
+        - name: LogPerformanceTrace
+          value: "false"
+        - name: EnableDBTools
+          value: "false"
+        - name: QueryEmbeddingTimeoutMs
+          value: "5000"
+          upgradeValue: "!e
+            cmdbService.findInput('QueryEmbeddingTimeoutMs') ? cmdbService.findInput('QueryEmbeddingTimeoutMs') :
+              cmdbService.findInput('EmbedderQuestionTimeout')?.toFloat()  > 5.0 ?  (cmdbService.findInput('EmbedderQuestionTimeout').toFloat() * 1000).toInteger() :
+              '5000'
+            "
+        - name: QueryEmbeddingMaxRetries
+          value: "1"
+          upgradeValue:  "1"
+        - name: IsolationIdVerificationDisabled
+          value: "true"
+  nodes: []
+  

@@ -1,0 +1,9 @@
+functions-framework==3.*
+google-auth==2.*
+google-cloud-aiplatform==1.*
+google-cloud-monitoring==2.*
+openai==1.*
+vertexai==1.*
+werkzeug==2.*
+protobuf==4.*
+requests==2.*

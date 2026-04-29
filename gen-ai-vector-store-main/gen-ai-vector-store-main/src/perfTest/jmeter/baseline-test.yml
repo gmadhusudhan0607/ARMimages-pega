@@ -1,0 +1,9 @@
+---
+execution:
+  - concurrency: 3
+    iterations: 350
+    scenario: jmeter
+    criteria:
+      - failures>0, continue as failed
+      - p90 of POST query/chunks>800ms, continue as failed
+      - p90 of GET documents>800ms, continue as failed

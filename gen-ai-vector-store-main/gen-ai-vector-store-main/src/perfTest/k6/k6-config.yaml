@@ -1,0 +1,22 @@
+# Copyright (c) 2025 Pegasystems Inc.
+# All rights reserved.
+#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-config
+  namespace: genai-vector-store
+data:
+  TARGET_URL: "http://genai-vector-store.genai-vector-store.svc.cluster.local:80"
+  PARALLEL_MODE: "false"  # Run TEST_SCRIPTS in parallel
+  HTTP_DURATION_THRESHOLD_MS: "30000"
+  HTTP_DURATION_PERCENTILE: "95"
+  VIRTUAL_USERS: "100"
+  TEST_DURATION: "120s"
+  TEST_SCRIPTS: |
+    # Scripts can be excluded if you put # on te beginning of line 
+    # put-documents.js
+    # query-documents-random.js
+    # query-chunks-known.js
+    query-chunks-random.js

@@ -1,0 +1,5 @@
+title: "GenAI Vector Store API Documentation"
+include:
+  - index.html
+  - apidocs/service.yaml
+  - apidocs/ops.yaml

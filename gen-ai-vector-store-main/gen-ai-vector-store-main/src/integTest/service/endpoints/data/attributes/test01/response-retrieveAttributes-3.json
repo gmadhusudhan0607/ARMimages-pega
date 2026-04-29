@@ -1,0 +1,29 @@
+[
+  {
+    "name": "org",
+    "value": [
+      "tso"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "pets",
+    "value": [
+      "cat",
+      "dog",
+      "dragon",
+      "unicorn"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "weather",
+    "value": [
+      "cold",
+      "rain",
+      "sunny",
+      "warm"
+    ],
+    "type": "string"
+  }
+]

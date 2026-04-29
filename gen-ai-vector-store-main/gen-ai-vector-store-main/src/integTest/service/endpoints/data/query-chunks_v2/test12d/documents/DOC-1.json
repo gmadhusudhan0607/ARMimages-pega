@@ -1,0 +1,27 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "DOC-1 content for chunk 0"
+    },
+    {
+      "content": "DOC-1 content for chunk 1"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "location",
+      "value": [
+        "USA"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "location",
+      "value": [
+        "IND"
+      ],
+      "type": "string"
+    }
+  ]
+}

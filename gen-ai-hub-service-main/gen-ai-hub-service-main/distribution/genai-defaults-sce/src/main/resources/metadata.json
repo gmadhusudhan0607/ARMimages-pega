@@ -1,0 +1,75 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "Owner",
+      "description": "Owner of the deployment (for tagging purpose)",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "AccountID",
+      "description": "Account ID where LLM Models are deployed",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Region",
+      "description": "AWS Region where default models are deployed",
+      "defaultValue": "us-east-1",
+      "constraints": {
+        "required": false,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Fast",
+      "description": "Default Fast LLM Model ID",
+      "defaultValue": "claude-3-haiku",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Smart",
+      "description": "Default Smart LLM Model ID",
+      "defaultValue" : "claude-3-7-sonnet",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Pro",
+      "description": "Default Pro LLM Model ID",
+      "defaultValue": "claude-sonnet-4-5",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "provider": "aws",
+    "owner": "Jarvis@pega.com",
+    "service-type": "control-plane",
+    "webexChannel": "CloudK - GenAI Gateway Service Support [webexteams://im?space=f11d3910-467b-11ee-ad05-9d82b1151a68]"
+  }
+}

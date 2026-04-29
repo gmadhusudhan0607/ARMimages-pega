@@ -1,0 +1,47 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ClusterGUID",
+      "description": "EKS Cluster GUID",
+      "regional": true,
+      "constraints": {
+        "required": true,
+        "immutable": true,
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "OpsServiceEndpoint",
+      "description": "GenAI Vector Store Ops Service Endpoint",
+      "defaultValue": "!e (!cmdbService.isDeploymentActive()) ? cmdbService.activeResource()?.findInput('OpsServiceEndpoint') : cmdbService.findBackingServiceInClusterWithNamespace(fn.select(prompts.ClusterGUID, cmdbService.findInput('ClusterGUID')),'genai-vector-store', 'type=GenAIVectorStore').get('OpsServiceEndpointExternal')",
+      "regional": true,
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "MaxStorageSize",
+      "description": "Isolation Max Storage Size",
+      "defaultValue": "!e (!cmdbService.isDeploymentActive()) ? cmdbService.activeResource()?.findInput('MaxStorageSize') : '5GB' ",
+      "constraints": {
+        "required": true,
+        "allowedPattern": "\\d+(MB|GB|TB)"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata":{
+    "service-type": "backing-service",
+    "provider": "aws,gcp",
+    "owner":"Jarvis@pega.com",
+    "webexChannel": "CloudK - GenAI Vector Store Support [webexteams://im?space=9828eb70-886f-11ee-a264-4d1eb3ef43cd]"
+  }
+}

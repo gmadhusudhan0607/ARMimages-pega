@@ -1,0 +1,18 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+# Plugin 'com.pega.helmcli.helm' will automatically replace ${chartName} and ${chartVersion} with dynamic values calculated by the plugin
+name: ${chartName}
+version: ${chartVersion}
+apiVersion: v2 # Helm3
+description: A Helm chart that serves as template for genai-vector-store
+keywords:
+  - genai-vector-store
+  - template
+  - backend technology
+dependencies:
+  - name: service-base
+    version: 1.22.0-20251120184851 # use latest
+    repository: '@helm' #helm is the virtual repo (combines helm-stable and helm-unstable)

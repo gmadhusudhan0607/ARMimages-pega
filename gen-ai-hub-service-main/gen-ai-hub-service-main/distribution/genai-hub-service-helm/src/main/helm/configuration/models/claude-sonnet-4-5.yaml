@@ -1,0 +1,10 @@
+- name: claude-sonnet-4-5
+  modelId: anthropic.claude-sonnet-4-5-20250929-v1:0
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/anthropic/deployments/claude-sonnet-4-5"
+  redirectUrl: "{{ .Values.DemoAwsBedrockURL }}/anthropic/deployments/claude-sonnet-4-5"
+  provider: anthropic
+  infrastructure: aws
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

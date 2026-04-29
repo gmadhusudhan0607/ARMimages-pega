@@ -1,0 +1,68 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "DOC-1 content for chunk 0",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v1",
+            "v1.c1"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "dataSource",
+          "value": [
+            "DS0"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "DOC-1 content for chunk 1",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v1",
+            "v1.c2"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "dataSource",
+          "value": [
+            "DS0"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "value": [
+        "v1"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "org",
+      "value": [
+        "tso"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "dataSource",
+      "value": [
+        "DS0"
+      ],
+      "type": "string"
+    }
+  ]
+}

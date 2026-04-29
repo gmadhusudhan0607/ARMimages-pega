@@ -1,0 +1,33 @@
+{
+  "httpRequest": {
+    "method": "POST",
+    "path": "/openai/deployments/text-embedding-ada-002/embeddings",
+    "headers": {},
+    "body": {
+      "input": "Content: \nSetting a Vanity URL on Your System\nOverview\nIf you require SSL with a valid CA issued cert, please follow the process outlined below. A CA issued cert is required for mobile application and certain REST integrations. The process only requires one IT ticket and could take a few days depending on the responsiveness of the person working on your ticket.\n\nNOTE: If your dashboard page does not display/use the Vanity URL after the ticket has been completed, contact Pega Labs support to have the vanityurl parameter on your system updated.\n\nPlease do not contact Pega Labs requesting the status of your ticket. Please reach out to the assigned IT Service Desk Analyst for updates.\n\nYou will need the following system information which can be found on your system page. The link to this page was sent to you in the onboarding email sent to you when the system was provisioned.\n\nLabName: Hostname field of the \"System Info\" table on the dashboard page."
+    }
+  },
+  "httpResponse": {
+    "statusCode": 401,
+    "headers": {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "x-content-type-options": "nosniff",
+      "x-ratelimit-remaining-requests": "9",
+      "apim-request-id": "11360e69-691b-4e54-8428-f3849c242386",
+      "x-ratelimit-remaining-tokens": "9999",
+      "x-request-id": "4a755747-8dbb-41ae-a518-034d90d6b507",
+      "x-ms-client-request-id": "11360e69-691b-4e54-8428-f3849c242386",
+      "x-ms-region": "East US 2",
+      "azureml-model-session": "d006-20240131110621",
+      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+      "date": "Fri, 23 Feb 2024 19:47:10 GMT"
+    },
+    "body": {
+      "error": {
+        "code": "401",
+        "message": "Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource."
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "chunkStatus": {
+        "COMPLETED": 0,
+        "ERROR": 0,
+        "IN_PROGRESS": 2
+      },
+      "documentAttributes": [
+        {
+          "name": "org",
+          "type": "string",
+          "values": [
+            "tso"
+          ]
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "values": [
+            "v1"
+          ]
+        }
+      ],
+      "documentID": "DOC-1",
+      "errorMessage": "[{\"status\" : \"ERROR\", \"code\" : 500, \"message\" : \"embedding returned an error: \", \"count\" : 1}, {\"status\" : \"IN_PROGRESS\", \"code\" : 0, \"message\" : \"\", \"count\" : 1}]",
+      "ingestionStatus": "ERROR",
+      "ingestionTime": "2026-02-20T11:15:15.537748Z",
+      "updateTime": "2026-02-20T11:15:15.937304Z"
+    }
+  ],
+  "pagination": {
+    "itemsTotal": 1,
+    "limit": 500
+  }
+}

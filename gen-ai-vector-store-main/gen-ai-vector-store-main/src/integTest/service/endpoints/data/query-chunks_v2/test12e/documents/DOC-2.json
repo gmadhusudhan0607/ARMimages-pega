@@ -1,0 +1,43 @@
+{
+  "id": "DOC-2",
+  "chunks": [
+    {
+      "content": "DOC-2 content for chunk 0",
+      "attributes": [
+        {
+          "name": "location",
+          "value": [
+            "CA"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "IND"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "DOC-2 content for chunk 1",
+      "attributes": [
+        {
+          "name": "location",
+          "value": [
+            "CA"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "IND"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

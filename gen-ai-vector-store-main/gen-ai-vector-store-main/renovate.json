@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "baseBranches": [
+    "main"
+  ],
+  "bbUseDefaultReviewers": true,
+  "prConcurrentLimit": 10,
+  "ignoreDeps": [
+    "gradle",
+    "gradle-wrapper"
+  ],
+  "helmv3": {
+    "description": "Configuration object for the helmv3 manager",
+    "registryAliases": {
+      "helm": "https://bin.pega.io/artifactory/helm-stable/"
+    }
+  },
+  "schedule": [
+    "at any time"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "maven", "artifactory"
+      ],
+      "registryUrls": ["https://bin.pega.io/artifactory/repo2-release/"],
+      "groupName": "dependencies",
+      "schedule": [
+        "at any time"
+      ]
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-?(?<date>\\d+)?$",
+      "registryAliases": {
+        "helm": "https://bin.pega.io/artifactory/helm-stable/"
+      },
+      "registryUrls": ["https://bin.pega.io/artifactory/helm-stable/"],
+      "groupName": "helm-dependencies",
+      "schedule": [
+        "at any time"
+      ]
+    }
+  ]
+}

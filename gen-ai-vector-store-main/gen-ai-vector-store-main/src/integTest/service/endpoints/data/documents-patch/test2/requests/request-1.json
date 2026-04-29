@@ -1,0 +1,20 @@
+{
+  "attributes":[
+    {
+      "name": "version",
+      "value": [
+        "v2",
+        "v3"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "org",
+      "value": [
+        "tso",
+        "eng"
+      ],
+      "type": "string"
+    }
+  ]
+}

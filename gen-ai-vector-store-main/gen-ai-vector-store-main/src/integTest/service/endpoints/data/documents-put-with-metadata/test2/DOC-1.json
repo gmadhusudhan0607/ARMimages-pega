@@ -1,0 +1,82 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "text of chunk 1",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v0.0"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "region",
+          "value": [
+            "UA"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "access",
+          "value": [
+            "private"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "value": [
+            "test1"
+          ],
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "embeddingAttributes": ["access"]
+      }
+    },
+    {
+      "content": "text of chunk 2",
+      "attributes": [
+        {
+          "name": "version",
+          "value": [
+            "v0.1"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "org",
+          "value": [
+            "DEV"
+          ],
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "embeddingAttributes": ["org"]
+      }
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "value": [
+        "v0"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "region",
+      "value": [
+        "EU", "US"
+      ],
+      "type": "string"
+    }
+  ],
+  "metadata": {
+    "embeddingAttributes": ["version", "region", "region", "not-existing-document-attribute"]
+  }
+}

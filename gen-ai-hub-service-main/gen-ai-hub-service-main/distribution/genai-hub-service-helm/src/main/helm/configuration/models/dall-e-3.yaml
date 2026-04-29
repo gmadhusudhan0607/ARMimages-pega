@@ -1,0 +1,10 @@
+- name: dall-e-3
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/dall-e-3"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/dall-e-3"
+  provider: openai
+  infrastructure: azure
+  capabilities:
+    image-generation: true
+    completions: false
+    embeddings: false

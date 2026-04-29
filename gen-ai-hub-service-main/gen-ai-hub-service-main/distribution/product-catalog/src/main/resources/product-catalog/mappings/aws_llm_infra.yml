@@ -1,0 +1,88 @@
+integration:
+  us:
+    default:
+      account: 930843177502
+      region: us-east-1
+  eu:
+    default:
+      account: 930843177502
+      region: eu-central-1
+  af:
+    default:
+      account: 930843177502
+      region: eu-central-1
+  ap:
+    default:
+      account: 930843177502
+      region: eu-central-1
+staging:
+  us:
+    default:
+      account: 205979660848
+      region: us-east-1
+prod-adoption:
+  us:
+    default:
+      account: 343218209708
+      region: us-east-1
+  eu:
+    default:
+      account: 043309326525
+      region: eu-central-1
+  af:
+    default:
+      account: 335547864238
+      region: ap-southeast-2
+  ap:
+    default:
+      account: 335547864238
+      region: ap-southeast-2
+production:
+  us:
+    default:
+      account: 120569635437
+      region: us-east-1
+  ca:
+    default:
+      account: 120569635437
+      region: us-east-1
+  eu:
+    default:
+      account: 820242911204
+      region: eu-central-1
+  af:
+    default:
+      account: 390402571031
+      region: ap-southeast-2
+  ap:
+    default:
+      account: 390402571031
+      region: ap-southeast-2
+trials:
+  us:
+    default:
+      account: 418295705982
+      region: us-east-1
+prod-launchpad:
+  us:
+    default:
+      account: 207567781497
+      region: us-east-1
+  eu:
+    default:
+      account: 509399638761
+      region: eu-central-1
+  sa:
+    default:
+      account: 207567781497
+      region: us-east-1
+rnd-usgov:
+  us:
+    default:
+      account: 261419807993
+      region: us-gov-west-1
+production-usgov:
+  us:
+    default:
+      account: 264954225034
+      region: us-gov-west-1

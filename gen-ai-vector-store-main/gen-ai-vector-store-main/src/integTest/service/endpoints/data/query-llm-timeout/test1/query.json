@@ -1,0 +1,7 @@
+{
+  "limit": 10,
+  "maxDistance": 1.0,
+  "filters": {
+    "query": "query documents with delay?"
+  }
+}

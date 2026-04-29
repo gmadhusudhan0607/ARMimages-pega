@@ -1,0 +1,61 @@
+{
+  "id": "DOC-3",
+  "chunks": [
+    {
+      "content": "some text here",
+      "attributes": [
+        {
+          "name": "weather",
+          "value": [
+            "warm",
+            "rain"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "Krakow"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "some text here",
+      "attributes": [
+        {
+          "name": "weather",
+          "value": [
+            "cold",
+            "sunny"
+          ],
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "value": [
+            "Lwow"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "location",
+      "value": [
+        "Milky Way galaxy"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "dataSource",
+      "value": [
+        "DS3"
+      ],
+      "type": "string"
+    }
+  ]
+}

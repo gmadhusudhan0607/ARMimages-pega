@@ -1,0 +1,21 @@
+[
+  {
+    "name": "org",
+    "value": [
+      "eng",
+      "tso"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "version",
+    "value": [
+      "v1",
+      "v1.c1",
+      "v1.c2",
+      "v2",
+      "v3"
+    ],
+    "type": "string"
+  }
+]

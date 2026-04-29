@@ -1,0 +1,267 @@
+amazon.nova-2-multimodal-embeddings-v1:0:
+  # No inference profiles available for Nova Multimodal Embeddings
+  # Only available in us-east-1
+  us-east-1:
+    supported: true
+
+amazon.nova-2-lite-v1:0:
+  # US Profile - us.amazon.nova-2-lite-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.amazon.nova-2-lite-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  ap-northeast-1:
+    inference: jp
+    supported: true
+  ap-southeast-1:
+    inference: jp
+    supported: true
+    inferenceRegion: ap-northeast-1
+  ap-southeast-2:
+    inference: jp
+    supported: true
+    inferenceRegion: ap-northeast-1
+
+amazon.nova-lite-v1:0:
+  # US Profile - us.amazon.nova-lite-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.amazon.nova-lite-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # APAC Profile - apac.amazon.nova-lite-v1:0
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+  us-gov-west-1:
+    supported: false # US-GOV - Not IL4/5 compliant
+
+amazon.nova-micro-v1:0:
+  us-east-1:
+    inference: us
+    supported: true
+  eu-central-1:
+    inference: eu
+    supported: true
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+  us-gov-west-1:
+    supported: false  # US-GOV - Not IL4/5 compliant
+
+amazon.nova-premier-v1:0:
+  # US Profile only - us.amazon.nova-premier-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+
+amazon.nova-pro-v1:0:
+  # US Profile - us.amazon.nova-pro-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.amazon.nova-pro-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # APAC Profile - apac.amazon.nova-pro-v1:0
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+  # US-GOV - No inference profile available
+  us-gov-west-1:
+    supported: false  # US-GOV - Not IL4/5 compliant
+
+amazon.titan-embed-text-v2:0:
+  # No inference profiles available for Titan Embed
+  ap-northeast-1:
+    supported: true
+  ap-southeast-2:
+    supported: true
+  us-east-1:
+    supported: true
+  us-gov-west-1:
+    supported: true
+  eu-central-1:
+    supported: true
+
+anthropic.claude-3-haiku-20240307-v1:0:
+  # US Profile - us.anthropic.claude-3-haiku-20240307-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.anthropic.claude-3-haiku-20240307-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # APAC Profile - apac.anthropic.claude-3-haiku-20240307-v1:0
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+  # US-GOV Profile - us-gov.anthropic.claude-3-haiku-20240307-v1:0
+  us-gov-west-1:
+    inference: us-gov
+    supported: true
+    inferenceRegion: us-gov-east-1
+
+anthropic.claude-3-5-sonnet-20241022-v2:0:
+  # US Profile - us.anthropic.claude-3-5-sonnet-20241022-v2:0
+  us-east-1:
+    inference: us
+    supported: true
+  # APAC Profile - apac.anthropic.claude-3-5-sonnet-20241022-v2:0
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+
+anthropic.claude-3-7-sonnet-20250219-v1:0:
+  # US Profile - us.anthropic.claude-3-7-sonnet-20250219-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.anthropic.claude-3-7-sonnet-20250219-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # APAC Profile - apac.anthropic.claude-3-7-sonnet-20250219-v1:0
+  ap-northeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-1:
+    inference: apac
+    supported: true
+  ap-southeast-2:
+    inference: apac
+    supported: true
+  # US-GOV profile - us-gov.anthropic.claude-3-7-sonnet-20250219-v1:0
+  us-gov-west-1:
+    inference: us-gov
+    supported: true
+    inferenceRegion: us-gov-east-1
+
+anthropic.claude-haiku-4-5-20251001-v1:0:
+  # US Profile - us.anthropic.claude-haiku-4-5-20251001-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.anthropic.claude-haiku-4-5-20251001-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # JP Profile - jp.anthropic.claude-haiku-4-5-20251001-v1:0
+  ap-northeast-1:
+    inference: jp
+    supported: true
+  # Singapore
+  ap-southeast-1:
+    inference: au
+    supported: true
+    inferenceRegion: ap-southeast-2
+  # AU Profile - au.anthropic.claude-haiku-4-5-20251001-v1:0
+  ap-southeast-2:
+    inference: au
+    supported: true
+  # No US-GOV profile available for this model
+
+anthropic.claude-sonnet-4-5-20250929-v1:0:
+  # US Profile - us.anthropic.claude-sonnet-4-5-20250929-v1:0
+  us-east-1:
+    inference: us
+    supported: true
+  # EU Profile - eu.anthropic.claude-sonnet-4-5-20250929-v1:0
+  eu-central-1:
+    inference: eu
+    supported: true
+  # US-GOV Profile - us-gov.anthropic.claude-sonnet-4-5-20250929-v1:0
+  us-gov-west-1:
+    inference: us-gov
+    supported: true
+  # JP Profile - jp.anthropic.claude-sonnet-4-5-20250929-v1:0
+  ap-northeast-1:
+    inference: jp
+    supported: true
+  # Singapore
+  ap-southeast-1:
+    inference: au
+    supported: true
+    inferenceRegion: ap-southeast-2
+  # Australia
+  ap-southeast-2:
+    inference: au
+    supported: true
+
+anthropic.claude-sonnet-4-6:
+  us-east-1:
+    inference: us
+    supported: true
+  eu-central-1:
+    inference: eu
+    supported: true
+  us-gov-west-1:  # US-GOV - Not IL4/5 compliant
+    supported: false
+  ap-northeast-1:
+    inference: jp
+    supported: true
+  # Singapore
+  ap-southeast-1:
+    inference: au
+    supported: true
+    inferenceRegion: ap-southeast-2
+  ap-southeast-2:
+    inference: au
+    supported: true
+
+anthropic.claude-opus-4-6-v1:
+  us-east-1:
+    inference: us
+    supported: true
+  eu-central-1:
+    inference: eu
+    supported: true
+  ap-northeast-1:
+    inference: au
+    supported: true
+    inferenceRegion: ap-southeast-2
+  # Singapore
+  ap-southeast-1:
+    inference: au
+    supported: true
+    inferenceRegion: ap-southeast-2
+  ap-southeast-2:
+    inference: au
+    supported: true

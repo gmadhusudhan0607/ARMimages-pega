@@ -1,0 +1,75 @@
+name: instructions-drift-check
+
+on:
+  pull_request:
+    paths:
+      - '.github/copilot-instructions.md'
+      - '.github/agents/**'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - '.claude/**'
+      - '.opencode/**'
+      - '.github/workflows/instructions-drift-check.yml'
+  push:
+    branches: [main]
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: AGENTS.md must be a symlink to .github/copilot-instructions.md
+        run: |
+          if [ ! -L AGENTS.md ]; then
+            echo "::error::AGENTS.md must be a symlink, not a regular file."
+            exit 1
+          fi
+          target="$(readlink AGENTS.md)"
+          if [ "$target" != ".github/copilot-instructions.md" ]; then
+            echo "::error::AGENTS.md symlink points to '$target'; expected '.github/copilot-instructions.md'."
+            exit 1
+          fi
+
+      - name: CLAUDE.md and .claude/ must not exist
+        run: |
+          fail=0
+          if [ -e CLAUDE.md ]; then
+            echo "::error::CLAUDE.md must not exist. Canonical instructions live in .github/copilot-instructions.md."
+            fail=1
+          fi
+          if [ -d .claude ]; then
+            echo "::error::.claude/ directory must not exist. Agents live in .github/agents/."
+            fail=1
+          fi
+          exit $fail
+
+      - name: Forbidden agent-memory phrases must not appear in per-agent files
+        run: |
+          shopt -s nullglob
+          files=(.github/agents/*.md)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No .github/agents/*.md files found; skipping."
+            exit 0
+          fi
+          patterns='Update your agent memory|MEMORY\.md|\.claude/agent-memory|\.opencode/agent-memory|Persistent Agent Memory'
+          if grep -nE "$patterns" "${files[@]}"; then
+            echo "::error::Agent-memory references are forbidden in .github/agents/*.md. The canonical file .github/copilot-instructions.md may reference them only to forbid them."
+            exit 1
+          fi
+
+      - name: Every .github/agents/*.md must declare name and description frontmatter
+        run: |
+          fail=0
+          for f in .github/agents/*.md; do
+            [ -f "$f" ] || continue
+            if ! head -n 20 "$f" | grep -qE '^name: '; then
+              echo "::error file=$f::missing 'name:' frontmatter"
+              fail=1
+            fi
+            if ! head -n 20 "$f" | grep -qE '^description: '; then
+              echo "::error file=$f::missing 'description:' frontmatter"
+              fail=1
+            fi
+          done
+          exit $fail

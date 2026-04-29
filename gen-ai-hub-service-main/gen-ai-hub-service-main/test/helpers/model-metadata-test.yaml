@@ -1,0 +1,1460 @@
+# NOTE: deprecationDate must follow the format YYYY-MM-DD (ISO 8601).
+# This is required for compatibility with Go's time.Parse("2006-01-02")
+# Metadata Key, e.g. 'claude-3-haiku' reflects: <name> from the mapping (gcp), <ModelMapping> (aws), <model-name>-<model-version> (azure)
+#modelID is provided only for azure and gcp models, for aws it's being populated from the mapping
+
+claude-3-haiku:
+  modelName: claude-3-haiku
+  version: v1
+  modelLabel: Claude 3 Haiku
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - jsonMode
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - text
+      - chat
+    mimeTypes:
+      - image/jpeg
+      - image/png
+      - image/gif
+      - image/webp
+      - application/pdf
+      - application/docx
+      - text/csv
+      - application/doc
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 200000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: 4096
+      maximum: 4096
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 0.7
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 1.0
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: null
+      minimum: 1
+      maximum: 50
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+claude-3-5-sonnet:
+  modelName: claude-3-5-sonnet
+  version: v2
+  modelLabel: Claude 3.5 Sonnet
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - jsonMode
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - text
+    mimeTypes:
+      - image/jpeg
+      - image/png
+      - image/gif
+      - image/webp
+      - application/pdf
+      - application/docx
+      - text/csv
+      - application/doc
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 200000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: 8192
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 0.7
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: null
+      minimum: 1
+      maximum: 50
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+claude-3-7-sonnet:
+  modelName: claude-3-7-sonnet
+  version: v1
+  modelLabel: Claude 3.7 Sonnet
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - jsonMode
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - text
+      - chat
+    mimeTypes:
+      - image/jpeg
+      - image/png
+      - image/gif
+      - image/webp
+      - application/pdf
+      - application/docx
+      - text/csv
+      - application/doc
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 200000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: 128000
+      maximum: 128000
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: null
+      minimum: 1
+      maximum: 50
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+gemini-1.5-flash:
+  modelName: gemini-1.5-flash
+  version: '002'
+  modelLabel: Gemini 1.5 Flash
+  modelID: gemini-1.5-flash
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - structuredOutput
+      - jsonMode
+      - promptCaching
+    inputModalities:
+      - text
+      - code
+      - image
+      - audio
+      - video
+    outputModalities:
+      - text
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 1048576
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 0.95
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: 64
+      minimum: 64
+      maximum: 64
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-09-24'
+gemini-1.5-pro:
+  modelName: gemini-1.5-pro
+  version: '002'
+  modelLabel: Gemini 1.5 Pro
+  modelID: gemini-1.5-pro
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - structuredOutput
+      - jsonMode
+      - promptCaching
+    inputModalities:
+      - text
+      - code
+      - image
+      - audio
+      - video
+    outputModalities:
+      - text
+    mimeTypes:
+      - application/pdf
+      - text/csv
+      - text/plain
+      - text/markdown
+      - text/html
+      - text/xml
+      - audio/wav
+      - audio/mp3
+      - audio/aiff
+      - audio/aac
+      - audio/ogg
+      - audio/flac
+      - image/png
+      - image/jpeg
+      - image/webp
+      - image/heic
+      - image/heif
+      - video/mp4
+      - video/mpeg
+      - video/mov
+      - video/avi
+      - video/x-flv
+      - video/mpg
+      - video/webm
+      - video/wmv
+      - video/3gpp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 1048576
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 0.95
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: 64
+      minimum: 64
+      maximum: 64
+      required: false
+  deprecationDate: '2025-09-24'
+gemini-2.0-flash:
+  modelName: gemini-2.0-flash
+  version: '001'
+  modelLabel: Gemini 2.0 Flash
+  modelID: gemini-2.0-flash
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - structuredOutput
+      - jsonMode
+      - promptCaching
+    inputModalities:
+      - text
+      - code
+      - images
+      - audio
+      - video
+    outputModalities:
+      - text
+    mimeTypes:
+      - application/pdf
+      - text/csv
+      - text/plain
+      - text/markdown
+      - text/html
+      - text/xml
+      - audio/wav
+      - audio/mp3
+      - audio/aiff
+      - audio/aac
+      - audio/ogg
+      - audio/flac
+      - image/png
+      - image/jpeg
+      - image/webp
+      - image/heic
+      - image/heif
+      - video/mp4
+      - video/mpeg
+      - video/mov
+      - video/avi
+      - video/x-flv
+      - video/mpg
+      - video/webm
+      - video/wmv
+      - video/3gpp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 1048576
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 0.95
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: 64
+      minimum: 64
+      maximum: 64
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2026-02-05'
+gpt-35-turbo-0125:
+  modelName: gpt-35-turbo
+  version: '0125'
+  modelLabel: Gpt 35 Turbo
+  modelID: gpt-35-turbo-0125
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - jsonMode
+      - parallelFunctionCalling
+    inputModalities:
+      - text
+    outputModalities:
+      - text
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 16384
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      maximum: 4096
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 1.0
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+  deprecationDate: '2025-09-01'
+  fallbackModel: gpt-4o-2024-11-20
+gpt-35-turbo-1106:
+  modelName: gpt-35-turbo
+  version: '1106'
+  modelLabel: Gpt 35 Turbo
+  modelID: gpt-35-turbo-1106
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - parallelFunctionCalling
+      - jsonMode
+    inputModalities:
+      - text
+    outputModalities:
+      - text
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 16384
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: 4096
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 1.0
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-09-01'
+  fallbackModel: gpt-4o-2024-11-20
+gpt-4-0125-preview:
+  modelName: gpt-4
+  version: 0125-preview
+  modelLabel: Gpt 4
+  modelID: gpt-4-0125-preview
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - parallelFunctionCalling
+      - toolCalling
+      - parallelToolCalling
+      - jsonMode
+      - structuredOutput
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - text
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 16384
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: 4096
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: 1.0
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-05-01'
+gpt-4o-2024-11-20:
+  modelName: gpt-4o
+  version: 2024-11-20
+  modelLabel: Gpt 4o
+  modelID: gpt-4o-2024-11-20
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - parallelFunctionCalling
+      - toolCalling
+      - parallelToolCalling
+      - jsonMode
+      - structured Output
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - text
+    mimeTypes:
+      - image/png
+      - image/jpeg
+      - image/gif
+      - image/webp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 128000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 16384
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: 1.0
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+gpt-4o-2024-08-06:
+  modelName: gpt-4o
+  version: 2024-08-06
+  modelLabel: Gpt 4o
+  modelID: gpt-4o-2024-08-06
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - parallelFunctionCalling
+      - toolCalling
+      - parallelToolCalling
+      - jsonMode
+      - structured Output
+    inputModalities:
+      - text
+      - image
+      - audio
+    outputModalities:
+      - text
+      - audio
+    mimeTypes:
+      - image/png
+      - image/jpeg
+      - image/gif
+      - image/webp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 128000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 16384
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-10-15'
+  fallbackModel: gpt-4o-2024-11-20
+gpt-4o-2024-05-13:
+  modelName: gpt-4o
+  version: 2024-05-13
+  modelLabel: Gpt 4o
+  modelID: gpt-4o-2024-05-13
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - parallelFunctionCalling
+      - toolCalling
+      - parallelToolCalling
+      - jsonMode
+      - structuredOutput
+    inputModalities:
+      - text
+      - image
+      - audio
+    outputModalities:
+      - text
+      - audio
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 128000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 16384
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-09-15'
+  fallbackModel: gpt-4o-2024-11-20
+gpt-4o-mini-2024-07-18:
+  modelName: gpt-4o-mini
+  version: 2024-07-18
+  modelLabel: Gpt 4o Mini
+  modelID: gpt-4o-mini-2024-07-18
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - parallelFunctionCalling
+      - toolCalling
+      - parallelToolCalling
+      - jsonMode
+      - structuredOutput
+    inputModalities:
+      - text
+      - image
+      - audio
+    outputModalities:
+      - text
+      - audio
+    mimeTypes:
+      - image/png
+      - image/jpeg
+      - image/gif
+      - image/webp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 128000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 16384
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 2.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  deprecationDate: '2025-09-15'
+imagen-3:
+  modelName: imagen-3.0
+  version: generate-002
+  modelLabel: Imagen 3
+  modelID: imagen-3.0-generate-002
+  type: image
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - image
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 480
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+imagen-3-deprecated:
+  modelName: imagen-3.0
+  version: generate-001
+  modelLabel: Imagen 3
+  modelID: imagen-3.0-generate-001
+  type: image
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - image
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 480
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+  lifecycle: Deprecated
+  fallbackModel: imagen-3.0-generate-002
+text-multilingual-embedding-002:
+  modelName: text-multilingual-embedding
+  version: '002'
+  modelLabel: Text Multilingual Embedding
+  modelID: text-multilingual-embedding-002
+  type: embedding
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - embedding
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      default: null
+      required: false
+llama3-70b-instruct:
+  modelName: llama3-70b-instruct
+  version: v1
+  modelLabel: Llama 3 70B Instruct
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+    inputModalities:
+      - text
+    outputModalities:
+      - text
+      - chat
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 8192
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      minimum: 1
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Top K parameter controlling predictability/diversity of output.
+      type: integer
+      default: null
+      required: false
+llama3-8b-instruct:
+  modelName: llama3-8b-instruct
+  version: v1
+  modelLabel: LLaMA 3 8B Instruct
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+    inputModalities:
+      - text
+    outputModalities:
+      - text
+      - chat
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 8192
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      minimum: 0.0
+      maximum: 1.0
+      required: false
+    topK:
+      title: Top K
+      description: Tok K parameter controlling predictability/diversity of output.
+      type: integer
+      default: null
+      required: false
+    maxOutputTokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      default: null
+      maximum: 8192
+      minimum: 1
+      required: false
+imagen-3-fast:
+  modelName: imagen-3.0-fast
+  version: generate-001
+  modelLabel: Imagen 3 Fast
+  modelID: imagen-3.0-fast-generate-001
+  type: image
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - image
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 480
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output
+      type: float
+      default: null
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+nova-lite-v1:
+  modelName: nova-lite
+  version: v1
+  modelLabel: Nova Lite
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+    inputModalities:
+      - text
+      - image
+      - video
+    outputModalities:
+      - text
+    mimeTypes:
+      - application/pdf
+      - application/docx
+      - application/doc
+      - text/csv
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+      - image/png
+      - image/jpeg
+      - image/jpg
+      - image/gif
+      - image/webp
+      - video/mp4
+      - video/mov
+      - video/mkv
+      - video/webm
+      - video/flv
+      - video/mpeg
+      - video/mpg
+      - video/wmv
+      - video/3gp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 300000
+      required: false
+    max_tokens:
+      title: Max output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      maximum: 10000
+      default: null
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    stopSequences:
+      title: Stop Sequences
+      description: Allows to define sequences causing model to terminate generation
+      type: string
+      default: null
+      required: false
+nova-micro-v1:
+  modelName: nova-micro
+  version: v1
+  modelLabel: Nova Micro
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+    inputModalities:
+      - text
+    outputModalities:
+      - text
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 128000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      maximum: 10000
+      default: null
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+nova-premier-v1:
+  modelName: nova-premier
+  version: v1
+  modelLabel: Nova Premier
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+      - functionCalling
+      - toolCalling
+    inputModalities:
+      - text
+      - image
+      - video
+    outputModalities:
+      - text
+    mimeTypes:
+      - application/pdf
+      - application/docx
+      - application/doc
+      - text/csv
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+      - image/png
+      - image/jpeg
+      - image/jpg
+      - image/gif
+      - image/webp
+      - video/mp4
+      - video/mov
+      - video/mkv
+      - video/webm
+      - video/flv
+      - video/mpeg
+      - video/mpg
+      - video/wmv
+      - video/3gp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 1000000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      maximum: 10000
+      default: null
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+nova-pro-v1:
+  modelName: nova-pro
+  version: v1
+  modelLabel: Nova Pro
+  type: chat_completion
+  modelCapabilities:
+    features:
+      - streaming
+    inputModalities:
+      - text
+      - image
+      - video
+    outputModalities:
+      - text
+    mimeTypes:
+      - application/pdf
+      - application/docx
+      - application/doc
+      - text/csv
+      - application/xls
+      - application/xlsx
+      - text/html
+      - text/plain
+      - text/markdown
+      - image/png
+      - image/jpeg
+      - image/jpg
+      - image/gif
+      - image/webp
+      - video/mp4
+      - video/mov
+      - video/mkv
+      - video/webm
+      - video/flv
+      - video/mpeg
+      - video/mpg
+      - video/wmv
+      - video/3gp
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 300000
+      required: false
+    max_tokens:
+      title: Max Output Tokens
+      description: Maximum number of tokens to generate
+      type: integer
+      maximum: 10000
+      default: null
+      required: false
+    temperature:
+      title: Temperature
+      description: Controls randomness of the generated output
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+    topP:
+      title: Top P
+      description: Nucleus sampling parameter controlling diversity of the output.
+      type: float
+      default: null
+      maximum: 1.0
+      minimum: 0.0
+      required: false
+  lifecycle: Generally Available
+text-embedding-3-large-1:
+  modelName: text-embedding-3-large
+  version: '1'
+  modelLabel: Text Embedding 3 Large
+  modelID: text-embedding-3-large-1
+  type: embedding
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - embedding
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 8191
+      required: false
+  deprecationDate: '2026-04-30'
+text-embedding-3-small-1:
+  modelName: text-embedding-3-small
+  version: '1'
+  modelLabel: Text Embedding 3 Small
+  modelID: text-embedding-3-small-1
+  type: embedding
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - embedding
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 8191
+      required: false
+  deprecationDate: '2026-04-30'
+text-embedding-ada-002-2:
+  modelName: text-embedding-ada-002
+  version: '2'
+  modelLabel: Text Embedding Ada 002
+  modelID: text-embedding-ada-002-2
+  type: embedding
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - embedding
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 2046
+      required: false
+  deprecationDate: '2026-04-30'
+  fallbackModel: text-embedding-3-large
+dall-e-3-3.0:
+  modelName: dall-e-3
+  version: '3.0'
+  modelLabel: Dall·e 3
+  modelID: dall-e-3-3.0
+  type: image
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - image
+  deprecationDate: '2025-09-15'
+gpt-image-1.5-2025-12-16:
+  modelName: gpt-image-1.5
+  version: '2025-12-16'
+  modelLabel: GPT-Image 1.5
+  modelID: gpt-image-1.5-2025-12-16
+  type: image
+  modelCapabilities:
+    inputModalities:
+      - text
+      - image
+    outputModalities:
+      - image
+      - text
+titan-embed-text:
+  modelName: titan-embed-text
+  version: v2
+  modelLabel: Titan Embed Text
+  type: embedding
+  modelCapabilities:
+    inputModalities:
+      - text
+    outputModalities:
+      - embedding
+  parameters:
+    maxInputTokens:
+      title: Max Input Tokens
+      description: Maximum number of tokens (words or subwords) for input
+      type: integer
+      maximum: 8192
+      required: false

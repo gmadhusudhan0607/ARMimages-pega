@@ -1,0 +1,16 @@
+{
+  "id": "DOC-IDX",
+  "chunks": [
+    {
+      "content": "intro content",
+      "attributes": [
+        {
+          "name": "section",
+          "type": "string",
+          "kind": "index",
+          "value": ["intro"]
+        }
+      ]
+    }
+  ]
+}

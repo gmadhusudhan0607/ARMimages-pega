@@ -1,0 +1,10 @@
+- name: titan-embed-text
+  modelId: amazon.titan-embed-text-v2:0
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/amazon/deployments/titan-embed-text"
+  redirectUrl: "{{ .Values.DemoAwsBedrockURL }}/amazon/deployments/titan-embed-text"
+  provider: amazon
+  infrastructure: aws
+  capabilities:
+    completions: false
+    embeddings: true
+    image-generation: false

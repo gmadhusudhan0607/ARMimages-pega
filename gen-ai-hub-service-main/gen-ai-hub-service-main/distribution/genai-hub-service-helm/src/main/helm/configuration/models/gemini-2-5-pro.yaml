@@ -1,0 +1,13 @@
+- name: gemini-2.5-pro
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/gemini-2.5-pro"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/gemini-2.5-pro"
+  provider: google
+  creator: google
+  targetAPI: "/chat/completions"
+  path: "/google/deployments/gemini-2.5-pro/chat/completions"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

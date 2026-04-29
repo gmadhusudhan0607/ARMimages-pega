@@ -1,0 +1,128 @@
+##################################################################################################
+# This file is automatically loaded into a Gradle version catalog
+# (https://docs.gradle.org/current/userguide/platforms.html)
+#
+# You can reference the dependencies from the catalog like this:
+#
+#  dependencies {
+#    //from [libraries] commons-text (notice the '-' becomes a '.' when referencing in the build file)
+#    implementation(libs.commons.text)
+#
+#    //from [bundles] unit
+#    testImplementation(testLibs.bundles.unit)
+#
+#    //from [bundles] unit-runtime (notice the '-' becomes a '.' when referencing in the build file)
+#    testRuntimeOnly(testLibs.bundles.unit.runtime)
+#  }
+#
+##################################################################################################
+
+##########################################################
+#
+# This Section contains re-usable versions
+#
+##########################################################
+[versions]
+micronautVersion = "3.10.1"
+junit5Version = "6.0.1"
+plutoLibraryVersion = "4.0.2"
+jmhVersion = "1.36"
+productCatalogTestLibVersion = "1.21.2"
+
+##########################################################
+#
+# This Section contains Libraries
+#
+##########################################################
+[libraries]
+
+#############################
+# Pega libraries
+#############################
+uas-request-validator = { module = "com.pega.platform.library.uas-request-validator:uas-request-validator", version = "2.1.2" }
+gemini-observability-micronaut = { module = "com.pega.platform.library.gemini-libs:observability-micronaut", version = "3.0.6" }
+kafka-connectivity = { module = "com.pega.kafka.connectivity:connectivity", version = "0.2.0" }
+
+#############################
+#Micronaut
+#############################
+micronaut-bom = { module = "io.micronaut:micronaut-bom", version.ref = "micronautVersion" }
+micronaut-inject-java = { module = "io.micronaut:micronaut-inject-java" } #version from micronaut-bom
+micronaut-inject = { module = "io.micronaut:micronaut-inject" } #version from micronaut-bom
+micronaut-validation = { module = "io.micronaut:micronaut-validation" } #version from micronaut-bom
+micronaut-security = { module = "io.micronaut.security:micronaut-security" } #version from micronaut-bom
+micronaut-security-jwt = { module = "io.micronaut.security:micronaut-security-jwt" } #version from micronaut-bom
+micronaut-openapi = { module = "io.micronaut.openapi:micronaut-openapi" } #version from micronaut-bom
+micronaut-http-server-netty = { module = "io.micronaut:micronaut-http-server-netty" } #version from micronaut-bom
+micronaut-micrometer-annotation = { module = "io.micronaut.micrometer:micronaut-micrometer-annotation", version = "5.13.2" }
+micronaut-micrometer-core = { module = "io.micronaut.micrometer:micronaut-micrometer-core" } #version from micronaut-bom
+micronaut-micrometer-registry-prometheus = { module = "io.micronaut.micrometer:micronaut-micrometer-registry-prometheus" } #version from micronaut-bom
+micronaut-management = { module = "io.micronaut:micronaut-management" } #version from micronaut-bom
+micronaut-http-client = { module = "io.micronaut:micronaut-http-client" } #version from micronaut-bom
+micronaut-tracing = { module = "io.micronaut:micronaut-tracing" } #version from micronaut-bom
+micronaut-runtime = { module = "io.micronaut:micronaut-runtime" } #version from micronaut-bom
+
+#############################
+# Miscelaneous libs
+#############################
+fasterxml-jackson-bom = { module = "com.fasterxml.jackson:jackson-bom", version = "2.13.4" }
+fasterxml-jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.13.4.2" }
+awssdk-auth = { module = "software.amazon.awssdk:auth", version = "2.10.45" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.2.3" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version = "9.0" }
+netty-codec = { module = "io.netty:netty-codec"}
+netty-handler = { module = "io.netty:netty-handler"}
+gson = { module = "com.google.code.gson:gson", version = { strictly = "2.8.9" } } #Force 2.8.9 for security
+opentelemetry-extension-annotations = { module = "io.opentelemetry:opentelemetry-extension-annotations", version = "1.18.0" }
+slf4j-api = { module = "org.slf4j:slf4j-api" } #version from micronaut-bom
+swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations" } #version from micronaut bom
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version = "4.1.1" }
+snakeyaml = { module = "org.yaml:snakeyaml"}
+json-smart = { module = "net.minidev:json-smart", version = { strictly = "2.4.10" } } #Force 2.4.10 for security
+micronaut-rxjava2 = { module = "io.micronaut.rxjava2:micronaut-rxjava2"}
+micronaut-rxjava2-http-client = { module = "io.micronaut.rxjava2:micronaut-rxjava2-http-client"}
+
+#############################
+#Test libraries
+#############################
+junit4 = { module = "junit:junit", version = "4.12" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5Version" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5Version" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5Version" }
+junit5-mockito = { module = "org.mockito:mockito-junit-jupiter", version = "5.21.0" }
+junit-platform-runner = { module = "org.junit.platform:junit-platform-runner", version = "1.5.2" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.8.0" }
+opentracing-mock = { module = "io.opentracing:opentracing-mock", version = "0.33.0" }
+micronaut-test-core = { module = "io.micronaut.test:micronaut-test-core", version = "4.10.2" }
+micronaut-test-junit5 = { module = "io.micronaut.test:micronaut-test-junit5" } # Version from micronaut-bom
+testcontainers = { module = "org.testcontainers:testcontainers", version = "2.0.3" }
+owasp-java-html-sanitizer = { module = "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer", version = { strictly = "20220608.1" } } #Force 20211018.1 for security
+pitest-junit5-plugin = { module = "org.pitest:pitest-junit5-plugin", version = "1.2.3" }
+pluto-pact-loader = { module = "com.pega.pluto:pluto-artifactory-pact-loader", version.ref = "plutoLibraryVersion" }
+pluto-micronaut-swagger-coverage = { module = "com.pega.pluto:pluto-micronaut-swagger-coverage", version.ref = "plutoLibraryVersion" }
+pact-provider-junit5 = { module = "au.com.dius.pact.provider:junit5", version = "4.6.19" }
+httpcomponents-fluent-hc = { module = "org.apache.httpcomponents:fluent-hc", version = "4.5.14" }
+apiautomationlib = { module = "com.pega.lib.service-api-automation:apiautomationlib", version = "1.2.22" }
+mockito-inline = { module = "org.mockito:mockito-inline", version = "5.2.0" }
+mockito-all = { module = "org.mockito:mockito-all", version = "1.10.19" }
+jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmhVersion" }
+jmh-generator-annprocess = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmhVersion" }
+product-catalog-testlib = { module = "com.pega.cloud.services.catalog-service:product-catalog-testlib", version.ref = "productCatalogTestLibVersion" }
+
+##########################################################
+#
+# This Section contains Bundles
+#
+##########################################################
+
+[bundles]
+#############################
+# Bundle of all libraries you want to add to the BOM (seen by external consumers, usually none!)
+#############################
+bom = []
+
+#############################
+# Unit test bundles
+#############################
+unit = ["junit5-api", "junit5-params", "junit5-mockito", "assertj-core"]
+unit-runtime = ["junit5-engine", "logback-classic", "logstash-logback-encoder"]

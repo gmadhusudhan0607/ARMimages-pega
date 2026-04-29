@@ -1,0 +1,824 @@
+[
+  {
+    "id": "Lab API3-EMB-0",
+    "content": "DOC: Lab API3. Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.1701
+  },
+  {
+    "id": "Lab API-EMB-1",
+    "content": "DOC: Lab API. When the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-1",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1707
+  },
+  {
+    "id": "Lab API2-EMB-5",
+    "content": "DOC: Lab API2. Parameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.1736
+  },
+  {
+    "id": "Lab API2-EMB-2",
+    "content": "DOC: Lab API2. Parameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.1741
+  },
+  {
+    "id": "Lab API3-EMB-1",
+    "content": "DOC: Lab API3. When the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.1762
+  },
+  {
+    "id": "Lab API3-EMB-3",
+    "content": "DOC: Lab API3. Example\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.1772
+  },
+  {
+    "id": "Lab API3-EMB-5",
+    "content": "DOC: Lab API3. Parameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.1777
+  },
+  {
+    "id": "Lab API-EMB-3",
+    "content": "DOC: Lab API. Example\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-3",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1782
+  },
+  {
+    "id": "Lab API-EMB-5",
+    "content": "DOC: Lab API. Parameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-5",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1783
+  },
+  {
+    "id": "Lab API2-EMB-0",
+    "content": "DOC: Lab API2. Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.179
+  },
+  {
+    "id": "Lab API2-EMB-4",
+    "content": "DOC: Lab API2. --AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.1814
+  },
+  {
+    "id": "Lab API-EMB-4",
+    "content": "DOC: Lab API. --AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-4",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1822
+  },
+  {
+    "id": "Lab API-EMB-2",
+    "content": "DOC: Lab API. Parameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-2",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1829
+  },
+  {
+    "id": "Lab API3-EMB-2",
+    "content": "DOC: Lab API3. Parameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.183
+  },
+  {
+    "id": "Lab API3-EMB-4",
+    "content": "DOC: Lab API3. --AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide3"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API3",
+    "distance": 0.184
+  },
+  {
+    "id": "Lab API2-EMB-1",
+    "content": "DOC: Lab API2. When the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.1848
+  },
+  {
+    "id": "Lab API-EMB-0",
+    "content": "DOC: Lab API. Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.",
+    "attributes": [
+      {
+        "name": "attributeLevel",
+        "value": [
+          "chunk-0",
+          "doc"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS1"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API",
+    "distance": 0.1865
+  },
+  {
+    "id": "Lab API2-EMB-3",
+    "content": "DOC: Lab API2. Example\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications",
+    "attributes": [
+      {
+        "name": "command",
+        "value": [
+          "API Guide"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "content",
+        "value": [
+          "Lab API User Guide\nWe have re-worked the Pega Labs scripts to allow some of the Self-Service portal operations to be performed via API calls. We also provide scripts in /home/teuser/scripts that call the API and can be used as examples.\n\nBefore you begin:\n\nAll scripts are located in the /home/teuser/scripts directory.\n\nAll script must be executed as teuser\n\nScripts will make API calls and wait, and some operations may take a while, so you might want to use tmux to start a session you can reattach to in case you lose connection.\n\nYou won't see progress while running the script, but you can watch logs in /var/log/pegalabs/portal in a separate session if you want to.\n\nWhen the script finishes, a success or failure email will be sent to the emails associated with the system.\n\nPlease refer to the SSH Guide for SSH connection information.\n\nAPI scripts\nupdate.sh\nUpdate the Pega Platform to a specific version and then check to make sure the Designer Studio is up and accessible after the update.\n\nParameters\n--PlatformVersion\nDesired Pega platform version. Must adhere to the Pega Labs naming convention:\n\nmajor.minor.patch-suffix\n\nwhere suffix is one of: GA, B[n], HEAD[n], DEV[n], or latest.\n\nFor example: 8.7.0-GA, 8.24.0-DEV1234, 8.23.2-HEAD1234, 8.24.0-latest.\n\nExamples\n./update.sh --PlatformVersion 8.8.4-GA\n./update.sh --PlatformVersion 8.24.0-latest\n./update.sh --PlatformVersion latest\ninstall.sh\nReinstalls the Pega Platform with a specific version and then check to make sure the Designer Studio is up and accessible after the install.\n\nParameters\n--PlatformVersion same as with update.\n\n--DisableSecureInstall [true|\u003cno input\u003e]\n\nDisables secure platform install feature (Secure Platform feature is enabled by default in versions 7.4.0 and higher.\n\n--ProductionLevel [1-5|no input]\nSets the Production level of the system during an update or install. Default is 2 (development)\n\nExample\n./install.sh --PlatformVersion 8.23.1-GA --DisableSecureInstall true --ProductionLevel 5\nclear-cache.sh\nClears the platform cache, restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nParameters\n--clear-database-cache\nClears the database cache tables as well as the system cache.\n\n--clear-cassandra-data\nClears Cassandra as well (used by CDH).\n\nExample\n./clear-cache.sh --clear-database-cache --clear-cassandra-data\nRestart\nThis operation will restart the application server and then check to make sure the Designer Studio is up and accessible after the restart.\n\nExample\n./restart.sh\ndatabase-snapshot.sh\nTake a local snapshot of the database, Pega webapps, and Pega app contexts) and save it in the /var/lib/pega/backup directory.\n\nParameters\n--snapshot-description \u003ctext\u003e - Text description to identify the snapshot.\nExample\n./database-snapshot.sh --snapshot-description \"Test123\"\nframework.sh\nPerform an update or install of a GA version of any Pega Strategic applications offered in Pega Labs. Please see your Self-Service portal for a list of the available strategic apps.\n\nParameters\n--Action [install/update]\nDesired action to perform. install or update a strategic App\n\n--AppName [application name]\nApplication Name in Pega Labs required format (CRM, PegaMKT, PegaFFS, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available Applications\n\n--AppVersion [#.##]\nApplication Version in Pega Labs required format (7.22, 7.31, 7.41, etc). Check the Strategic Apps dropdown list on your Self-Service Portal for a current list of available versions.\n\n--ImportSampleData [true|no input]\nImports the framework sample data (if present).\n\n--DisableSecureInstall [true|no input]\nDisables secure platform install feature - Setting to true will prevent operators from being disabled when a RAP is imported.\n\nExample\n./framework.sh --Action install --AppName PegaFFS --AppVersion 7.32 --ImportSampleData true\nframework-dev.sh\nPerforms an update or install of a pre-release or daily version of any Pega Strategic applications supported in Pega Labs. If there is tailoring or custom code required for your specific app, the script should be copied and re-named relative to the strategic app so it does not get overwritten when Pega Labs pushes changes.\n\nParameters\nSame as framework.sh plus:--BuildRepoURL [URL]\nFull URL Path for the Strategic App Build Zip file\n\n--BuildRepoUser [username]\nUsername for the Strategic App Build Repo (If password-protected).\n\n--BuildRepoPassword [password]\nPassword for the Strategic App Build Repo (If password-protected).\n\nExample\n./framework-dev.sh --Action update --AppName PegaMarketing --AppVersion 8.10 --BuildRepoURL http://vnbamartifactory01x:8081/artifactory/CRM/8.1/builds/PegaMarketing/latest/PegaMarketing_0801.zip\nudf.sh\nAdd or remove UDFs (user-defined functions) to the database.\n\nParameters\n--UdfAction [Install|Remove]\nDesired UDF action Install or Remove UDFs (User Defined Functions).\n\nExample\n./udf.sh --UdfAction Remove"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "dataSource",
+        "value": [
+          "DS2"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "title",
+        "value": [
+          "Lab API User Guide2"
+        ],
+        "type": "string"
+      }
+    ],
+    "documentID": "Lab API2",
+    "distance": 0.1878
+  }
+]

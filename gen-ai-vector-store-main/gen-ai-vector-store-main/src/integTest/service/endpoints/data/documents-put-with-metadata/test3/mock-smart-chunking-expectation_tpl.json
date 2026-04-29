@@ -1,0 +1,14 @@
+{
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/v1/chunk",
+    "headers" : {
+      "vs-isolation-id":  "%s",
+      "vs-collection-id": "%s"
+    }
+  },
+  "httpResponse" : {
+    "statusCode": 200,
+    "body" : "%s"
+  }
+}

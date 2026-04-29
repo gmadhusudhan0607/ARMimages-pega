@@ -1,0 +1,10 @@
+{
+  "fields": ["documentID", "ingestionStatus", "ingestionTime", "errorMessage", "chunkStatus","documentAttributes"],
+  "filter": {
+    "attributes": {
+      "operator": "AND",
+      "items": []
+    },
+    "status": "COMPLETED"
+  }
+}

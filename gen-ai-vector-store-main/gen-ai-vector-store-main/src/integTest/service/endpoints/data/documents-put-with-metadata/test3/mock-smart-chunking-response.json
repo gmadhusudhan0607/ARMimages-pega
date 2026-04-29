@@ -1,0 +1,135 @@
+{
+  "documentName": "Astronomy",
+  "documentFileName": "Astronomy.pdf",
+  "documentTree": {
+    "children": [
+      {
+        "title": "section 1",
+        "children": [
+          {
+            "title": "sub-section 1.1",
+            "contextAttributes": {
+              "indexAttributes": {
+                "attributes": [
+                  "Astronomy document",
+                  "section 1",
+                  "sub-section 1.1"
+                ],
+                "pageRange": {
+                  "first": 1,
+                  "last": 100
+                }
+              },
+              "autoResolvedAttributes": {
+                "attributes": {
+                  "Region": [
+                    "World"
+                  ],
+                  "Organizational Structure": [
+                    "NASA"
+                  ],
+                  "Jurisdiction": [
+                    "Space",
+                    "Planets"
+                  ],
+                  "Date-Ranges": [
+                    {
+                      "start": "01/20/2024",
+                      "end": "01/21/2024"
+                    }
+                  ]
+                }
+              },
+              "summary": "Summary 1"
+            },
+            "texts": [
+              "Original text 1"
+            ],
+            "propositions": [
+              {
+                "autoResolvedAttributes": {
+                  "attributes": {
+                    "Region": [
+                      "Mercury",
+                      "Venues"
+                    ],
+                    "Organizational Structure": [
+                      "NASA",
+                      "ESA"
+                    ],
+                    "Jurisdiction": [
+                      "Uninhabitable"
+                    ],
+                    "Date-Ranges": [
+                      {
+                        "start": "01/01/2024",
+                        "end": "01/01/2025"
+                      }
+                    ]
+                  }
+                },
+                "proposition": "It is too hot to live on Mercury or Venus.",
+                "originType": "TEXT",
+                "originIndex": 0
+              },
+              {
+                "autoResolvedAttributes": {
+                  "attributes": {
+                    "Region": [
+                      "Earth",
+                      "Mars"
+                    ],
+                    "Organizational Structure": [
+                      "NASA",
+                      "ESA"
+                    ],
+                    "Jurisdiction": [
+                      "Colonization"
+                    ],
+                    "Date-Ranges": [
+                      {
+                        "start": "01/20/2024",
+                        "end": "01/19/2024"
+                      }
+                    ]
+                  }
+                },
+                "proposition": "It is cold enough to live on Earth or Mars.",
+                "originType": "TEXT",
+                "originIndex": 0
+              },
+              {
+                "autoResolvedAttributes": {
+                  "attributes": {
+                    "Region": [
+                      "Jupiter",
+                      "Saturn",
+                      "Uranus",
+                      "Neptune",
+                      "Pluto"
+                    ],
+                    "Organizational Structure": [
+                      "NASA"
+                    ],
+                    "Jurisdiction": [
+                      "Uninhabitable"
+                    ],
+                    "Date-Ranges": [
+                      {
+                        "start": "01/20/2024",
+                        "end": "01/19/2024"
+                      }
+                    ]
+                  }
+                },
+                "proposition": "It is too cold to live on Jupiter, Saturn, Uranus, Neptune, or Pluto.",
+                "originType": "TEXT",
+                "originIndex": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

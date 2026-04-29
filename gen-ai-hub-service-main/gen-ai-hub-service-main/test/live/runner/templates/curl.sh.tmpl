@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Portable curl command for reproducing the test request.
+# Usage: JWT=<your-token> bash <this-file>
+#
+# If JWT is not set, it will be obtained automatically via sax.
+
+if [ -z "$JWT" ]; then
+{{- if .SaxSecretID}}
+  SECRET_ID="{{.SaxSecretID}}"
+{{- else}}
+  # Dynamically discover the SAX backing-service secret ARN
+  SECRET_ID=$(aws secretsmanager list-secrets \
+    --profile {{.SaxProfile}} \
+    --region {{.SaxRegion}} \
+    --filter 'Key=name,Values=sax/backing-services/' \
+  | jq -r '.SecretList[] | select(.Name | test("^sax/backing-services/[0-9a-f]{8}")) | .ARN' \
+  | head -1)
+  if [ -z "$SECRET_ID" ]; then
+    echo "ERROR: Could not discover SAX secret ARN. Set JWT manually." >&2
+    exit 1
+  fi
+  echo "Discovered secret ARN: $SECRET_ID"
+{{- end}}
+  JWT=$(sax issue \
+    --profile {{.SaxProfile}} \
+    --secret-id "$SECRET_ID" \
+    --region {{.SaxRegion}} 2>/dev/null \
+  | awk '/^Access Token:/{getline; print}')
+fi
+
+{{.Curl}}

@@ -1,0 +1,87 @@
+buddies:
+  - name: selfstudybuddy
+    buddyUrl: "http://localhost:20094/v1/:isolationID/buddies/selfstudybuddy"
+    redirectUrl: "http://localhost:11818"
+models:
+  # A few real models from the original mapping (for baseline testing)
+  - name: gpt-35-turbo
+    modelId: ""
+    modelUrl: "http://localhost:20094/openai/deployments/gpt-35-turbo"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-35-turbo-1106"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-35-turbo/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: gpt-4o
+    modelId: ""
+    modelUrl: "http://localhost:20094/openai/deployments/gpt-4o"
+    redirectUrl: "http://localhost:11818/openai/deployments/gpt-4o"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/gpt-4o/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: text-embedding-ada-002
+    modelId: ""
+    modelUrl: "http://localhost:20094/openai/deployments/text-embedding-ada-002"
+    redirectUrl: "http://localhost:11818/openai/deployments/text-embedding-ada-002"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      chat-completion: false
+      embeddings: true
+
+  # Fake models for testing unrecognized model scenarios
+  # These exist in mapping but won't be found in internal models registry
+  - name: fake-model-test
+    modelId: "fake.model.test.v1"
+    modelUrl: "http://localhost:20094/openai/deployments/fake-model-test"
+    redirectUrl: "http://localhost:11818/openai/deployments/fake-model-test"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/fake-model-test/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: unrecognized-llm
+    modelId: "unrecognized.llm.model.v1"
+    modelUrl: "http://localhost:20094/openai/deployments/unrecognized-llm"
+    redirectUrl: "http://localhost:11818/openai/deployments/unrecognized-llm"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/unrecognized-llm/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: fake-gpt-ultra
+    modelId: "fake.gpt.ultra.v1"
+    modelUrl: "http://localhost:20094/openai/deployments/fake-gpt-ultra"
+    redirectUrl: "http://localhost:11818/openai/deployments/fake-gpt-ultra"
+    provider: openai
+    creator: openai
+    targetAPI: "/chat/completions"
+    path: "/openai/deployments/fake-gpt-ultra/chat/completions"
+    infrastructure: azure
+    capabilities:
+      completions: true
+      embeddings: false
+  - name: non-existent-embedding
+    modelId: "non.existent.embedding.v1"
+    modelUrl: "http://localhost:20094/openai/deployments/non-existent-embedding"
+    redirectUrl: "http://localhost:11818/openai/deployments/non-existent-embedding"
+    provider: openai
+    infrastructure: azure
+    capabilities:
+      chat-completion: false
+      embeddings: true

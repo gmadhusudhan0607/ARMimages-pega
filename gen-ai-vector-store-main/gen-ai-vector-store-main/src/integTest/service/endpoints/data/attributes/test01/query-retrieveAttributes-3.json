@@ -1,0 +1,5 @@
+{
+  "retrieveAttributes": [
+    "weather", "org", "pets"
+  ]
+}

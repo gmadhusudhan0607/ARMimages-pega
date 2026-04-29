@@ -1,0 +1,12 @@
+[
+  {
+    "name": "weather",
+    "value": [
+      "cold",
+      "rain",
+      "sunny",
+      "warm"
+    ],
+    "type": "string"
+  }
+]

@@ -1,0 +1,74 @@
+#
+# Copyright (c) 2024 Pegasystems Inc.
+# All rights reserved.
+#
+
+{{- if eq .Values.enableDBTools "true" }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-tools
+  annotations:
+    {{- if eq .Values.cloudProvider "gcp" }}
+    egressRules: "tcp:{{ .Values.databaseHost }}:3307"
+    {{ else }}
+    egressRules: "tcp:{{ .Values.databaseHost }}:{{ .Values.databasePort }}"
+    {{ end }}
+  labels:
+    app.kubernetes.io/name: genai-vector-store
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       name: db-tools
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: genai-vector-store
+        app.kubernetes.io/instance: {{ .Chart.Name }}
+        name: db-tools
+{{- include "provisioningLabels" . | indent 8 }}
+    spec:
+      serviceAccountName: genai-vector-store
+      containers:
+      - name: pega-web-tomcat
+        image: "{{ .Values.dbtools.image.repository }}:{{ .Values.dbtools.image.tag }}"
+        env:
+        - name: DB_HOST
+          value: {{ .Values.databaseHost }}
+        - name: OPENSSL_FORCE_FIPS_MODE
+          value: "0"
+        - name: DB_PORT
+          value: !!string {{ .Values.databasePort }}
+        - name: DB_NAME
+          value: {{ .Values.databaseName }}
+        - name: DB_SECRET
+          value: {{ .Values.databaseSecret }}
+        - name: PROVIDER
+          value: {{ .Values.cloudProvider }}
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "400m"
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+      {{- if eq .Values.cloudProvider "gcp" }}
+      - name: cloud-sql-proxy
+        image: "gcr.io/cloudsql-docker/gce-proxy:1.28.0"
+        command:
+          - "/cloud_sql_proxy"
+          - "-instances={{ .Values.account }}:{{ .Values.region }}:{{ .Values.databaseID }}=tcp:{{ .Values.databasePort }}"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+      {{- end }}
+      imagePullSecrets:
+        - name: cluster-regcred
+
+{{- end }}

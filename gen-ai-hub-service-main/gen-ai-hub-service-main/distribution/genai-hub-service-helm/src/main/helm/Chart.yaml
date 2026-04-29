@@ -1,0 +1,14 @@
+# Plugin 'com.pega.helmcli.helm' will automatically replace ${chartName} and ${chartVersion} with dynamic values calculated by the plugin
+name: ${chartName}
+version: ${chartVersion}
+apiVersion: v2 # Helm3
+description: A genai-hub-service Helm chart
+keywords:
+  - fnx-service
+  - genai-hub-service
+  - template
+  - backing-service
+dependencies:
+  - name: service-base
+    version: 1.17.0-20240930155750 # use latest
+    repository: '@helm' #helm is the virtual repo (combines helm-stable and helm-unstable)

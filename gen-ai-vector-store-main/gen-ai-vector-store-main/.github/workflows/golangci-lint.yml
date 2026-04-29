@@ -1,0 +1,42 @@
+name: golangci-lint
+
+# TODO: Enable this workflow after verifying golangci-lint configuration
+# Uncomment the 'on' section below to activate automated linting
+#on:
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
+
+# Temporarily disabled - use workflow_dispatch to run manually if needed
+on:
+  workflow_dispatch:
+
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: runner-4-core-8gi-compute
+    # Original condition for automatic runs:
+    # if: github.event_name == 'pull_request' || github.event_name == 'push'
+    timeout-minutes: 10
+    env:
+      GOPRIVATE: git.pega.io
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - name: Print envs
+        run: env
+      - name: Configure git credentials
+        run: git config --global url."https://${{ secrets.BITBUCKET_USR }}:${{ secrets.BITBUCKET_PSW }}@git.pega.io".insteadOf "https://git.pega.io"
+      - name: Go mod vendor
+        run: go mod vendor
+      - name: Install golangci-lint
+        run: go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.4.0
+      - name: Run golangci-lint
+        run: golangci-lint run -v

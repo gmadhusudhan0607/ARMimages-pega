@@ -1,0 +1,7 @@
+---
+scenarios:
+  jmeter:
+    script: genai-vector-store.jmx
+    properties:
+      randomDelay: 5
+      constantDelay: 20

@@ -1,0 +1,22 @@
+{
+  "id": "doc-overscan-5",
+  "attributes": [
+    {
+      "name": "category",
+      "type": "string",
+      "value": ["Technology"]
+    }
+  ],
+  "chunks": [
+    { "content": "Document 5 chunk 0: API design principles ensure consistent and intuitive service interfaces." },
+    { "content": "Document 5 chunk 1: REST endpoints use HTTP methods to perform resource operations." },
+    { "content": "Document 5 chunk 2: GraphQL queries allow clients to request specific data structures." },
+    { "content": "Document 5 chunk 3: API versioning strategies maintain backward compatibility with clients." },
+    { "content": "Document 5 chunk 4: Rate limiting protects APIs from excessive traffic and abuse." },
+    { "content": "Document 5 chunk 5: API documentation tools generate interactive reference materials." },
+    { "content": "Document 5 chunk 6: Webhook integrations push event notifications to subscribed endpoints." },
+    { "content": "Document 5 chunk 7: API gateways provide centralized routing and policy enforcement." },
+    { "content": "Document 5 chunk 8: OAuth tokens authorize third-party applications to access user data." },
+    { "content": "Document 5 chunk 9: API testing frameworks validate endpoint behavior and response formats." }
+  ]
+}

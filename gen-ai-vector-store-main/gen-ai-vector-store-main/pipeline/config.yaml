@@ -1,0 +1,17 @@
+---
+version: 1
+stages:
+  - key: unitTest
+    ext:
+      jenkins:
+        customReports:
+          - dir: build/test-results
+            name: Unit Tests
+            files: unitTestReport.html
+  - key: integrationTest
+    ext:
+      jenkins:
+        customReports:
+          - dir: build/test-results
+            name: Integration Tests
+            files: integTestReport.html

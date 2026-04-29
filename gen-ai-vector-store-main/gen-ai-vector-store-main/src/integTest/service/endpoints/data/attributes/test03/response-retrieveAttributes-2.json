@@ -1,0 +1,19 @@
+[
+  {
+    "name": "org",
+    "value": [
+      "tso"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "weather",
+    "value": [
+      "cold",
+      "rain",
+      "sunny",
+      "warm"
+    ],
+    "type": "string"
+  }
+]

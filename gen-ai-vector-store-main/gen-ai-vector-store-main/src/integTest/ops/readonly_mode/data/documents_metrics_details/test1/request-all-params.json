@@ -1,0 +1,7 @@
+{
+  "Metrics":[
+    "diskUsage",
+    "documentsCount",
+    "documentsModification"
+  ]
+}

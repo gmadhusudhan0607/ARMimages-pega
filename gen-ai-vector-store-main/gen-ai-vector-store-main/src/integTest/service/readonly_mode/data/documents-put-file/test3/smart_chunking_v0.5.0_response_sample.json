@@ -1,0 +1,999 @@
+{
+  "documentName": "TEST-003",
+  "documentFileName": "Whatever.pdf",
+  "documentTree": {
+    "name": "Visa Product and Service Rules",
+    "contextAttributes": {
+      "indexAttributes": {
+        "attributes": [
+          "Visa Core Rules and Visa Product and Service Rules",
+          "Visa Product and Service Rules"
+        ],
+        "pageRange": {
+          "first": 548,
+          "last": 549
+        }
+      },
+      "autoResolvedAttributes": {
+        "attributes": {
+          "Region": [
+            "Test Region"
+          ],
+          "Organizational Structure": [
+            "Test Organizational Structure"
+          ],
+          "Jurisdiction": [
+            "Test Jurisdiction"
+          ]
+        }
+      }
+    },
+    "children": [
+      {
+        "name": "7 Transaction Processing",
+        "contextAttributes": {
+          "indexAttributes": {
+            "attributes": [
+              "Visa Core Rules and Visa Product and Service Rules",
+              "Visa Product and Service Rules",
+              "7 Transaction Processing"
+            ],
+            "pageRange": {
+              "first": 548,
+              "last": 549
+            }
+          }
+        },
+        "children": [
+          {
+            "name": "7.4 Processing of Specific Transaction Types",
+            "contextAttributes": {
+              "indexAttributes": {
+                "attributes": [
+                  "Visa Core Rules and Visa Product and Service Rules",
+                  "Visa Product and Service Rules",
+                  "7 Transaction Processing",
+                  "7.4 Processing of Specific Transaction Types"
+                ],
+                "pageRange": {
+                  "first": 548,
+                  "last": 549
+                }
+              }
+            },
+            "children": [
+              {
+                "name": "7.4.1 Account Funding Transactions",
+                "contextAttributes": {
+                  "indexAttributes": {
+                    "attributes": [
+                      "Visa Core Rules and Visa Product and Service Rules",
+                      "Visa Product and Service Rules",
+                      "7 Transaction Processing",
+                      "7.4 Processing of Specific Transaction Types",
+                      "7.4.1 Account Funding Transactions"
+                    ],
+                    "pageRange": {
+                      "first": 548,
+                      "last": 549
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "name": "7.4.1.1 Account Funding Transaction Requirements",
+                    "contextAttributes": {
+                      "indexAttributes": {
+                        "attributes": [
+                          "Visa Core Rules and Visa Product and Service Rules",
+                          "Visa Product and Service Rules",
+                          "7 Transaction Processing",
+                          "7.4 Processing of Specific Transaction Types",
+                          "7.4.1 Account Funding Transactions",
+                          "7.4.1.1 Account Funding Transaction Requirements"
+                        ],
+                        "pageRange": {
+                          "first": 548,
+                          "last": 548
+                        }
+                      },
+                      "autoResolvedAttributes": {
+                        "attributes": {
+                          "Region": [
+                            "US Region",
+                            "Europe Region"
+                          ],
+                          "Organizational Structure": [
+                            "Financial Services",
+                            "Payment Processing"
+                          ],
+                          "Jurisdiction": [
+                            "Visa Core Rules",
+                            "Visa Product and Service Rules"
+                          ],
+                          "Date-Ranges": [
+                            {
+                              "start": "01/20/2024",
+                              "end": "01/19/2024"
+                            }
+                          ]
+                        }
+                      },
+                      "summary": "An Account Funding Transaction is required for reloading prepaid cards and in card-absent environments for various purposes including person-to-person money transfers, disbursements from Visa Corporate Cards, and funding digital wallets. Effective January 20, 2024, it will include the purchase of liquid and cryptocurrency assets. In the U.S., it can be used for domestic transactions involving non-fiat currency with debit or prepaid cards until January 19, 2024. The transaction must include a specific indicator and comply with Visa Direct AFT Processing Guide, and it cannot be used for payments for goods or services (except Visa Scan to Pay), funding merchant accounts, or debt repayment."
+                    },
+                    "texts": [
+                      "\n                            An Account Funding Transaction must be used for the following:\n                            l Reloading Prepaid Cards\n                            l In the Card-Absent Environment,1 all of the following:\n                            – Funding person-to-person money transfers, including account-to-account money transfers\n                            – Funding disbursements of funds from Visa Corporate Cards, Visa Business Debit Cards, or Visa\n                            Business Check Cards (for example: payroll)\n                            – Funding Stored Value Digital Wallets, and Staged Digital Wallets where the Transaction is not\n                            Back-to-Back Funding\n                            – Effective 20 January 2024 Purchase of Liquid and Cryptocurrency Assets\n                            Effective through 19 January 2024 In the US Region: An Account Funding Transaction may be used\n                            for a Domestic Transaction involving the purchase of non-fiat currency (for example: cryptocurrency)\n                            conducted with a Debit Card or Prepaid Card.\n                            An Account Funding Transaction must do all of the following:\n                            l Be processed with an Account Funding Transaction indicator and the correct business application\n                            identifier (BAI) in the Authorization Request and Clearing Record\n                            l Not represent any of the following:\n                            – Payment for goods or services (except Visa Scan to Pay program Transactions)\n                            – Funding of a Merchant account\n                            – Debt repayment\n                            l Comply with the Visa Direct Account Funding Transaction (AFT) Processing Guide\n                            1\n                            In the Europe Region: For all Merchants\n                            "
+                    ],
+                    "propositions": [
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must be used for Reloading Prepaid Cards.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must be used in the Card-Absent Environment.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding person-to-person money transfers.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding account-to-account money transfers.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding disbursements of funds from Visa Corporate Cards.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding disbursements of funds from Visa Business Debit Cards.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding disbursements of funds from Visa Business Check Cards.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding Stored Value Digital Wallets.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Card-Absent Environment, an Account Funding Transaction must be used for Funding Staged Digital Wallets where the Transaction is not Back-to-Back Funding.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "Effective 20 January 2024, an Account Funding Transaction must be used for the Purchase of Liquid Assets.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "Effective 20 January 2024, an Account Funding Transaction must be used for the Purchase of Cryptocurrency Assets.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "Effective through 19 January 2024, in the US Region, an Account Funding Transaction may be used for a Domestic Transaction involving the purchase of non-fiat currency conducted with a Debit Card.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "Effective through 19 January 2024, in the US Region, an Account Funding Transaction may be used for a Domestic Transaction involving the purchase of non-fiat currency conducted with a Prepaid Card.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must be processed with an Account Funding Transaction indicator.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must be processed with the correct business application identifier in the Authorization Request.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must be processed with the correct business application identifier in the Clearing Record.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must not represent Payment for goods or services except Visa Scan to Pay program Transactions.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must not represent Funding of a Merchant account.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must not represent Debt repayment.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "An Account Funding Transaction must comply with the Visa Direct Account Funding Transaction Processing Guide.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region",
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Financial Services",
+                              "Payment Processing"
+                            ],
+                            "Jurisdiction": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ],
+                            "Date-Ranges": [
+                              {
+                                "start": "01/20/2024",
+                                "end": "01/19/2024"
+                              }
+                            ]
+                          }
+                        },
+                        "proposition": "In the Europe Region, an Account Funding Transaction applies for all Merchants.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      }
+                    ]
+                  },
+                  {
+                    "name": "7.4.1.2 Issuer Processing of an Account Funding Transaction Credit Adjustment",
+                    "contextAttributes": {
+                      "indexAttributes": {
+                        "attributes": [
+                          "Visa Core Rules and Visa Product and Service Rules",
+                          "Visa Product and Service Rules",
+                          "7 Transaction Processing",
+                          "7.4 Processing of Specific Transaction Types",
+                          "7.4.1 Account Funding Transactions",
+                          "7.4.1.2 Issuer Processing of an Account Funding Transaction Credit Adjustment"
+                        ],
+                        "pageRange": {
+                          "first": 548,
+                          "last": 549
+                        }
+                      },
+                      "autoResolvedAttributes": {
+                        "attributes": {
+                          "Region": [
+                            "AP Region",
+                            "Canada Region",
+                            "CEMEA Region",
+                            "LAC Region",
+                            "US Region",
+                            "Europe Region"
+                          ],
+                          "Organizational Structure": [
+                            "Visa Core Rules",
+                            "Visa Product and Service Rules"
+                          ]
+                        }
+                      },
+                      "summary": "An Issuer is required to post an Account Funding Transaction credit adjustment within specific timeframes depending on the region: within 2 business days for the AP, Canada, CEMEA, LAC, and US Regions; and by the next business day for the Europe Region, following the receipt of the Acquirer credit adjustment advice."
+                    },
+                    "texts": [
+                      "\n                            An Issuer must post an Account Funding Transaction credit adjustment, as follows:\n                            l In the AP Region, Canada Region, CEMEA Region, LAC Region, US Region: Within 2 business days\n                            after receipt of the Acquirer credit adjustment advice\n                            l In the Europe Region: The next business day after receipt of the Acquirer credit adjustment advice\n                            "
+                    ],
+                    "propositions": [
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "AP Region",
+                              "Canada Region",
+                              "CEMEA Region",
+                              "LAC Region",
+                              "US Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "An Issuer must post an Account Funding Transaction credit adjustment.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "AP Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the AP Region within 2 business days after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "Canada Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the Canada Region within 2 business days after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "CEMEA Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the CEMEA Region within 2 business days after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "LAC Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the LAC Region within 2 business days after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "US Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the US Region within 2 business days after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Region": [
+                              "Europe Region"
+                            ],
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The posting of an Account Funding Transaction credit adjustment must occur in the Europe Region on the next business day after receipt of the Acquirer credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      }
+                    ]
+                  },
+                  {
+                    "name": "7.4.1.3 Acquirer Submission of an Account Funding Transaction Credit Adjustment or Reversal",
+                    "contextAttributes": {
+                      "indexAttributes": {
+                        "attributes": [
+                          "Visa Core Rules and Visa Product and Service Rules",
+                          "Visa Product and Service Rules",
+                          "7 Transaction Processing",
+                          "7.4 Processing of Specific Transaction Types",
+                          "7.4.1 Account Funding Transactions",
+                          "7.4.1.3 Acquirer Submission of an Account Funding Transaction Credit Adjustment or Reversal"
+                        ],
+                        "pageRange": {
+                          "first": 549,
+                          "last": 549
+                        }
+                      },
+                      "autoResolvedAttributes": {
+                        "attributes": {
+                          "Organizational Structure": [
+                            "Visa Core Rules",
+                            "Visa Product and Service Rules"
+                          ]
+                        }
+                      },
+                      "summary": "An Acquirer is required to submit a credit adjustment advice or reversal for an Account Funding Transaction if the recipient rejects or declines the funds, or if the transfer expires, as outlined in the Visa Direct Account Funding Transaction Processing Guide. The adjustment must be related to the original transaction and include the same Transaction Identifier."
+                    },
+                    "texts": [
+                      "\n                            An Acquirer must submit an Account Funding Transaction credit adjustment advice or Account\n                            Funding Transaction reversal if the recipient rejects the funds or declines the transfer, or the transfer\n                            expires, as specified in the Visa Direct Account Funding Transaction (AFT) Processing Guide.\n                            The Account Funding Transaction credit adjustment advice must be directly related to a previous\n                            Account Funding Transaction and include the same Transaction Identifier of the original Transaction.\n                            "
+                    ],
+                    "propositions": [
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "An Acquirer must submit an Account Funding Transaction credit adjustment advice.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "An Acquirer must submit an Account Funding Transaction reversal.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The submission of an Account Funding Transaction credit adjustment advice or Account Funding Transaction reversal is required if the recipient rejects the funds.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The submission of an Account Funding Transaction credit adjustment advice or Account Funding Transaction reversal is required if the recipient declines the transfer.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The submission of an Account Funding Transaction credit adjustment advice or Account Funding Transaction reversal is required if the transfer expires.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The requirements for submission are specified in the Visa Direct Account Funding Transaction (AFT) Processing Guide.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The Account Funding Transaction credit adjustment advice must be directly related to a previous Account Funding Transaction.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      },
+                      {
+                        "autoResolvedAttributes": {
+                          "attributes": {
+                            "Organizational Structure": [
+                              "Visa Core Rules",
+                              "Visa Product and Service Rules"
+                            ]
+                          }
+                        },
+                        "proposition": "The Account Funding Transaction credit adjustment advice must include the same Transaction Identifier of the original Transaction.",
+                        "originType": "TEXT",
+                        "originIndex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

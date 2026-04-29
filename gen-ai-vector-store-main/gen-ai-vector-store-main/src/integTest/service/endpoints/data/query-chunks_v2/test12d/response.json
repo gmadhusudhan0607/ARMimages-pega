@@ -1,0 +1,66 @@
+[
+  {
+    "attributes": [
+      {
+        "name": "location",
+        "type": "string",
+        "value": [
+          "IND",
+          "USA"
+        ]
+      }
+    ],
+    "content": "DOC-1 content for chunk 1",
+    "distance": 0.2763466454640642,
+    "documentID": "DOC-1",
+    "id": "DOC-1-EMB-1"
+  },
+  {
+    "attributes": [
+      {
+        "name": "location",
+        "type": "string",
+        "value": [
+          "CA",
+          "IND"
+        ]
+      }
+    ],
+    "content": "DOC-2 content for chunk 1",
+    "distance": 0.2763466454640642,
+    "documentID": "DOC-2",
+    "id": "DOC-2-EMB-1"
+  },
+  {
+    "attributes": [
+      {
+        "name": "location",
+        "type": "string",
+        "value": [
+          "IND",
+          "USA"
+        ]
+      }
+    ],
+    "content": "DOC-1 content for chunk 0",
+    "distance": 0.28044435271949686,
+    "documentID": "DOC-1",
+    "id": "DOC-1-EMB-0"
+  },
+  {
+    "attributes": [
+      {
+        "name": "location",
+        "type": "string",
+        "value": [
+          "CA",
+          "IND"
+        ]
+      }
+    ],
+    "content": "DOC-2 content for chunk 0",
+    "distance": 0.28044435271949686,
+    "documentID": "DOC-2",
+    "id": "DOC-2-EMB-0"
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "parametersMetadata" : [
+    {
+      "name": "ClusterGUID",
+      "regional": true,
+      "description": "GUID of the GenAI Gateway Service GUID affected by this configuration",
+      "constraints": {
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})",
+        "description": "Must be a valid GUID",
+        "required": true,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "GatewayGUID",
+      "regional": true,
+      "description": "GUID of the GenAI Gateway Service GUID affected by this configuration",
+      "constraints": {
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})",
+        "description": "Must be a valid GUID",
+        "required": true,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "owner": "JarvisScrumTeam@pega.com",
+    "provider": "aws",
+    "service-type": "backing-service"
+  }
+}

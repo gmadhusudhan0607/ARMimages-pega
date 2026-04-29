@@ -1,0 +1,33 @@
+{
+  "id": "DOC-2",
+  "chunks": [
+    {
+      "content": "some text here 1",
+      "attributes": [
+        {
+          "name": "category",
+          "value": [
+            "memo"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "name": "category",
+      "value": [
+        "memo"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "department",
+      "value": [
+        "hr"
+      ],
+      "type": "string"
+    }
+  ]
+}

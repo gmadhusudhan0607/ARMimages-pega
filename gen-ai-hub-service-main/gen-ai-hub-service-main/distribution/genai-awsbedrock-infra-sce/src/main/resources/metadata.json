@@ -1,0 +1,155 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "Owner",
+      "description": "Owner of the deployment (for tagging purpose)",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "AccountID",
+      "description": "Account to provision GenAI Infrastructure",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Region",
+      "description": "AWS Region that host GenAI control plane configuration",
+      "defaultValue": "us-east-1",
+      "constraints": {
+        "required": false,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "ModelMapping",
+      "description": "Which endpoint of the GenAI Gateway must provide this Model.",
+      "defaultValue": "claude-3-haiku",
+      "constraints": {
+        "required": true,
+        "allowedPattern": "^(?!.*--)([a-z0-9]+\\-)*\\w+$|(^\\s*$)"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "ModelID",
+      "description": "AWS Model ID of GenAI model to be made available",
+      "defaultValue": "anthropic.claude-3-haiku-20240307-v1:0",
+      "constraints": {
+        "required": true,
+        "immutable": true,
+        "allowedValues": [
+          "amazon.nova-2-lite-v1:0",
+          "amazon.nova-2-multimodal-embeddings-v1:0",
+          "amazon.nova-2-pro-preview-20251202-v1:0",
+          "amazon.nova-2-omni-v1:0",
+          "amazon.nova-lite-v1:0",
+          "amazon.nova-micro-v1:0",
+          "amazon.nova-premier-v1:0",
+          "amazon.nova-pro-v1:0",
+          "amazon.titan-embed-text-v2:0",
+          "anthropic.claude-3-haiku-20240307-v1:0",
+          "anthropic.claude-3-5-sonnet-20241022-v2:0",
+          "anthropic.claude-3-7-sonnet-20250219-v1:0",
+          "anthropic.claude-haiku-4-5-20251001-v1:0",
+          "anthropic.claude-sonnet-4-5-20250929-v1:0",
+          "meta.llama3-70b-instruct-v1:0",
+          "meta.llama3-8b-instruct-v1:0",
+          "anthropic.claude-sonnet-4-6",
+          "anthropic.claude-opus-4-6-v1",
+          "mistral.mistral-large-3-675b-instruct",
+          "mistral.ministral-3-14b-instruct",
+          "mistral.ministral-3-8b-instruct",
+          "mistral.ministral-3-3b-instruct"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      }
+    },
+    {
+      "name": "TargetApi",
+      "description": "AWS Bedrock Runtime API",
+      "defaultValue": "converse",
+      "constraints": {
+        "required": true,
+        "allowedValues": [
+          "converse",
+          "invoke",
+          "converse-stream"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      }
+    },
+    {
+      "name": "UseRegionalInferenceProfile",
+      "description": "Use the regional inference profile for this model calls",
+      "defaultValue": "false",
+      "constraints": {
+        "required": true,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "InferenceProfilePrefix",
+      "description": "CRIS prefix to provision Bedrock resources with Cross Regional Inference Profile",
+      "defaultValue": "",
+      "dependsOn": "dynamicParams.UseRegionalInferenceProfile",
+      "constraints": {
+        "required": false,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text",
+        "visibility": "!e (dynamicParams.UseRegionalInferenceProfile == 'true')"
+      }
+    },
+    {
+      "name": "InferenceRegion",
+      "description": "AWS Region for the model endpoint to be invoked. If not give, it defaults to Region",
+      "defaultValue": "",
+      "constraints": {
+        "required": false,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Inactive",
+      "description": "The model mapping is marked as inactive, it will not be used by the GenAI Gateway",
+      "defaultValue": "false",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "bool"
+      }
+    }
+  ],
+  "serviceMetadata": {
+    "provider": "aws",
+    "owner": "Jarvis@pega.com",
+    "service-type": "control-plane",
+    "webexChannel": "CloudK - GenAI Gateway Service Support [webexteams://im?space=f11d3910-467b-11ee-ad05-9d82b1151a68]"
+  }
+}

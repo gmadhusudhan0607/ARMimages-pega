@@ -1,0 +1,46 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "some text here 1a",
+      "attributes": [
+        {
+          "name": "chunkType",
+          "value": [
+            "finance"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "content": "some text here 1a",
+      "attributes": [
+        {
+          "name": "chunkType",
+          "value": [
+            "general"
+          ],
+          "type": "string"
+        }
+      ]
+    }
+
+  ],
+  "attributes": [
+    {
+      "name": "documentType",
+      "value": [
+        "contract"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "org",
+      "value": [
+        "tso"
+      ],
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+- name: text-embedding-ada-002
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/text-embedding-ada-002"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/text-embedding-ada-002"
+  provider: openai
+  infrastructure: azure
+  capabilities:
+    chat-completion: false
+    embeddings: true

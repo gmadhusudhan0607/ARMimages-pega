@@ -1,0 +1,66 @@
+# NOTE: The 'deprecationDate' and 'lifecycle' fields in this spec file are for REFERENCE ONLY.
+# They do NOT flow to the API response at runtime. The runtime source of truth for model
+# deprecation/lifecycle data is the Helm model-metadata.yaml ConfigMap, which populates
+# the DeprecationInfo and Lifecycle fields in the API response via enrichWithMetadata().
+# See: distribution/genai-hub-service-helm/src/main/helm/templates/model-metadata.yaml
+infrastructure: azure
+provider: azure
+creator: openai
+metadata:
+  description: "OpenAI embedding models"
+  documentation: "https://platform.openai.com/docs/models/embeddings"
+models:
+  - name: text-embedding-3-large
+    version: "1"
+    label: "Text Embedding 3 Large"
+    id: openai.text-embedding-3-large-1
+    functionalCapabilities: ["embedding"]
+    deprecationDate: '2026-04-30'
+    endpoints:
+      - path: "/embeddings"
+    capabilities:
+      inputModalities: ["text"]
+      outputModalities: ["embedding"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 8191
+        required: false
+  - name: text-embedding-3-small
+    version: "1"
+    label: "Text Embedding 3 Small"
+    id: openai.text-embedding-3-small-1
+    functionalCapabilities: ["embedding"]
+    deprecationDate: '2026-04-30'
+    endpoints:
+      - path: "/embeddings"
+    capabilities:
+      inputModalities: ["text"]
+      outputModalities: ["embedding"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 8191
+        required: false
+  - name: text-embedding-ada-002
+    version: "2"
+    label: "Text Embedding Ada 002"
+    id: openai.text-embedding-ada-002-2
+    functionalCapabilities: ["embedding"]
+    deprecationDate: '2026-04-30'
+    endpoints:
+      - path: "/embeddings"
+    capabilities:
+      inputModalities: ["text"]
+      outputModalities: ["embedding"]
+    parameters:
+      maxInputTokens:
+        title: "Max Input Tokens"
+        description: "Maximum number of tokens (words or subwords) for input"
+        type: "integer"
+        maximum: 2046
+        required: false

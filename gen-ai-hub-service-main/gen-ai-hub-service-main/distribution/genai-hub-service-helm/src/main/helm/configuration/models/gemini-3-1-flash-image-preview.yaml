@@ -1,0 +1,13 @@
+- name: gemini-3.1-flash-image-preview
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/gemini-3.1-flash-image-preview"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/gemini-3.1-flash-image-preview"
+  provider: google
+  creator: google
+  targetAPI: "/generateContent"
+  path: "/google/deployments/gemini-3.1-flash-image-preview/generateContent"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: true

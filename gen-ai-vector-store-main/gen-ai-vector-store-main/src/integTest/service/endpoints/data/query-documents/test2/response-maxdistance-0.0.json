@@ -1,0 +1,29 @@
+[
+  {
+    "documentID": "DOC-2",
+    "attributes": [
+      {
+        "name": "dataSource",
+        "value": [
+          "DS0"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "org",
+        "value": [
+          "tso"
+        ],
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "value": [
+          "v1"
+        ],
+        "type": "string"
+      }
+    ],
+    "distance": 0
+  }
+]

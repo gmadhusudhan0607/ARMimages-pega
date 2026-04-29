@@ -1,0 +1,33 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "Owner",
+      "description": "Owner of the deployment (for tagging purpose)",
+      "defaultValue": "",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "Region",
+      "description": "Specifies region in which clients resides. According to region-cell mapping, client will be registered in the proper cell",
+      "regional": true,
+      "defaultValue": "us-east-1",
+      "constraints": {
+        "required": false
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata": {
+      "service-type": "backing-service",
+      "provider": "aws",
+      "owner":"Jarvis@pega.com",
+      "webexChannel": "CloudK - GenAI Vector Store Support [webexteams://im?space=9828eb70-886f-11ee-a264-4d1eb3ef43cd]"
+    }
+}

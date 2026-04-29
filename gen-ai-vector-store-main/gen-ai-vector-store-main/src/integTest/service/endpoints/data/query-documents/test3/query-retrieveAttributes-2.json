@@ -1,0 +1,18 @@
+{
+  "limit": 1000,
+  "maxDistance": 1.0,
+  "retrieveAttributes": [
+    "roles", "title"
+  ],
+  "filters": {
+    "query": "Pega Labs?",
+    "attributes": [
+      {
+        "name": "roles",
+        "value": [
+          "KnowledgeBuddy:Public"
+        ]
+      }
+    ]
+  }
+}

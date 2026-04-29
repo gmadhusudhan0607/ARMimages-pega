@@ -1,0 +1,44 @@
+products:
+  - id: GenAIGatewayServiceProduct
+    name: GenAI Gateway Service Product
+    description: Provision GenAI Gateway Service Product Add-On for CloudK
+    path: genai-gateway-service-product.yml
+    provider: aws,gcp
+    tags:
+      - key: groupName
+        value: fnx
+      - key: optional
+        value: true
+
+  - id: GenAIInfrastructure
+    name: GenAI Infrastructure
+    description: Model deployments of GenAI Gateway Service
+    path: genai-infrastructure.yml
+    provider: aws
+    tags:
+      - key: groupname
+        value: fnx
+      - key: optional
+        value: true
+
+  - id: GenAIInfrastructure
+    name: GenAI Infrastructure
+    description: Model deployments of GenAI Gateway Service
+    path: genai-infrastructure-gcp.yml
+    provider: gcp
+    tags:
+      - key: groupname
+        value: fnx
+      - key: optional
+        value: true
+
+  - id: GenAIPrivateModels
+    name: GenAI Gateway Private Models
+    description: Private Models for integration with GenAI Gateway Service
+    path: genai-private-models.yml
+    provider: aws
+    tags:
+      - key: groupname
+        value: fnx
+      - key: optional
+        value: true

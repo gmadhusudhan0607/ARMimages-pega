@@ -1,0 +1,10 @@
+[
+  {
+    "operator": "or",
+    "name": "dataSource",
+    "value": [
+      "DS2"
+    ],
+    "type": "string"
+  }
+]

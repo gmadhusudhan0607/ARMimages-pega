@@ -1,0 +1,29 @@
+{
+  "id": "DOC-1",
+  "chunks": [
+    {
+      "content": "DOC-1 content for chunk 0"
+    },
+    {
+      "content": "DOC-1 content for chunk 1"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "type": "string",
+      "value": [
+        "ver.0.x",
+        "ver.0.1"
+      ]
+    },
+    {
+      "name": "dataSource",
+      "type": "string",
+      "value": [
+        "DS0",
+        "DS0.1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+infrastructure: aws
+provider: bedrock
+creator: meta
+models:
+  - name: llama-3-2-90b-instruct
+    version: "v1:0"
+    id: meta.llama-3-2-90b-instruct-v1:0
+    functionalCapabilities: ["chat_completion"]
+    description: "Llama 3.2 90B Instruct"
+    endpoints:
+      - path: "/invoke"
+      - path: "/invoke-with-response-stream"
+      - path: "/converse"
+      - path: "/converse-stream"
+    parameters:
+      maxInputTokens:
+        type: integer
+        maximum: 128000
+      maxOutputTokens:
+        title: "Max Tokens"
+        description: "Maximum number of tokens to generate"
+        type: integer
+        default: 2048
+        minimum: 1
+        maximum: 2048
+        required: false
+      temperature:
+        title: "Temperature"
+        description: "Controls randomness in the response"
+        type: float
+        default: 0.6
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topP:
+        title: "Top P"
+        description: "Controls diversity via nucleus sampling"
+        type: float
+        default: 0.9
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+    capabilities:
+      inputModalities:
+        - text
+      outputModalities:
+        - text
+        - image
+      features:
+        - text_generation
+  - name: llama3-70b-instruct
+    version: v1
+    label: Llama 3 70B Instruct
+    id: meta.llama3-70b-instruct-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text]
+      outputModalities: [text, chat]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 8192
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 512
+        maximum: 8192
+        minimum: 1
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.6
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 0.7
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Top K parameter controlling predictability/diversity of output
+        type: integer
+        default: 50
+        required: false
+  - name: llama3-8b-instruct
+    version: v1
+    label: Llama 3 8B Instruct
+    id: meta.llama3-8b-instruct-v1:0
+    functionalCapabilities: ["chat_completion"]
+    endpoints:
+      - path: /converse
+      - path: /converse-stream
+      - path: /invoke
+      - path: /invoke-with-response-stream
+    capabilities:
+      features: [streaming]
+      inputModalities: [text]
+      outputModalities: [text, chat]
+    deployment:
+      region: us-east-1
+      instanceType: bedrock-runtime
+    parameters:
+      maxInputTokens:
+        title: Max Input Tokens
+        description: Maximum number of tokens (words or subwords) for input
+        type: integer
+        maximum: 8192
+        required: false
+      maxOutputTokens:
+        title: Max Output Tokens
+        description: Maximum number of tokens to generate
+        type: integer
+        default: 512
+        maximum: 8192
+        minimum: 1
+        required: false
+      temperature:
+        title: Temperature
+        description: Controls randomness of the generated output
+        type: float
+        default: 0.6
+        maximum: 1.0
+        minimum: 0.0
+        required: false
+      topP:
+        title: Top P
+        description: Nucleus sampling parameter controlling diversity of the output
+        type: float
+        default: 0.7
+        minimum: 0.0
+        maximum: 1.0
+        required: false
+      topK:
+        title: Top K
+        description: Top K parameter controlling predictability/diversity of output
+        type: integer
+        default: 50
+        required: false

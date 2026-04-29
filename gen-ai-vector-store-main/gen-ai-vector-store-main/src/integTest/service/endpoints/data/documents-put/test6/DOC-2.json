@@ -1,0 +1,24 @@
+{
+  "id": "DOC-2",
+  "chunks": [
+    {
+      "content": "some text here 1"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "version",
+      "value": [
+        "v2"
+      ],
+      "type": "string"
+    },
+    {
+      "name": "org",
+      "value": [
+        "tso"
+      ],
+      "type": "string"
+    }
+  ]
+}

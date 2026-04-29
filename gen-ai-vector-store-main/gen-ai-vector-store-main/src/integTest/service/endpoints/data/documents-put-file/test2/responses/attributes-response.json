@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Category",
+    "value": [
+      "Astronomy",
+      "Physics",
+      "Science"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "Document type",
+    "value": [
+      "Article"
+    ],
+    "type": "string"
+  }
+]

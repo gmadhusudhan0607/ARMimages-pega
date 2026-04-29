@@ -1,0 +1,13 @@
+- name: gemini-2.0-flash
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/google/deployments/gemini-2.0-flash"
+  redirectUrl: "{{ .Values.DemoGcpVertexURL }}/google/deployments/gemini-2.0-flash"
+  provider: google
+  creator: google
+  targetAPI: "/chat/completions"
+  path: "/google/deployments/gemini-2.0-flash/chat/completions"
+  infrastructure: gcp
+  capabilities:
+    completions: false
+    embeddings: false
+    image-generation: false

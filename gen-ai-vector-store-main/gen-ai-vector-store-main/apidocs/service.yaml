@@ -1,0 +1,2179 @@
+openapi: 3.0.2
+info:
+  title: Vector Store API
+  contact:
+    email: Jarvis@pega.com
+  version: 2.0.0
+servers:
+  - url: /
+
+paths:
+  #  Documents
+  /v1/{isolationID}/collections/{collectionName}/documents:
+    put:
+      tags:
+        - Documents
+      summary: Upsert document
+      description: Upsert one document.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index/collection name.
+          required: true
+          schema:
+            type: string
+        - name: consistencyLevel
+          in: query
+          description:
+            "consistency level can be strong (synchronous) or eventual (asynchronous),\
+            \ by default is eventual"
+          schema:
+            type: string
+      requestBody:
+        description: Document to be upserted.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutDocumentRequest"
+        required: true
+      responses:
+        "201":
+          description: Document upserted successfully.
+          content: {}
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Model-Id:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Id"
+            X-Genai-Vectorstore-Model-Version:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Version"
+            X-Genai-Vectorstore-Embedding-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Time-Ms"
+            X-Genai-Vectorstore-Embedding-Calls-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Calls-Count"
+        "202":
+          description: Document accepted successfully.
+          content: {}
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: document
+    post:
+      tags:
+        - Documents
+      summary: List documents statuses
+      description: List documents statuses
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The collection/index name.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: filter by status
+          schema:
+            type: string
+            enum:
+              - COMPLETED
+              - IN_PROGRESS
+              - ERROR
+      requestBody:
+        description: Attributes to filter.
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/FiltersArray"
+        required: false
+      responses:
+        "200":
+          description: List documents successful.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DocumentStatus"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: filters
+    delete:
+      tags:
+        - Documents
+      summary: Delete documents by filter
+      description: Delete document based on the filter attributes
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Attributes to filter.
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/FiltersArray"
+        required: true
+      responses:
+        "200":
+          description: N documents deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeletedDocuments"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: filters
+  /v1/{isolationID}/collections/{collectionName}/documents/{documentID}:
+    get:
+      tags:
+        - Documents
+      summary: Get document status details
+      description: Patch document attributes based on the document Id
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index name.
+          required: true
+          schema:
+            type: string
+        - name: documentID
+          in: path
+          description: The id of the document to delete. Example `DOC-1`.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Document returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentStatus"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    delete:
+      tags:
+        - Documents
+      summary: Delete document
+      description: Delete document based on the document ID
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index name.
+          required: true
+          schema:
+            type: string
+        - name: documentID
+          in: path
+          description: The id of the document to delete. Example `DOC-1`.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Document deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeletedDocuments"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    patch:
+      tags:
+        - Documents
+      summary: Patch document attributes or status
+      description: Patch document attributes or status based on the document Id. At least one of attributes or status must be provided.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index name.
+          required: true
+          schema:
+            type: string
+        - name: documentID
+          in: path
+          description: The id of the document to patch. Example `DOC-1`.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Document attributes or status to be updated. At least one field must be provided.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchDocumentRequest"
+        required: true
+      responses:
+        "200":
+          description: Document patched successfully.
+          content: {}
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "404":
+          description: Document not found.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: document
+
+  #  /file
+  /v1/{isolationID}/collections/{collectionName}/file:
+    put:
+      tags:
+        - Documents
+      summary: Create document (upload file)
+      description: >
+        Upload one document (file) for async processing via Smart Chunking.
+        The file is forwarded to the Smart Chunking service for extraction and chunking. Smart Chunking then calls back Vector Store for indexing.
+        Returns 202 Accepted immediately. Processing happens asynchronously.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The collection identifier (name).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PutDocumentFileRequest"
+            encoding:
+              documentAttributes:
+                contentType: application/json
+              documentMetadata:
+                contentType: application/json
+        required: true
+      responses:
+        "202":
+          description: >
+            Accepted. File forwarded to Smart Chunking service for async processing.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileSubmissionResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+        "400":
+          description: Bad Request. Invalid request parameters.
+          content: {}
+        "401":
+          description: Unauthorized. Authentication required.
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway. Smart Chunking service is unavailable.
+          content: {}
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: request
+  "/v1/{isolationID}/collections/{collectionName}/file/text":
+    put:
+      tags:
+        - Documents
+      summary: Create document (plaintext file)
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The collection identifier (name).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutDocumentPlainTextRequest"
+      responses:
+        "202":
+          description: >
+            Accepted. Text content forwarded to Smart Chunking service for async processing.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileSubmissionResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+        "400":
+          description: Bad Request. Invalid request parameters.
+          content: {}
+        "401":
+          description: Unauthorized. Authentication required.
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway. Smart Chunking service is unavailable.
+          content: {}
+      security:
+        - Bearer: []
+
+  #  /document/delete
+  /v1/{isolationID}/collections/{collectionName}/document/delete-by-id:
+    post:
+      tags:
+        - Documents
+      summary: Delete document by ID
+      description: Delete document by document ID
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The collection/index name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Delete request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentDeleteByIdRequest"
+
+        required: true
+      responses:
+        "200":
+          description: Document deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeletedDocuments"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+
+  # Query
+  /v1/{isolationID}/collections/{collectionName}/query/chunks:
+    post:
+      tags:
+        - Query
+      summary: Retrieve query chunks
+      description: Retrieve chunks based on a query.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index/collection name.
+          required: true
+          schema:
+            type: string
+        - name: retrieveVector
+          in: query
+          description:
+            "retrieveVector can be false/true, indicates if in response vector\
+            \ should be included"
+          schema:
+            type: boolean
+      requestBody:
+        description: The query parameters.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryChunksRequest"
+        required: true
+      responses:
+        "200":
+          description: Chunks retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QueryChunksResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Model-Id:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Id"
+            X-Genai-Vectorstore-Model-Version:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Version"
+            X-Genai-Vectorstore-Embedding-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Time-Ms"
+            X-Genai-Vectorstore-Embedding-Calls-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Calls-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+            X-Genai-Vectorstore-Embedding-Retry-Count:
+                $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Retry-Count"
+            X-Genai-Vectorstore-Processing-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Processing-Duration-Ms"
+            X-Genai-Vectorstore-Overhead-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Overhead-Ms"
+            X-Genai-Vectorstore-Embedding-Net-Overhead-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Net-Overhead-Ms"
+            X-Genai-Gateway-Response-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Gateway-Response-Time-Ms"
+            X-Genai-Gateway-Input-Tokens:
+              $ref: "#/components/headers/X-Genai-Gateway-Input-Tokens"
+            X-Genai-Gateway-Output-Tokens:
+              $ref: "#/components/headers/X-Genai-Gateway-Output-Tokens"
+            X-Genai-Gateway-Tokens-Per-Second:
+              $ref: "#/components/headers/X-Genai-Gateway-Tokens-Per-Second"
+            X-Genai-Gateway-Model-Id:
+              $ref: "#/components/headers/X-Genai-Gateway-Model-Id"
+            X-Genai-Gateway-Region:
+              $ref: "#/components/headers/X-Genai-Gateway-Region"
+            X-Genai-Gateway-Retry-Count:
+              $ref: "#/components/headers/X-Genai-Gateway-Retry-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "502":
+          description: Failed to reach LLM or Database.
+          content:
+            application/json:
+              example:
+                code: "502"
+                message: "LLM Response timeout. Failed to get embedding for question during 3000 millisecond. Max retries (2) reached"
+        "504":
+          description: Gateway Timeout - Query embedding timeout after max retries exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: query
+  /v1/{isolationID}/collections/{collectionName}/query/documents:
+    post:
+      tags:
+        - Query
+      summary: Retrieve documents by query
+      description: Retrieve document ids based on a query.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index/collection name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The query parameters.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryDocumentsRequest"
+        required: true
+      responses:
+        "200":
+          description: Documents retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QueryDocumentsResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Model-Id:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Id"
+            X-Genai-Vectorstore-Model-Version:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Model-Version"
+            X-Genai-Vectorstore-Embedding-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Time-Ms"
+            X-Genai-Vectorstore-Embedding-Calls-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Calls-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+            X-Genai-Vectorstore-Embedding-Retry-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Retry-Count"
+            X-Genai-Vectorstore-Processing-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Processing-Duration-Ms"
+            X-Genai-Vectorstore-Overhead-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Overhead-Ms"
+            X-Genai-Vectorstore-Embedding-Net-Overhead-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Embedding-Net-Overhead-Ms"
+            X-Genai-Gateway-Response-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Gateway-Response-Time-Ms"
+            X-Genai-Gateway-Input-Tokens:
+              $ref: "#/components/headers/X-Genai-Gateway-Input-Tokens"
+            X-Genai-Gateway-Output-Tokens:
+              $ref: "#/components/headers/X-Genai-Gateway-Output-Tokens"
+            X-Genai-Gateway-Tokens-Per-Second:
+              $ref: "#/components/headers/X-Genai-Gateway-Tokens-Per-Second"
+            X-Genai-Gateway-Model-Id:
+              $ref: "#/components/headers/X-Genai-Gateway-Model-Id"
+            X-Genai-Gateway-Region:
+              $ref: "#/components/headers/X-Genai-Gateway-Region"
+            X-Genai-Gateway-Retry-Count:
+              $ref: "#/components/headers/X-Genai-Gateway-Retry-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "502":
+          description: Failed to reach LLM or Database.
+          content:
+            application/json:
+              example:
+                code: "502"
+                message: "LLM Response timeout. Failed to get embedding for question during 3000 millisecond. Max retries (2) reached"
+        "504":
+          description: Gateway Timeout - Query embedding timeout after max retries exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: query
+
+  #  Attributes
+  /v1/{isolationID}/collections/{collectionName}/attributes:
+    post:
+      tags:
+        - Attributes
+      summary: List available attributes
+      description: List available attributes for the specifix isolation and index.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionName
+          in: path
+          description: The index/collection name.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The attributes filters.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RetrieveAttributesRequest"
+        required: true
+      responses:
+        "200":
+          description: Chunks retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Attribute"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: retrieveAttributes
+
+  #  Attributes Group
+  /v1/{isolationID}/smart-attributes-group:
+    get:
+      tags:
+        - Attributes Group
+      summary: List attributes groups.
+      description: List attributes groups available in vector store.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of attributes groups available in vector store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributesGroupsList"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    post:
+      tags:
+        - Attributes Group
+      summary: Creates a group of attributes
+      description: Creates a group of attributes for the specific isolation.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The attributes group definition.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributesGroupCreationRequest"
+        required: true
+      responses:
+        "200":
+          description: Attributes group created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributesGroupCreationResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+      x-codegen-request-body-name: attributesGroup
+  /v1/{isolationID}/smart-attributes-group/{groupID}:
+    get:
+      tags:
+        - Attributes Group
+      summary: Get the attributes group.
+      description: Get the attributes group for the specific isolation and group identifiers.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: groupID
+          in: path
+          description: The group identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of attributes available in the specified group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributesGroup"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    delete:
+      tags:
+        - Attributes Group
+      summary: Deletes a group of attributes
+      description:
+        Deletes a group of attributes for the specific isolation and group
+        identifiers.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: groupID
+          in: path
+          description: The group identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Attributes group deleted successfully.
+          content: {}
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+
+  #  Collections
+  /v2/{isolationID}/collections:
+    post:
+      tags:
+        - /v2 - Collections (URL-encoded IDs)
+      summary: Create collection
+      description: Create collection for the specific isolation.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Collection definition.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CollectionCreate"
+        required: true
+      responses:
+        "201":
+          description: Collection created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Collection"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway Error. DB is not available.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    get:
+      tags:
+        - /v2 - Collections (URL-encoded IDs)
+      summary: List collections
+      description: List collections for the specific isolation.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Collections list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Collections"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway Error. DB is not available.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+  /v2/{isolationID}/collections/{collectionID}:
+    get:
+      tags:
+        - /v2 - Collections (URL-encoded IDs)
+      summary: Get a collection by URL-encoded ID
+      description: Retrieve collection by its URL-encoded ID.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionID
+          in: path
+          description: >
+            URL-encoded collection ID. Must be percent-encoded.
+            Example: "Collection #1 / March 3036" -> "Collection%20%231%20%2F%20March%203036"
+          required: true
+          schema:
+            type: string
+            example: "Collection%20%231%20%2F%20March%203036"
+      responses:
+        "200":
+          description: Collection details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Collection"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway Error. DB is not available.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+    delete:
+      tags:
+        - /v2 - Collections (URL-encoded IDs)
+      summary: Delete collection by URL-encoded ID
+      description: Delete collection by its URL-encoded ID.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionID
+          in: path
+          description: >
+            URL-encoded collection name. Must be percent-encoded.
+            Example: "Collection #1 / March 3036" -> "Collection%20%231%20%2F%20March%203036"
+          required: true
+          schema:
+            type: string
+            example: "Collection%20%231%20%2F%20March%203036"
+      responses:
+        "200":
+          description: Collection deleted successfully.
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+        "400":
+          description: Bad request
+          content: {}
+        "500":
+          description: Internal Server Error. Server encountered an error.
+          content: {}
+        "502":
+          description: Bad Gateway Error. DB is not available.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+
+  /v2/{isolationID}/collections/{collectionID}/documents/{documentID}/chunks:
+    get:
+      tags:
+        - /v2 - Documents (URL-encoded IDs)
+      summary: Get document chunks URL-encoded ID
+      description: Retrieve document chunks by document URL-encoded ID.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionID
+          in: path
+          description: >
+            URL-encoded collection ID. Must be percent-encoded.
+            Example: "Collection #1 / March 3036" -> "Collection%20%231%20%2F%20March%203036"
+          required: true
+          schema:
+            type: string
+            example: "Tom%20&%20Jerry%20and%20Friends%20%2F%20Contract"
+          example: "Collection-1"
+        - name: documentID
+          in: path
+          description: >
+            URL-encoded document ID. Must be percent-encoded.
+            Example: "Tom & Jerry" -> "Tom%20&%20Jerry"
+          example: "Tom%20&%20Jerry"
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >
+            Cursor to fetch results after this ID. Cursor must be URL-encoded.
+            Example: "DOC-1-EMB-123" will return results after this ID (124,125...).
+          example: "DOC-1-EMB-123"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 500
+          description: Number of items to return (default is 500).
+      responses:
+        "200":
+          description: Document chunks returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentChunks"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+      security:
+        - Bearer: []
+
+  /v2/{isolationID}/collections/{collectionID}/find-documents:
+    post:
+      tags:
+        - /v2 - Documents (URL-encoded IDs)
+      summary: Find documents by filters
+      description: Retrieve documents based on filters and attributes.
+      parameters:
+        - name: isolationID
+          in: path
+          description: The isolation identifier.
+          required: true
+          schema:
+            type: string
+        - name: collectionID
+          in: path
+          description: >
+            URL-encoded collection ID. Must be percent-encoded.
+            Example: "Collection #1 / March 3036" -> "Collection%20%231%20%2F%20March%203036"
+          required: true
+          schema:
+            type: string
+            example: "Collection%20%231%20%2F%20March%203036"
+      requestBody:
+        description: The request body to filter and retrieve documents.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FindDocumentsRequest"
+        required: true
+      responses:
+        "200":
+          description: Documents retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FindDocumentsResponse"
+          headers:
+            X-Genai-Vectorstore-Request-Duration-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Request-Duration-Ms"
+            X-Genai-Vectorstore-Db-Query-Time-Ms:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Db-Query-Time-Ms"
+            X-Genai-Vectorstore-Documents-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Documents-Count"
+            X-Genai-Vectorstore-Vectors-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Vectors-Count"
+            X-Genai-Vectorstore-Response-Returned-Items-Count:
+              $ref: "#/components/headers/X-Genai-Vectorstore-Response-Returned-Items-Count"
+        "400":
+          description: Bad request. Invalid input.
+          content: {}
+        "504":
+          description: Request timeout exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeoutError"
+components:
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        nextCursor:
+          type: string
+          description: NextCursor is the cursor to fetch the next page of data. Cursor nust be URL-encoded.
+          example: "DOC-1-EMB-123"
+        limit:
+          type: number
+          description: Limit of items returned per page.
+        itemsTotal:
+          type: number
+          description: Total number of items.
+      required:
+        - limit
+        - itemsTotal
+    Collections:
+      type: object
+      properties:
+        isolationID:
+          type: string
+          description: isolation identifier
+          example: isolation-1
+        collections:
+          type: array
+          items:
+            $ref: "#/components/schemas/Collection"
+      required:
+        - collections
+    Collection:
+      type: object
+      properties:
+        collectionID:
+          type: string
+          description: Collection ID
+          example: "Collection #1 / March 3036"
+        defaultEmbeddingProfile:
+          type: string
+          description: Default embedding profile
+          example: "openai-text-embedding-ada-002"
+        documentsTotal:
+          type: integer
+          description: Total number of documents in the collection
+          example: 1000
+      required:
+        - collectionID
+    CollectionCreate:
+      type: object
+      properties:
+        collectionID:
+          type: string
+          description: Collection ID
+          example: "Collection #1 / March 3036"
+      required:
+        - collectionID
+    PutDocumentRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document.
+          example: DOC-1
+        chunks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Chunk"
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+        metadata:
+          $ref: "#/components/schemas/Metadata"
+    PatchDocumentRequest:
+      type: object
+      properties:
+        attributes:
+          type: array
+          description: Array of attributes to update. Optional if status is provided.
+          items:
+            $ref: "#/components/schemas/Attribute"
+        status:
+          type: string
+          description: Document status to update. Optional if attributes is provided. Must be one of COMPLETED, IN_PROGRESS, or ERROR.
+          example: "COMPLETED"
+          enum:
+            - COMPLETED
+            - IN_PROGRESS
+            - ERROR
+        errorMessage:
+          type: string
+          description: Optional error message. Applicable when status is ERROR.
+          example: "Chunking failed: unsupported file format"
+    DocumentStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document.
+          example: DOC-1
+        status:
+          type: string
+          example: IN_PROGRESS
+        error:
+          type: string
+          example: ""
+    DocumentChunks:
+      type: object
+      properties:
+        documentID:
+          type: string
+          description: The unique identifier of the document.
+          example: DOC-1
+        chunks:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentChunk"
+    DocumentChunk:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document.
+          example: DOC-1
+        content:
+          type: string
+          example: "chunk content here"
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+    Chunk:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the chunk.
+          example:
+            "A report definition is a tool used in database interactions, specifically\
+            \ for retrieving required details or information based on certain conditions."
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+        metadata:
+          $ref: "#/components/schemas/Metadata"
+    Attribute:
+      type: object
+      description: Attribute
+      properties:
+        name:
+          type: string
+          description: name of the attribute
+          example: version
+        value:
+          type: array
+          description: values of the attribute
+          example:
+            - "8.8"
+            - "24.1"
+          items:
+            type: string
+        type:
+          type: string
+          description: type of the attribute
+          example: string
+          enum:
+            - string
+    FilterAttribute:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the attribute
+          example: version
+        operator:
+          type: string
+          description: "Logic operator. Must be one of [in,or,any] or one of [all,and]"
+          example: in
+          enum:
+            - in
+            - or
+            - any
+            - all
+            - and
+        value:
+          type: array
+          description: values of the attribute
+          example:
+            - "8.8"
+            - "24.1"
+          items:
+            type: string
+        type:
+          type: string
+          description: type of the attribute
+          example: string
+          enum:
+            - string
+    Filters:
+      type: object
+      properties:
+        operator:
+          type: string
+          description: "query operator should be [in,or,any]"
+          example: in
+        name:
+          type: string
+          description: name of the attribute
+          example: version
+        value:
+          type: array
+          description: value of the attribute
+          example:
+            - "8.8"
+            - "24.1"
+          items:
+            type: string
+        type:
+          type: string
+          description: type of the attribute
+          example: string
+          enum:
+            - string
+    FiltersArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/Filters"
+    QueryChunksRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Maximum number of chunks to retrieve.
+          example: 5
+        maxDistance:
+          type: number
+          description: Maximum distance for retrieved chunks.
+          example: 0.3
+        retrieveAttributes:
+          type: array
+          description: List of attribute names to retrieve.
+          example:
+            - version
+            - category
+          items:
+            type: string
+        filters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: The question or query string.
+              example: What is a report definition?
+            attributes:
+              type: array
+              items:
+                $ref: "#/components/schemas/FilterAttribute"
+    QueryChunksResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the chunk.
+          example:
+            "A report definition is a tool used in database interactions, specifically\
+            \ for retrieving required details or information based on certain conditions."
+        documentID:
+          type: string
+          description: The identifier of the document the chunk belongs to.
+          example: DOC-1
+        distance:
+          type: number
+          description: "The result of the similarity search in the range [0, 1]."
+          example: 0.08
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+    QueryDocumentsRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Maximum number of chunks to inspect.
+          example: 5
+        maxDistance:
+          type: number
+          description: Maximum distance for retrieved chunks.
+          example: 0.3
+        retrieveAttributes:
+          type: array
+          description: List of attribute names to retrieve.
+          example:
+            - version
+            - category
+          items:
+            type: string
+        filters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: The question or query string.
+              example: What is a report definition?
+            attributes:
+              type: array
+              items:
+                $ref: "#/components/schemas/FilterAttribute"
+        enableSecondScan:
+          type: boolean
+          description: >
+            When true, if the initial scan returns fewer documents than requested
+            (due to multi-chunk deduplication), a second scan is performed using
+            the actual maximum chunks-per-document as the CTE multiplier. This
+            improves result completeness at the cost of an additional query.
+          example: false
+    QueryDocumentsResponse:
+      type: object
+      properties:
+        documentID:
+          type: string
+          description: The identifier of the document the chunk belongs to.
+          example: DOC-1
+        distance:
+          type: number
+          description: "The result of the similarity search in the range [0, 1]."
+          example: 0.08
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+    DeletedDocuments:
+      type: object
+      properties:
+        deletedDocuments:
+          type: integer
+          description: Number of deleted documents
+          example: 1
+    RetrieveAttributesRequest:
+      type: object
+      properties:
+        retrieveAttributes:
+          type: array
+          description: List of attribute names to retrieve.
+          example:
+            - version
+            - category
+          items:
+            type: string
+    AttributesGroupCreationRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          description: The group description
+          example: Group one
+        attributes:
+          type: array
+          description: List of attribute values to add in vector store.
+          example:
+            - version
+            - category
+          items:
+            type: string
+    AttributesGroupCreationResponse:
+      type: object
+      properties:
+        groupID:
+          type: string
+          example: 82ed8336-67ad-4449-9f30-772359c90dc8
+        description:
+          type: string
+          description: The group description
+          example: Group one
+        attributes:
+          type: array
+          description: List of attribute values to add in vector store.
+          example:
+            - version
+            - category
+          items:
+            type: string
+    AgAttributesList:
+      type: object
+      properties:
+        attributes:
+          type: array
+          description: List of attribute values to add in vector store.
+          example:
+            - version
+            - category
+          items:
+            type: string
+    AttributesGroupsList:
+      type: array
+      items:
+        type: object
+        properties:
+          groupID:
+            type: string
+            example: 82ed8336-67ad-4449-9f30-772359c90dc8
+          description:
+            type: string
+            example: Group one
+    AttributesGroup:
+      type: object
+      properties:
+        groupID:
+          type: string
+          example: 82ed8336-67ad-4449-9f30-772359c90dc8
+        description:
+          type: string
+          example: Group one
+        attributes:
+          $ref: "#/components/schemas/AgAttributesList"
+    PutDocumentFileRequest:
+      title: Put document file request
+      type: object
+      properties:
+        documentID:
+          description: The document identifier.
+          type: string
+          example: "Document-1"
+        documentFile:
+          description: The document file
+          type: string
+          format: binary
+        documentAttributes:
+          description: Array of attributes for the document (JSON, name/type/values)
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+          example:
+            - name: "version"
+              type: "string"
+              value: ["8.8", "24.1"]
+            - name: "region"
+              type: "string"
+              value: ["US"]
+        documentMetadata:
+          allOf:
+            - $ref: "#/components/schemas/FileMetadata"
+          example:
+            embeddingAttributes: ["version", "region"]
+            enableSmartAttribution: true
+            embedSmartAttributes: false
+            enableOCR: true
+      required:
+        - documentID
+        - documentAttributes
+        - documentFile
+    PutDocumentPlainTextRequest:
+      title: Put document document plaintext file request
+      type: object
+      properties:
+        documentID:
+          description: The document identifier.
+          type: string
+          example: "Example"
+        documentAttributes:
+          description: Array of attributes for the document (name/type/values)
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+        documentContent:
+          description: The document content. Plain text.
+          type: string
+          example: "Content of the document"
+        documentMetadata:
+          $ref: "#/components/schemas/FileMetadata"
+      required:
+        - documentID
+        - documentAttributes
+        - documentContent
+      example:
+        documentID: "Example"
+        documentAttributes:
+          - name: "version"
+            type: "string"
+            value: ["8.8", "24.1"]
+          - name: "region"
+            type: "string"
+            value: ["US"]
+        documentContent: "This is the plain text content of the document."
+        documentMetadata:
+          embeddingAttributes: ["version", "region"]
+          enableSmartAttribution: true
+          embedSmartAttributes: false
+          enableOCR: false
+    DocumentDeleteByIdRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Document id
+          example: DOC-1
+    Metadata:
+      description: >
+        Metadata. Configures the chunking / embedding behavior.
+      type: object
+      properties:
+        embeddingAttributes:
+          $ref: "#/components/schemas/MetadataEmbeddingAttributes"
+        extraAttributesKinds:
+          type: array
+          description: >
+            List of extra attribute kinds to include. Valid values are `auto-resolved`, `index` and `static`.
+          items:
+            type: string
+            enum:
+              - auto-resolved
+              - index
+              - static
+
+    FileMetadata:
+      description: >
+        Metadata for file-based document uploads. Extends base Metadata with
+        Smart Chunking attribution options.
+      allOf:
+        - $ref: "#/components/schemas/Metadata"
+        - type: object
+          properties:
+            enableSmartAttribution:
+              type: boolean
+              nullable: true
+              description: >
+                Enable smart attribution extraction (regions, dates, versions) per chunk
+                during Smart Chunking processing.
+                Optional. When not provided or null, the service decides automatically
+                and this behavior may change between releases. Set explicitly to true
+                or false to guarantee consistent behavior.
+            embedSmartAttributes:
+              type: boolean
+              nullable: true
+              description: >
+                When true and enableSmartAttribution is also true, automatically merges
+                auto-resolved attribute names into embeddingAttributes sent to Vector Store
+                for injection. Ignored when enableSmartAttribution is false.
+                Optional. When not provided or null, the service decides automatically
+                and this behavior may change between releases. Set explicitly to true
+                or false to guarantee consistent behavior.
+            enableOCR:
+              type: boolean
+              nullable: true
+              description: >
+                Enable OCR (Optical Character Recognition) for text extraction from images.
+                Extracts text from scanned PDFs and images within documents.
+                Recommended for scanned documents or image-heavy PDFs.
+                When false, only extracts native text from PDFs.
+                Optional. When not provided or null, the service decides automatically
+                and this behavior may change between releases. Set explicitly to true
+                or false to guarantee consistent behavior.
+            excludeSmartAttributes:
+              type: array
+              items:
+                type: string
+              nullable: true
+              description: >
+                List of smart attribute names to exclude from extraction during Smart Chunking.
+                When an attribute name is in this list, the chunking service will skip its extraction.
+                This is useful when the attribute value is already known and provided via documentAttributes.
+              example: ["title"]
+
+    MetadataEmbeddingAttributes:
+      type: array
+      items:
+        type: string
+      description: >
+        List of attribute names whose values should added as concatenated content during embedding creation.
+        If not provided only original content will be used for embedding.
+        If value can not be found in 'attributes' the parameter will be ignored.
+      example:
+        - version
+        - category
+    FindDocumentsRequest:
+      type: object
+      properties:
+        fields:
+          type: array
+          description: >
+            List of fields to retrieve. Available fields are:
+            - `documentID`: The unique identifier of the document.
+            - `ingestionStatus`: The ingestion status of the document.
+            - `ingestionTime`: Timestamp of the beginning of the ingestion.
+            - `updateTime`: Timestamp of the last successful ingestion.
+            - `errorMessage`: Error message associated with the document.
+            - `chunkStatus`: Count of document chunks by status.
+          items:
+            type: string
+          example: ["documentID", "ingestionStatus", "ingestionTime","documentAttributes"]
+        filter:
+          $ref: "#/components/schemas/FindDocumentsFilter"
+    FindDocumentsFilter:
+      type: object
+      properties:
+        attributes:
+          $ref: "#/components/schemas/FindDocumentsAttributesFilter"
+        status:
+          type: string
+          description: Status of the document.
+          example: "Completed"
+    FindDocumentsAttributesFilter:
+      type: object
+      required:
+        - operator
+        - items
+      properties:
+        operator:
+          type: string
+          description: Logical operator for attributes.
+          example: "AND"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/FindDocumentsAttributeItem"
+    FindDocumentsAttributeItem:
+      type: object
+      required:
+        - operator
+        - name
+        - values
+      properties:
+        operator:
+          type: string
+          description: Logical operator for the attribute.
+          example: "or"
+        name:
+          type: string
+          description: Name of the attribute.
+          example: "version"
+        values:
+          type: array
+          description: Values of the attribute.
+          items:
+            type: string
+          example: ["8.8", "24.1"]
+        type:
+          type: string
+          description: Type of the attribute.
+          example: "string"
+          enum:
+            - string
+    FindDocumentsResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          description: List of documents matching the filters.
+          items:
+            type: object
+            properties:
+              documentID:
+                type: string
+                description: The unique identifier of the document.
+                example: "DOC_ID"
+              ingestionStatus:
+                type: string
+                description: The ingestion status of the document.
+                example: "Completed"
+              errorMessage:
+                type: string
+                description: Error message associated with the document.
+                example: "No errors"
+              ingestionTime:
+                type: string
+                description: Timestamp of the beginning of the ingestion.
+                example: "2023-10-01T12:00:00Z"
+              updateTime:
+                type: string
+                description: Timestamp of the last successful ingestion.
+                example: "2023-10-01T12:00:00Z"
+              chunkStatus:
+                type: object
+                additionalProperties:
+                  type: integer
+                  description: Map of chunk statuses.
+              documentAttributes:
+                  type: array
+                  description: Array of attributes for the document (name/type/values)
+                  items:
+                  $ref: "#/components/schemas/AttributeV2"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    AttributeV2:
+      type: object
+      description: Attribute V2
+      properties:
+        name:
+          type: string
+          description: name of the attribute
+          example: version
+        values:
+          type: array
+          description: values of the attribute
+          example:
+            - "8.8"
+            - "24.1"
+          items:
+            type: string
+        type:
+          type: string
+          description: type of the attribute
+          example: string
+          enum:
+            - string
+    FileSubmissionResponse:
+      type: object
+      description: Response returned when a file or text is submitted for async processing via Smart Chunking.
+      properties:
+        documentID:
+          type: string
+          description: The document identifier provided in the request.
+          example: "my-document-id"
+        status:
+          type: string
+          description: Current status of the document.
+          enum: [IN_PROGRESS]
+          example: "IN_PROGRESS"
+
+    TimeoutError:
+      type: object
+      description: Gateway Timeout - Operation timeout after max retries exceeded
+      properties:
+        code:
+          type: string
+          description: HTTP status code
+          example: "504"
+        message:
+          type: string
+          description: Detailed timeout error message
+          example: "LLM Response timeout. Failed to complete embedding operation during 3000 milliseconds. Max retries (2) reached"
+
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description:
+        "Enter the token with the `Bearer: ` prefix, e.g. \"Bearer abcde12345\"\
+        ."
+      name: Authorization
+      in: header
+
+  headers:
+    X-Genai-Vectorstore-Db-Query-Time-Ms:
+      description: >
+        The time taken to query the database in milliseconds.
+        This header is returned only if the request was successful and had DB queries.
+      schema:
+        type: integer
+        example: 123
+    X-Genai-Vectorstore-Model-Id:
+      description: >
+        The model ID used for the embedding.
+        This header is returned only if the request was successful and had embedder invocations.
+      schema:
+        type: string
+        example: openai-text-embedding-ada-002
+    X-Genai-Vectorstore-Model-Version:
+      description: >
+        The model version used for the embedding.
+        This header is returned only if the request was successful and had embedder invocations.
+      schema:
+        type: string
+        example: "2"
+    X-Genai-Vectorstore-Embedding-Time-Ms:
+      description: >
+        The time taken to create the embedding in milliseconds.
+        This header is returned only if the request was successful and had embedder invocations.
+      schema:
+        type: integer
+        example: 123
+    X-Genai-Vectorstore-Embedding-Calls-Count:
+      description: >
+        The number of embedding calls made during the request.
+        This header is returned only if the request was successful and had embedder invocations.
+      schema:
+        type: integer
+        example: 1
+    X-Genai-Vectorstore-Processing-Duration-Ms:
+      description: >
+        The total Vector Store processing overhead in milliseconds: sum of internal VS overhead
+        and embedding net overhead (SAX token acquisition + network latency to Gateway).
+        Together with X-Genai-Gateway-Model-Call-Duration-Ms, X-Genai-Gateway-Processing-Duration-Ms,
+        and X-Genai-Vectorstore-Db-Query-Time-Ms it adds up to X-Genai-Vectorstore-Request-Duration-Ms.
+      schema:
+        type: integer
+        example: 45
+    X-Genai-Vectorstore-Overhead-Ms:
+      description: >
+        Internal Vector Store processing overhead in milliseconds
+        (RequestDuration - DbQueryTime - EmbeddingTime). Excludes DB and embedding call time.
+      schema:
+        type: integer
+        example: 6
+    X-Genai-Vectorstore-Embedding-Net-Overhead-Ms:
+      description: >
+        Overhead of embedding call excluding Gateway processing time, in milliseconds
+        (EmbeddingTime - GatewayResponseTime). Includes SAX token acquisition and network latency.
+        Zero for requests without embeddings.
+      schema:
+        type: integer
+        example: 39
+    X-Genai-Vectorstore-Request-Duration-Ms:
+      description: >
+        The total time taken to process the request in milliseconds.
+        This header is returned only if the request was successful.
+      schema:
+        type: integer
+        example: 123
+    X-Genai-Vectorstore-Response-Returned-Items-Count:
+      description: >
+        The number of items returned in the response.
+        This header is returned only if the request was successful and had some items returned.
+      schema:
+        type: integer
+        example: 10
+    X-Genai-Vectorstore-Embedding-Retry-Count:
+        description: >
+            The number of retries performed for the embedding request.
+            This header is returned only if the request was successful and had some retries.
+        schema:
+            type: integer
+            example: 2
+    X-Genai-Gateway-Response-Time-Ms:
+      description: >
+        The time taken to query Genai-Gateway Service in milliseconds.
+        This header is returned only if the request was successful.
+      schema:
+        type: integer
+        example: 123
+    X-Genai-Gateway-Input-Tokens:
+        description: >
+            The number of input tokens used in the request according to Genai-Gateway Service.
+            This header is returned only if the request was successful and had some input tokens.
+        schema:
+            type: integer
+            example: 1000
+    X-Genai-Gateway-Output-Tokens:
+        description: >
+            The number of output tokens generated in the response according to Genai-Gateway Service.
+            This header is returned only if the request was successful and had some output tokens.
+        schema:
+            type: integer
+            example: 200
+    X-Genai-Gateway-Tokens-Per-Second:
+        description: >
+            The number of tokens processed per second according to Genai-Gateway Service.
+            This header is returned only if the request was successful and had some tokens processed.
+        schema:
+            type: integer
+            example: 500
+    X-Genai-Gateway-Retry-Count:
+        description: >
+            The number of retries performed by Genai-Gateway Service for the request.
+            This header is returned only if the request was successful and had some retries.
+        schema:
+            type: integer
+            example: 2
+    X-Genai-Gateway-Model-Id:
+        description: >
+            The model ID used for the request by Genai-Gateway Service.
+            This header is returned only if the request was successful and had some model ID.
+        schema:
+            type: string
+            example: text-embedding-ada-002
+    X-Genai-Gateway-Region:
+        description: >
+            The region used for the request by Genai-Gateway Service.
+            This header is returned only if the request was successful.
+        schema:
+            type: string
+            example: us-east-1
+    X-Genai-Vectorstore-Vectors-Count:
+        description: >
+            The total number of vectors in the collection.
+            This header is returned for successful requests (200, 201, 202).
+            This information may be approximate and not exact count since is updated asynchronously.
+        schema:
+            type: integer
+            example: 100
+    X-Genai-Vectorstore-Documents-Count:
+        description: >
+            The total number of documents in the collection.
+            This header is returned for successful requests (200, 201, 202).
+            This information may be approximate and not exact count since is updated asynchronously.
+        schema:
+            type: integer
+            example: 25

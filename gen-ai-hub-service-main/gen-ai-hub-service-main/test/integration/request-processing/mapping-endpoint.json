@@ -1,0 +1,122 @@
+[
+  {
+    "ModelMapping": "claude-3-haiku",
+    "ModelId": "anthropic.claude-3-haiku-20240307-v1:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-x1sox",
+    "Region": "us-east-1",
+    "Endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "Path": "/model/anthropic.claude-3-haiku-20240307-v1:0/converse",
+    "TargetApi": "converse",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": false
+  },
+  {
+    "ModelMapping": "titan-embed-text",
+    "ModelId": "amazon.titan-embed-text-v2:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-xrgod",
+    "Region": "us-east-1",
+    "Endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "Path": "/model/amazon.titan-embed-text-v2:0/invoke",
+    "TargetApi": "invoke",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": false
+  },
+  {
+    "ModelMapping": "claude-3-7-sonnet",
+    "ModelId": "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-s67zq",
+    "Region": "us-east-1",
+    "Endpoint": "http://localhost:11818",
+    "Path": "/anthropic/deployments/claude-3-7-sonnet/chat/completions",
+    "TargetApi": "converse",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": true
+  },
+  {
+    "ModelMapping": "claude-3-5-sonnet",
+    "ModelId": "us.anthropic.claude-3-5-sonnet-20241022-v2:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-ahl4u",
+    "Region": "us-east-1",
+    "Endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "Path": "/model/us.anthropic.claude-3-5-sonnet-20241022-v2:0/converse",
+    "TargetApi": "converse",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": true
+  },
+  {
+    "ModelMapping": "claude-3-haiku",
+    "ModelId": "us.anthropic.claude-3-haiku-20240307-v1:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-wbpgs",
+    "Region": "us-east-1",
+    "Endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "Path": "/model/us.anthropic.claude-3-haiku-20240307-v1:0/converse",
+    "TargetApi": "converse",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": true
+  },
+  {
+    "ModelMapping": "claude-3-7-sonnet",
+    "ModelId": "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+    "ModelArn": "",
+    "OIDCIAMRoleArn": "arn:aws:iam::930843177502:role/genai-oidcrole-us-prmic",
+    "Region": "us-east-1",
+    "Endpoint": "http://localhost:11818",
+    "Path": "/anthropic/deployments/claude-3-7-sonnet/chat/completions",
+    "TargetApi": "converse-stream",
+    "Inactive": false,
+    "UseRegionalInferenceProfile": true
+  },
+  {
+   "ModelMapping":"claude-haiku-4-5",
+   "ModelId":"us.anthropic.claude-haiku-4-5-20251001-v1:0",
+   "ModelArn":"",
+   "OIDCIAMRoleArn":"arn:aws:iam::045663071481:role/genai-oidcrole-us-wxx09",
+   "Region":"us-east-1",
+   "Endpoint": "http://localhost:11818",
+   "Path":"/anthropic/deployments/claude-haiku-4-5/chat/completions",
+   "TargetApi":"converse-stream",
+   "Inactive":false,
+   "UseRegionalInferenceProfile":true
+  },
+  {
+    "ModelMapping":"claude-sonnet-4-5",
+    "ModelId":"us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "ModelArn":"",
+    "OIDCIAMRoleArn":"arn:aws:iam::045663071481:role/genai-oidcrole-us-p9q5l",
+    "Region":"us-east-1",
+    "Endpoint": "http://localhost:11818",
+    "Path":"/anthropic/deployments/claude-sonnet-4-5/chat/completions",
+    "TargetApi":"converse-stream",
+    "Inactive":false,
+    "UseRegionalInferenceProfile":true
+  },
+  {
+    "ModelMapping":"claude-sonnet-4-5",
+    "ModelId":"us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "ModelArn":"",
+    "OIDCIAMRoleArn":"arn:aws:iam::045663071481:role/genai-oidcrole-us-fgunw",
+    "Region":"us-east-1",
+    "Endpoint":"http://localhost:11818",
+    "Path":"/anthropic/deployments/claude-sonnet-4-5/chat/completions",
+    "TargetApi":"converse",
+    "Inactive":false,
+    "UseRegionalInferenceProfile":true
+  },
+  {
+    "ModelMapping":"claude-haiku-4-5",
+    "ModelId":"us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "ModelArn":"",
+    "OIDCIAMRoleArn":"arn:aws:iam::045663071481:role/genai-oidcrole-us-ddl4a",
+    "Region":"us-east-1",
+    "Endpoint":"http://localhost:11818",
+    "Path":"/anthropic/deployments/claude-haiku-4-5/chat/completions",
+    "TargetApi":"converse",
+    "Inactive":false,
+    "UseRegionalInferenceProfile":true
+  }
+]

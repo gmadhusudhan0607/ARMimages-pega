@@ -1,0 +1,6 @@
+{
+  "_comment": "Branches matching exempt_branches_regex won't get auto-deleted. Duplicated default patterns explicitly for safety.",
+  "default_recipient": "Jenkins_pega",
+  "days_before_branch_delete": 7,
+  "exempt_branches_regex": "^patch/|^poc/|^release-hotfix/"
+}

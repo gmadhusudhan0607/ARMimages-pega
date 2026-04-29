@@ -1,0 +1,143 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ClusterGUID",
+      "regional": true,
+      "description": "GUID of CloudK cluster where service is deployed",
+      "constraints": {
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})",
+        "description": "Must be a valid GUID",
+        "required": true,
+        "immutable": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "ModelProvider",
+      "regional": false,
+      "description": "The provider for the model",
+      "constraints": {
+        "required": true,
+        "immutable": true,
+        "allowedValues": [
+          "openai"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      },
+      "defaultValue": "openai"
+    },
+    {
+      "name": "Model",
+      "regional": false,
+      "description": "The kind of model that is being configured",
+      "constraints": {
+        "required": true,
+        "allowedValues": [
+          "gpt-35-turbo",
+          "text-embedding-ada-002",
+          "gpt-4o-mini"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      },
+      "defaultValue": "gpt-35-turbo"
+    },
+    {
+      "name": "VersionCurrent",
+      "regional": false,
+      "description": "The general supported model version (Ex: 1106, 002, 20240210)",
+      "constraints": {
+        "required": false
+      },
+      "defaultValue": "",
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "VersionDeprecated",
+      "regional": false,
+      "description": "The model version being deprecated, end-of-life or being replaced (Ex: 1106, 002, 20240210)",
+      "constraints": {
+        "required": false
+      },
+      "defaultValue": "",
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "VersionNext",
+      "regional": false,
+      "description": "The model version being rolled out as new general available version supported (Ex: 1106, 002, 20240210)",
+      "constraints": {
+        "required": false
+      },
+      "defaultValue": "",
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "ModelEndpoint",
+      "regional": false,
+      "description": "The URL endpoint that is accessible to GenAI Gateway Service for model inference calls",
+      "constraints": {
+        "required": false
+      },
+      "defaultValue": "",
+      "uicontrols": {
+        "type": "text"
+      }
+    },
+    {
+      "name": "APIKey",
+      "regional": false,
+      "description": "The API Key that grants access to the Generative Model Endpoint",
+      "constraints": {
+        "required": false
+      },
+      "defaultValue": "",
+      "uicontrols": {
+        "type": "password"
+      }
+    },
+    {
+      "name": "Active",
+      "regional": false,
+      "description": "The Model mapping is active",
+      "constraints": {
+        "required": true,
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "uicontrols": {
+        "type": "list"
+      },
+      "defaultValue": "false"
+    },
+    {
+      "name": "Owner",
+      "regional": false,
+      "description": "Owner of the deployment (for tagging purpose)",
+      "defaultValue": "",
+      "constraints": {
+        "required": true
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata":{
+    "provider": "aws,gcp",
+    "owner":"Jarvis@pega.com"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9._-]+$": {
+      "type": "object",
+      "required": ["modelName", "version", "modelLabel", "type", "modelCapabilities"],
+      "properties": {
+        "modelName": { "type": "string" },
+        "version": { "type": "string" },
+        "modelLabel": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["chat_completion", "embedding", "image"]
+        },
+        "modelID": { "type": "string" },
+        "lifecycle": {
+          "type": "string",
+          "enum": ["Generally Available", "Nearing Deprecation", "Deprecated"]
+        },
+        "deprecationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "fallbackModel": { "type": "string" },
+        "modelCapabilities": {
+          "type": "object",
+          "properties": {
+            "features": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "inputModalities": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "outputModalities": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "mimeTypes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "application/pdf", "application/docx", "application/doc", "text/csv",
+                  "application/xls", "application/xlsx", "text/html", "text/plain", "text/markdown",
+                  "image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/heic", "image/heif",
+                  "video/avi", "video/mp4", "video/mov", "video/mkv", "video/webm", "video/flv", "video/x-flv",
+                  "video/3gpp", "video/mpeg", "video/mpg", "video/wmv", "video/3gp",
+                  "text/xml", "audio/wav", "audio/mp3", "audio/aiff", "audio/aac", "audio/ogg", "audio/flac"
+                ]
+              }
+            }
+          },
+          "required": ["inputModalities", "outputModalities"]
+        },
+        "parameters": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "type": "object",
+            "required": ["title", "description", "type"],
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "type": {
+                "type": "string",
+                "enum": ["integer", "float", "string", "boolean"]
+              },
+              "default": {},
+              "minimum": { "type": "number" },
+              "maximum": { "type": "number" },
+              "required": { "type": "boolean" }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

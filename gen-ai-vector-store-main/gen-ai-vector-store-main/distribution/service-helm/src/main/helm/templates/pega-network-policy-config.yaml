@@ -1,0 +1,51 @@
+#
+# Copyright (c) 2023 Pegasystems Inc.
+# All rights reserved.
+#
+
+apiVersion: network.pega.io/v1
+kind: PegaNetworkPolicyConfig
+metadata:
+  name: {{ .Chart.Name }}-pega-network-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    # Update revision each time to force PegaNetworkPolicy operator reconciliation
+    app.kubernetes.io/revision: {{ .Release.Revision | quote }}
+spec:
+  selector:
+    app.kubernetes.io/name: genai-vector-store
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+  internetEgress:
+    - ports: [ 443 , 3307,  5432 ]
+
+---
+apiVersion: network.pega.io/v1
+kind: PegaNetworkPolicyConfig
+metadata:
+  name: {{ .Chart.Name }}-ops-pega-network-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    # Update revision each time to force PegaNetworkPolicy operator reconciliation
+    app.kubernetes.io/revision: {{ .Release.Revision | quote }}
+spec:
+  selector:
+    app.kubernetes.io/name: genai-vector-store-ops
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+  internetEgress:
+    - ports: [ 443 , 3307,  5432 ]
+
+---
+apiVersion: network.pega.io/v1
+kind: PegaNetworkPolicyConfig
+metadata:
+  name: {{ .Chart.Name }}-background-pega-network-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    # Update revision each time to force PegaNetworkPolicy operator reconciliation
+    app.kubernetes.io/revision: {{ .Release.Revision | quote }}
+spec:
+  selector:
+    app.kubernetes.io/name: genai-vector-store-background
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+  internetEgress:
+    - ports: [ 443 , 3307,  5432 ]

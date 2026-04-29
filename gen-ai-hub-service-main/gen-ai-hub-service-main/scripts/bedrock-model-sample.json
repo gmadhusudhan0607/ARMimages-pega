@@ -1,0 +1,14 @@
+{
+  "_comment": "Minimal JSON configuration for batch adding AWS Bedrock models",
+  "_usage": "make add-bedrock-model CONFIG=scripts/bedrock-models.json",
+  "models": [
+    {
+      "model_id": "amazon.nova-example-v1:0",
+      "template": "nova-lite-v1"
+    },
+    {
+      "model_id": "anthropic.claude-example-v1:0",
+      "template": "claude-3-haiku"
+    }
+  ]
+}

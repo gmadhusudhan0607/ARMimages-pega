@@ -1,0 +1,12 @@
+- name: gpt-4o-mini
+  modelId: ""
+  modelUrl: "http://{{ .Release.Namespace }}.genai-hub-service.svc.cluster.local:443/openai/deployments/gpt-4o-mini"
+  redirectUrl: "{{ .Values.GenAIURL }}/openai/deployments/gpt-4o-mini"
+  provider: openai
+  creator: openai
+  targetAPI: "/chat/completions"
+  path: "/openai/deployments/gpt-4o-mini/chat/completions"
+  infrastructure: azure
+  capabilities:
+    completions: true
+    embeddings: false

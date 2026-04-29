@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Category",
+    "value": [
+      "Astronomy",
+      "Physics",
+      "Science"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "Document type",
+    "value": [
+      "Article"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "Organizational Structure",
+    "value": [
+      "Astronomy",
+      "Astronomy Department",
+      "Space Industry"
+    ],
+    "type": "string"
+  },
+  {
+    "name": "Region",
+    "value": [
+      "Local Group",
+      "Mars",
+      "Milky Way",
+      "Universe"
+    ],
+    "type": "string"
+  }
+]

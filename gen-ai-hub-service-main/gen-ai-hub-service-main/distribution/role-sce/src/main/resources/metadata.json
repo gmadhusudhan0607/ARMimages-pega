@@ -1,0 +1,20 @@
+{
+  "parametersMetadata": [
+    {
+      "name": "ClusterGUID",
+      "regional": true,
+      "description": "The path of the CloudK Cluster in which GenAI Hub Service will be deployed",
+      "constraints": {
+        "required": true,
+        "allowedPattern": "(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})"
+      },
+      "uicontrols": {
+        "type": "text"
+      }
+    }
+  ],
+  "serviceMetadata":{
+    "provider": "aws",
+    "owner":"Jarvis@pega.com"
+  }
+}
